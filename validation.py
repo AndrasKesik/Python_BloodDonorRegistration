@@ -14,9 +14,9 @@ class Validate():
     @staticmethod
     def validate_name(name_string):
         """Checks the name input"""
-        return name_string.isalpha() and len(name_string) > 1
         name = name_string.split()
         return name_string.replace(' ', '').isalpha() and len(name) > 1
+
 
     @staticmethod
     def validate_email(email_string: str):
