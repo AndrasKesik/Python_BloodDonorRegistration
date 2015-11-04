@@ -5,17 +5,17 @@ clear = lambda: os.system('cls')
 
 class Donor():
 
-        name = ""
-        weight = 0
-        gender = ""
-        dateofbirth = ""
-        lastdonationdate = ""
-        wassick = ""
-        uniqueid = ""
-        bloodtype = ""
-        expofid = ""
-        emailaddress = ""
-        mobilnumber = ""
+    name = ""
+    weight = ""
+    gender = ""
+    dateofbirth = ""
+    lastdonationdate = ""
+    wassick = ""
+    uniqueid = ""
+    bloodtype = ""
+    expofid = ""
+    emailaddress = ""
+    mobilnumber = ""
 
     def parse_name(self,name):
         """Parses the name.
