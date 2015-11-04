@@ -15,6 +15,8 @@ class Validate():
     def validate_name(name_string):
         """Checks the name input"""
         return name_string.isalpha() and len(name_string) > 1
+        name = name_string.split()
+        return name_string.replace(' ', '').isalpha() and len(name) > 1
 
     @staticmethod
     def validate_email(email_string: str):
@@ -35,8 +37,11 @@ class Validate():
 
 
     @staticmethod
-    def validate_time():
-        pass
+    def validate_time(time_string):
+        splitted_time = time_string.split(":")
+        return len(splitted_time) == 2 and \
+            splitted_time[0].isdigit() and int(splitted_time[0]) in range(0, 25) and \
+            splitted_time[1].isdigit() and int(splitted_time[1]) in range(0, 60)
 
     @staticmethod
     def validate_positive_int(number):
@@ -57,24 +62,39 @@ class Validate():
             return True
 
     @staticmethod
-    def validate_address():
-        pass
+    def address(address_string):
+        return len(address_string) < 25
+
+    @staticmethod
+    def validate_zipcode(zipcode):
+        return len(zipcode) == 4 and zipcode.isdigit() and zipcode[0] != 0
+
+    @staticmethod
+    def validate_id(doc_id:str):
+        if doc_id[:-2].isdigit() and doc_id[-2:].isalpha() or doc_id[2:].isdigit() and doc_id[:2].isalpha():
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def mobilnumber(number_string: str):
+        country_prefix = ('+36', '06')
+        provider_identifier = ('20', '30', '70')
+        if number_string.startswith(country_prefix[0]):
+            return len(number_string) == 12 and number_string[3:5] in provider_identifier and \
+                   number_string[1:13].isnumeric()
+        if number_string.startswith(country_prefix[1]):
+            return len(number_string) == 11 and number_string[2:4] in provider_identifier and \
+                   number_string[1:12].isnumeric()
+        else:
+            return False
 
 
     @staticmethod
-    def validate_zipcode():
-        pass
+    def validate_sickness(sickness_state):
+        valid_answers = ('Y', 'N')
+        return sickness_state.upper() == valid_answers[0] or sickness_state.upper() == valid_answers[0]
 
-    @staticmethod
-    def validate_id():
-        pass
-
-    @staticmethod
-    def validate_mobilnumber():
-        pass
-
-
-    @staticmethod
-    def validate_sickness():
-        pass
-
+print(Validate.validate_id("233222as"))
+print(Validate.validate_id("as322223"))
+print(Validate.validate_id("as3222233asd"))
