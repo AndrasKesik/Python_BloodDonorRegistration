@@ -3,7 +3,6 @@
 import unittest
 from validation import Validate
 
-
 class DateTests(unittest.TestCase):
     pass
 class TimeTests(unittest.TestCase):
@@ -76,7 +75,7 @@ class EmailTests(unittest.TestCase):
 
     def test_email_not_starts_with_at(self):
         self.assertFalse(Validate.validate_email('@dat.com'))
->>>>>>> f5b970c96c7289ee7d534b0510daa0b9b1eefdc5
+
 
 
 if __name__ == '__main__':
