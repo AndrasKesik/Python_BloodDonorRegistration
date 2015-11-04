@@ -1,0 +1,7 @@
+# IDEA
+.idea/
+
+# python
+__pycache__/
+
+
