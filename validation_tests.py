@@ -81,13 +81,13 @@ class CityNameTests(unittest.TestCase):
         self.assertTrue(Validate.validate_city_name("SZERENCS"))
 
     def test_longstring(self):
-        self.assertFalse(Validate.validate_positive_int("gegwv_svsv"))
+        self.assertFalse(Validate.validate_city_name("gegwv_svsv"))
 
     def test_number(self):
-        self.assertFalse(Validate.validate_positive_int("29"))
+        self.assertFalse(Validate.validate_city_name("29"))
 
     def test_nemazavaros(self):
-        self.assertFalse(Validate.validate_positive_int("Budapest"))
+        self.assertFalse(Validate.validate_city_name("Budapest"))
 
     def test_nothing(self):
         self.assertFalse(Validate.validate_city_name(""))
