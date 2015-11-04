@@ -19,7 +19,7 @@ class Validate():
 
 
     @staticmethod
-    def validate_email(email_string: str):
+    def validate_email(email_string):
         """Checks the email input"""
         return '@' in email_string and email_string.endswith(('.hu', '.com')) and \
             email_string.index('@') > 0
@@ -70,14 +70,14 @@ class Validate():
         return len(zipcode) == 4 and zipcode.isdigit() and zipcode[0] != 0
 
     @staticmethod
-    def validate_id(doc_id:str):
+    def validate_id(doc_id):
         if doc_id[:-2].isdigit() and doc_id[-2:].isalpha() or doc_id[2:].isdigit() and doc_id[:2].isalpha():
             return True
         else:
             return False
 
     @staticmethod
-    def mobilnumber(number_string: str):
+    def mobilnumber(number_string):
         country_prefix = ('+36', '06')
         provider_identifier = ('20', '30', '70')
         if number_string.startswith(country_prefix[0]):
