@@ -1,7 +1,4 @@
 # -*- coding: UTF-8 -*-
-import datetime
-blood_type = ("A+", "A-", "B+", "B-", "AB+", "AB-", "0+", "0-")
-cities = ("Miskolc", "Kazincbacika", "Szerencs", "Sarospatak")
 
 
 class Validate():
@@ -14,9 +11,7 @@ class Validate():
     @staticmethod
     def validate_name(name_string):
         """Checks the name input"""
-        return name_string.isalpha() and len(name_string) > 1
-        name = name_string.split()
-        return name_string.replace(' ', '').isalpha() and len(name) > 1
+        return name_string.isalpha() and len(name) > 1
 
     @staticmethod
     def validate_email(email_string: str):
@@ -34,67 +29,42 @@ class Validate():
             return False
         return True
 
+    @staticmethod
+    def validate_time():
+        pass
+
+    @staticmethod
+    def validate_positive_int():
+        pass
+
+    @staticmethod
+    def validate_blood_type():
+        pass
 
 
     @staticmethod
-    def validate_time(time_string):
-        splitted_time = time_string.split(":")
-        return len(splitted_time) == 2 and \
-            splitted_time[0].isdigit() and int(splitted_time[0]) in range(0, 25) and \
-            splitted_time[1].isdigit() and int(splitted_time[1]) in range(0, 60)
+    def validate_city_name():
+        pass
 
     @staticmethod
-    def validate_positive_int(number):
-        """Checks the weight, hemoglobin, bed and donor number is positive integer"""
-        return number.isdigit and int(number) > 1
-
-    @staticmethod
-    def validate_blood_type(type_of_blood):
-        """Checks that the blood type is in the given list"""
-        if type_of_blood.upper() in blood_type:
-            return True
+    def validate_address():
+        pass
 
 
     @staticmethod
-    def validate_city_name(city):
-        """Checks that the input is in the given list"""
-        if city.capitalize() in cities:
-            return True
+    def validate_zipcode():
+        pass
 
     @staticmethod
-    def address(address_string):
-        return len(address_string) < 25
+    def validate_id():
+        pass
 
     @staticmethod
-    def validate_zipcode(zipcode):
-        return len(zipcode) == 4 and zipcode.isdigit() and zipcode[0] != 0
-
-    @staticmethod
-    def validate_id(doc_id:str):
-        if doc_id[:-2].isdigit() and doc_id[-2:].isalpha() or doc_id[2:].isdigit() and doc_id[:2].isalpha():
-            return True
-        else:
-            return False
-
-    @staticmethod
-    def mobilnumber(number_string: str):
-        country_prefix = ('+36', '06')
-        provider_identifier = ('20', '30', '70')
-        if number_string.startswith(country_prefix[0]):
-            return len(number_string) == 12 and number_string[3:5] in provider_identifier and \
-                   number_string[1:13].isnumeric()
-        if number_string.startswith(country_prefix[1]):
-            return len(number_string) == 11 and number_string[2:4] in provider_identifier and \
-                   number_string[1:12].isnumeric()
-        else:
-            return False
+    def validate_mobilnumber():
+        pass
 
 
     @staticmethod
-    def validate_sickness(sickness_state):
-        valid_answers = ('Y', 'N')
-        return sickness_state.upper() == valid_answers[0] or sickness_state.upper() == valid_answers[0]
+    def validate_sickness():
+        pass
 
-print(Validate.validate_id("233222as"))
-print(Validate.validate_id("as322223"))
-print(Validate.validate_id("as3222233asd"))
