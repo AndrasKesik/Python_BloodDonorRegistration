@@ -15,13 +15,7 @@ class BloodTypeTests(unittest.TestCase):
 class CityNameTests(unittest.TestCase):
     pass
 class AddressTests(unittest.TestCase):
-    def test_address_too_long(self):
-        self.assertFalse(Validate.address('Jozsef Attila utcaban a kuka mellett a fagyott macskak kozott 36'))
-    def test_address_none(self):
-        self.assertFalse(Validate.address(''))
-    def test_address_valid(self):
-        self.assertTrue(Validate.address('József Attila utca, 36/2'))
-
+    pass
 class ZipCodeTests(unittest.TestCase):
     def test_zip_contains_alpha(self):
         self.assertFalse(Validate.validate_zipcode('a234'))

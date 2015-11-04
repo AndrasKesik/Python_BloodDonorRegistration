@@ -4,20 +4,19 @@ import time
 clear = lambda: os.system('cls')
 
 class Donor():
-    """
-       - A Donor Adatai
-        name=
-        weight=
-        gender=
-        dateofbirth=
-        lastdonationdate=
-        washesick=
-        unique id
-        bloodtype
-        expiration of id
-        email adress
-        mobilnumber
-    """
+
+    name = ""
+    weight = ""
+    gender = ""
+    dateofbirth = ""
+    lastdonationdate = ""
+    wassick = ""
+    uniqueid = ""
+    bloodtype = ""
+    expofid = ""
+    emailaddress = ""
+    mobilnumber = ""
+
     def parse_name(self,name):
         """Parses the name.
             Returns a list"""
@@ -84,6 +83,8 @@ class Event():
         """Calculates the maximum donor numbers
             Returns an integer"""
         pass
+
+
 
 
 #MAIN MENU
