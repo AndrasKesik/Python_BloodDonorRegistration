@@ -20,45 +20,45 @@ class Validate():
             email_string.index('@') > 0
 
     @staticmethod
-    def is_date():
+    def validate_date():
         pass
 
     @staticmethod
-    def is_time():
+    def validate_time():
         pass
 
     @staticmethod
-    def is_positive_int():
+    def validate_positive_int():
         pass
 
     @staticmethod
-    def blood_type():
-        pass
-
-
-    @staticmethod
-    def city_name():
-        pass
-
-    @staticmethod
-    def address():
+    def validate_blood_type():
         pass
 
 
     @staticmethod
-    def zipcode():
+    def validate_city_name():
         pass
 
     @staticmethod
-    def id():
-        pass
-
-    @staticmethod
-    def mobilnumber():
+    def validate_address():
         pass
 
 
     @staticmethod
-    def was_sick():
+    def validate_zipcode():
+        pass
+
+    @staticmethod
+    def validate_id():
+        pass
+
+    @staticmethod
+    def validate_mobilnumber():
+        pass
+
+
+    @staticmethod
+    def validate_sickness():
         pass
 

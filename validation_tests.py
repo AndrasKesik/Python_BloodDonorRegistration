@@ -54,8 +54,14 @@ class NameTests(unittest.TestCase):
 
 
 class GenderTests(unittest.TestCase):
-    def test_gender(self):
+    def test_(self):
         self.assertTrue(Validate.valid_gender("f"))
+
+    def test_lower(self):
+        self.assertFalse(Validate.valid_gender("b"))
+
+    def test_upper(self):
+        self.assertTrue(Validate.valid_gender("M"))
 
 
 class EmailTests(unittest.TestCase):
