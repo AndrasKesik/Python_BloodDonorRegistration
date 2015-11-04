@@ -15,9 +15,27 @@ class BloodTypeTests(unittest.TestCase):
 class CityNameTests(unittest.TestCase):
     pass
 class AddressTests(unittest.TestCase):
-    pass
+    def test_address_too_long(self):
+        self.assertFalse(Validate.address('Jozsef Attila utcaban a kuka mellett a fagyott macskak kozott 36'))
+    def test_address_none(self):
+        self.assertFalse(Validate.address(''))
+    def test_address_valid(self):
+        self.assertTrue(Validate.address('József Attila utca, 36/2'))
+
 class ZipCodeTests(unittest.TestCase):
-    pass
+    def test_zip_contains_alpha(self):
+        self.assertFalse(Validate.validate_zipcode('a234'))
+    def test_zip_not_four_char(self):
+        self.assertFalse(Validate.validate_zipcode('12345'))
+    def test_zip_starts_with_zero(self):
+        self.assertFalse(Validate.validate_zipcode('0123'))
+    def test_zip_contains_non_alphanum_char(self):
+        self.assertFalse(Validate.validate_zipcode('-123'), Validate.validate_zipcode('12+4'))
+    def test_zip_none(self):
+        self.assertFalse(Validate.validate_zipcode(''))
+    def test_zip_correct(self):
+        self.assertTrue(Validate.validate_zipcode('1234'))
+
 class IdTests(unittest.TestCase):
     pass
 class MobilNumberTests(unittest.TestCase):
