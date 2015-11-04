@@ -20,16 +20,29 @@ class DateTests(unittest.TestCase):
     def test_nothing(self):
         self.assertFalse(Validate.validate_date(""))
 
+
 class TimeTests(unittest.TestCase):
-    pass
-#
-#
-#
-#
-#
-#
-#
-#
+    def test_time_alpha(self):
+        self.assertFalse(Validate.validate_time('5:w0'))
+
+    def test_time_too_many_char(self):
+        self.assertFalse(Validate.validate_time('005:30'))
+
+    def test_time_too_much_hour(self):
+        self.assertFalse(Validate.validate_time('25:30'))
+
+    def test_time_too_much_min(self):
+        self.assertFalse(Validate.validate_time('15:60'))
+
+    def test_time_wrong_divider(self):
+        self.assertFalse(Validate.validate_time('15.40'))
+
+    def test_time_nothing(self):
+        self.assertFalse(Validate.validate_time(''))
+
+    def test_time_valid(self):
+        self.assertTrue(Validate.validate_time('12:35'))
+
 
 class PositiveIntTests(unittest.TestCase):
     def test_positive(self):
@@ -73,6 +86,7 @@ class BloodTypeTests(unittest.TestCase):
     def test_nothing(self):
         self.assertFalse(Validate.validate_blood_type(""))
 
+
 class CityNameTests(unittest.TestCase):
     def test_azavaroslower(self):
         self.assertTrue(Validate.validate_city_name("miskolc"))
@@ -92,27 +106,64 @@ class CityNameTests(unittest.TestCase):
     def test_nothing(self):
         self.assertFalse(Validate.validate_city_name(""))
 
+
 class AddressTests(unittest.TestCase):
-    pass
+    def test_address_not_too_long(self):
+        self.assertFalse(Validate.address('Jozsef Attila utca a kukak mogott a fagyott macskak mellett 36'))
+
+    def test_address_nothing(self):
+        self.assertFalse(Validate.address(''))
+
+    def test_address_valid(self):
+        self.assertTrue(Validate.address('Jozsef Attila u. 36. 30/1'))
+
+
 class ZipCodeTests(unittest.TestCase):
-    pass
+    def test_zip_contains_alpha(self):
+        self.assertFalse(Validate.validate_zipcode('a234'))
+
+    def test_zip_not_four_char(self):
+        self.assertFalse(Validate.validate_zipcode('12345'))
+
+    def test_zip_starts_with_zero(self):
+        self.assertFalse(Validate.validate_zipcode('0123'))
+
+    def test_zip_contains_non_alphanum_char(self):
+        self.assertFalse(Validate.validate_zipcode('-123'), Validate.validate_zipcode('12+4'))
+
+    def test_zip_none(self):
+        self.assertFalse(Validate.validate_zipcode(''))
+
+    def test_zip_correct(self):
+        self.assertTrue(Validate.validate_zipcode('1234'))
+
 
 class IdTests(unittest.TestCase):
     pass
+
+
 class MobilNumberTests(unittest.TestCase):
-    pass
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
+    def test_mobile_country_code(self):
+        self.assertFalse(Validate.mobilnumber('+40702915521'))
+
+    def test_mobile_provider(self):
+        self.assertFalse(Validate.mobilnumber('06602915521'))
+
+    def test_mobile_length(self):
+        self.assertFalse(Validate.mobilnumber('067029155214'))
+
+    def test_mobile_alpha(self):
+        self.assertFalse(Validate.mobilnumber('+36702i15521'))
+
+    def test_mobile_different_format(self):
+        self.assertTrue(Validate.mobilnumber('+36/70 291 5521'))
+
+    def test_mobile_nothing(self):
+        self.assertFalse(Validate.mobilnumber(''))
+
+    def test_mobile_valid(self):
+        self.assertTrue(Validate.mobilnumber('+36702915521'), Validate.mobilnumber('06302915521'))
+
 
 class SicknessTests(unittest.TestCase):
     def test_Nupper(self):
@@ -129,6 +180,7 @@ class SicknessTests(unittest.TestCase):
 
     def test_nothing(self):
         self.assertFalse(Validate.validate_sickness(""))
+
 
 class NameTests(unittest.TestCase):
     def test_name_contains_only_letter(self):
