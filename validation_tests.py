@@ -27,6 +27,18 @@ class WassickTests(unittest.TestCase):
 
 class NameTests(unittest.TestCase):
     def test_name_contains_only_letter(self):
+<<<<<<< HEAD
+        self.assertFalse(ValidateName.validate_name('Joska1'))
+
+    def test_number_of_names(self):
+        self.assertFalse(ValidateName.validate_name('Joska'))
+
+    def test_gender(self):
+        self.assertTrue(ValidateName.valid_gender("f" or "m"))
+
+    def invalid_gender(self):
+        self.assertFalse(ValidateName.valid_gender("FM"))
+=======
         self.assertFalse(Validate.validate_name("Joska1"))
 
     def test_number_of_names(self):
@@ -64,6 +76,7 @@ class EmailTests(unittest.TestCase):
 
     def test_email_not_starts_with_at(self):
         self.assertFalse(Validate.validate_email('@dat.com'))
+>>>>>>> f5b970c96c7289ee7d534b0510daa0b9b1eefdc5
 
 
 if __name__ == '__main__':

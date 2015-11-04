@@ -49,12 +49,15 @@ class Validate():
         return len(address_string) < 25
 
     @staticmethod
-    def validate_zipcode():
-        pass
+    def validate_zipcode(zipcode):
+        return len(zipcode) == 4 and zipcode.isdigit() and zipcode[0] != 0
 
     @staticmethod
-    def validate_id():
-        pass
+    def validate_id(doc_id:str):
+        if doc_id[:-2].isdigit() and doc_id[-2:].isalpha() or doc_id[2:].isdigit() and doc_id[:2].isalpha():
+            return True
+        else:
+            return False
 
     @staticmethod
     def mobilnumber(number_string: str):
@@ -75,3 +78,6 @@ class Validate():
         valid_answers = ('Y', 'N')
         return sickness_state.upper() == valid_answers[0] or sickness_state.upper() == valid_answers[0]
 
+print(Validate.validate_id("233222as"))
+print(Validate.validate_id("as322223"))
+print(Validate.validate_id("as3222233asd"))
