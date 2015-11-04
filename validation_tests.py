@@ -6,15 +6,17 @@ from blood.validation import ValidateName
 
 class ValidateNameTests(unittest.TestCase):
     def test_name_contains_only_letter(self):
-        self.assertFalse(validation.validate_name('Joska1'))
+        self.assertFalse(ValidateName.validate_name('Joska1'))
 
     def test_number_of_names(self):
-        self.assertFalse(validate_name('Joska'))
+        self.assertFalse(ValidateName.validate_name('Joska'))
 
-     def test_gender(self):
-        self.assertTrue(valid_gender("f"))
+    def test_gender(self):
+        self.assertTrue(ValidateName.valid_gender("f" or "m"))
 
+    def invalid_gender(self):
+        self.assertFalse(ValidateName.valid_gender("FM"))
 
 
 if __name__ == '__main__':
-    unittest.validation()
+    unittest.main()
