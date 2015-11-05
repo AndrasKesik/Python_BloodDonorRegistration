@@ -51,7 +51,7 @@ class PositiveIntTests(unittest.TestCase):
     def test_string(self):
         self.assertFalse(Validate.validate_positive_int("hsvee"))
 
-    def test_nothing(self):
+    def test_nuber(self):
         self.assertFalse(Validate.validate_positive_int("-15"))
 
     def test_null(self):
@@ -109,13 +109,13 @@ class CityNameTests(unittest.TestCase):
 
 class AddressTests(unittest.TestCase):
     def test_address_not_too_long(self):
-        self.assertFalse(Validate.address('Jozsef Attila utca a kukak mogott a fagyott macskak mellett 36'))
+        self.assertFalse(Validate.validate_address('Jozsef Attila utca a kukak mogott a fagyott macskak mellett 36'))
 
     def test_address_nothing(self):
-        self.assertFalse(Validate.address(''))
+        self.assertFalse(Validate.validate_address(''))
 
     def test_address_valid(self):
-        self.assertTrue(Validate.address('Jozsef Attila u. 36. 30/1'))
+        self.assertTrue(Validate.validate_address('Jozsef Attila u. 36.'))
 
 
 class ZipCodeTests(unittest.TestCase):
@@ -145,25 +145,25 @@ class IdTests(unittest.TestCase):
 
 class MobilNumberTests(unittest.TestCase):
     def test_mobile_country_code(self):
-        self.assertFalse(Validate.mobilnumber('+40702915521'))
+        self.assertFalse(Validate.validate_mobilnumber('+40702915521'))
 
     def test_mobile_provider(self):
-        self.assertFalse(Validate.mobilnumber('06602915521'))
+        self.assertFalse(Validate.validate_mobilnumber('06602915521'))
 
     def test_mobile_length(self):
-        self.assertFalse(Validate.mobilnumber('067029155214'))
+        self.assertFalse(Validate.validate_mobilnumber('067029155214'))
 
     def test_mobile_alpha(self):
-        self.assertFalse(Validate.mobilnumber('+36702i15521'))
+        self.assertFalse(Validate.validate_mobilnumber('+36702i15521'))
 
     def test_mobile_different_format(self):
-        self.assertTrue(Validate.mobilnumber('+36/70 291 5521'))
+        self.assertFalse(Validate.validate_mobilnumber('+36/70 291 5521'))
 
     def test_mobile_nothing(self):
-        self.assertFalse(Validate.mobilnumber(''))
+        self.assertFalse(Validate.validate_mobilnumber(''))
 
     def test_mobile_valid(self):
-        self.assertTrue(Validate.mobilnumber('+36702915521'), Validate.mobilnumber('06302915521'))
+        self.assertTrue(Validate.validate_mobilnumber('+36702915521'), Validate.validate_mobilnumber('06302915521'))
 
 
 class SicknessTests(unittest.TestCase):
@@ -188,10 +188,10 @@ class NameTests(unittest.TestCase):
         self.assertFalse(Validate.validate_name("Joska1"))
 
     def test_number_of_names3(self):
-        self.assertTrue(Validate.validate_name('Joska'))
+        self.assertTrue(Validate.validate_name('Joska siugfsi iugsvidsg'))
 
     def test_number_of_names2(self):
-        self.assertTrue(Validate.validate_name('asd'))
+        self.assertTrue(Validate.validate_name('asd usg oihvs iusiu'))
 
     def test_number(self):
         self.assertFalse(Validate.validate_name("568 958"))
@@ -205,22 +205,22 @@ class NameTests(unittest.TestCase):
 
 class GenderTests(unittest.TestCase):
     def test_(self):
-        self.assertTrue(Validate.valid_gender("f"))
+        self.assertTrue(Validate.validate_gender("f"))
 
     def test_lower(self):
-        self.assertFalse(Validate.valid_gender("b"))
+        self.assertFalse(Validate.validate_gender("b"))
 
     def test_upper(self):
-        self.assertTrue(Validate.valid_gender("M"))
+        self.assertTrue(Validate.validate_gender("M"))
 
     def test_number(self):
-        self.assertFalse(Validate.valid_gender("5"))
+        self.assertFalse(Validate.validate_gender("5"))
 
     def test_long(self):
-        self.assertFalse(Validate.valid_gender("agogioivsonvoeinoioin44ö9jos"))
+        self.assertFalse(Validate.validate_gender("agogioivsonvoeinoioin44ö9jos"))
 
     def test_nothing(self):
-        self.assertFalse(Validate.valid_gender(""))
+        self.assertFalse(Validate.validate_gender(""))
 
 
 class EmailTests(unittest.TestCase):
