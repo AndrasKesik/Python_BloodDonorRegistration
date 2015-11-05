@@ -43,91 +43,166 @@ while True:
                                 break
                             else:
                                 print("\n ! Nem tartalmazhat speciális karaktert a donor neve és legalább 2 részből kell állnia ! \n")
+                                time.sleep(2)
+                                clear()
                         clear()
                         while True:
+                            print("Name:", elsodonor.name)
                             elsodonor.weight = input("Weight (in KG): ")
                             if Validate.validate_positive_int(elsodonor.weight):
                                 break
                             else:
                                 print("\n ! Your weight must be a positive number !\n")
+                                time.sleep(2)
+                                clear()
                         clear()
                         while True:
+                            print("Name:", elsodonor.name)
+                            print("Weight:", elsodonor.weight)
                             elsodonor.gender = input("Gender (M/F): ")
                             if Validate.validate_gender(elsodonor.gender):
                                 break
                             else:
                                 print("\n ! Válaszd ki a donor nemét, (M)ale or (F)emale ! \n")
+                                time.sleep(2)
+                                clear()
                         clear()
                         while True:
+                            print("Name:", elsodonor.name)
+                            print("Weight:", elsodonor.weight)
+                            print("Gender:", elsodonor.gender)
                             elsodonor.dateofbirth = input("Date of Birth: ")
                             if Validate.validate_date(elsodonor.dateofbirth):
                                 break
                             else:
                                 print("\n ! You can use this format to enter the date: 'YYYY.MM.DD' ! \n")
+                                time.sleep(2)
+                                clear()
                         clear()
                         while True:
+                            print("Name:", elsodonor.name)
+                            print("Weight:", elsodonor.weight)
+                            print("Gender:", elsodonor.gender)
+                            print("Date of Birth:", elsodonor.dateofbirth)
                             elsodonor.lastdonationdate = input("Last Donation: ")
                             if Validate.validate_date(elsodonor.lastdonationdate):
                                 break
                             else:
                                 print("\n ! A következő formátum alapján tudod megadni a dátumot: 'YYYY.MM.DD' ! \n")
+                                time.sleep(2)
+                                clear()
                         clear()
                         while True:
+                            print("Name:", elsodonor.name)
+                            print("Weight:", elsodonor.weight)
+                            print("Gender:", elsodonor.gender)
+                            print("Date of Birth:", elsodonor.dateofbirth)
+                            print("Last Donation:", elsodonor.lastdonationdate)
                             elsodonor.wassick = input("Was he/she sick in the last month? (Y/N) ")
                             if Validate.validate_sickness(elsodonor.wassick):
                                 break
                             else:
                                 print("\n ! Choose from the given answers: (Y)es or (N)o ! \n")
+                                time.sleep(2)
+                                clear()
                         clear()
                         while True:
+                            print("Name:", elsodonor.name)
+                            print("Weight:", elsodonor.weight)
+                            print("Gender:", elsodonor.gender)
+                            print("Date of Birth:", elsodonor.dateofbirth)
+                            print("Last Donation:", elsodonor.lastdonationdate)
+                            print("Was he/she sick:", elsodonor.wassick)
                             elsodonor.uniqueid = input("Unique ID: ")
                             if Validate.validate_id(elsodonor.uniqueid):
                                 break
                             else:
                                 print("\n ! Létező ID-t adj meg ! \n")
+                                time.sleep(2)
+                                clear()
                         clear()
                         while True:
+                            print("Name:", elsodonor.name)
+                            print("Weight:", elsodonor.weight)
+                            print("Gender:", elsodonor.gender)
+                            print("Date of Birth:", elsodonor.dateofbirth)
+                            print("Last Donation:", elsodonor.lastdonationdate)
+                            print("Was he/she sick:", elsodonor.wassick)
+                            print("Unique ID:", elsodonor.uniqueid)
                             elsodonor.bloodtype = input("Blood Type: ")
                             if Validate.validate_blood_type(elsodonor.bloodtype):
                                 break
                             else:
                                 print("\n ! It should be a real blood type ! \n")
+                                time.sleep(2)
+                                clear()
                         clear()
                         while True:
-                            elsodonor.expofid = input("Expiration date of the ID: ")
+                            print("Name:", elsodonor.name)
+                            print("Weight:", elsodonor.weight)
+                            print("Gender:", elsodonor.gender)
+                            print("Date of Birth:", elsodonor.dateofbirth)
+                            print("Last Donation:", elsodonor.lastdonationdate)
+                            print("Was he/she sick:", elsodonor.wassick)
+                            print("Unique ID:", elsodonor.uniqueid)
+                            print("Blood Type:", elsodonor.bloodtype)
+                            elsodonor.expofid = input("Expiration of ID: ")
                             if Validate.validate_date(elsodonor.expofid):
                                 break
                             else:
                                 print("\n ! A következő formátum alapján tudod megadni a dátumot: 'YYYY.MM.DD' ! \n")
+                                time.sleep(2)
+                                clear()
                         clear()
                         while True:
+                            print("Name:", elsodonor.name)
+                            print("Weight:", elsodonor.weight)
+                            print("Gender:", elsodonor.gender)
+                            print("Date of Birth:", elsodonor.dateofbirth)
+                            print("Last Donation:", elsodonor.lastdonationdate)
+                            print("Was he/she sick:", elsodonor.wassick)
+                            print("Unique ID:", elsodonor.uniqueid)
+                            print("Blood Type:", elsodonor.bloodtype)
+                            print("Expiration of ID:", elsodonor.expofid)
                             elsodonor.emailaddress = input("Email address: ")
                             if Validate.validate_email(elsodonor.emailaddress):
                                 break
                             else:
                                 print("\n ! Email should contain a @ and should end with .com or .hu ! \n")
+                                time.sleep(2)
+                                clear()
                         clear()
                         while True:
+                            print("Name:", elsodonor.name)
+                            print("Weight:", elsodonor.weight)
+                            print("Gender:", elsodonor.gender)
+                            print("Date of Birth:", elsodonor.dateofbirth)
+                            print("Last Donation:", elsodonor.lastdonationdate)
+                            print("Was he/she sick:", elsodonor.wassick)
+                            print("Unique ID:", elsodonor.uniqueid)
+                            print("Blood Type:", elsodonor.bloodtype)
+                            print("Expiration of ID:", elsodonor.expofid)
+                            print("Email:", elsodonor.emailaddress)
                             elsodonor.mobilnumber = input("Mobile Number: ")
                             if Validate.validate_mobilnumber(elsodonor.mobilnumber):
                                 break
                             else:
                                 print("\n ! Használd a következö formátumot: +36701234567 or 06703216547 ! \n")
+                                time.sleep(2)
+                                clear()
                         clear()
-
-
-                        print("\nName: ", elsodonor.name)
-                        print("weight: ", elsodonor.weight)
-                        print("gender: ", elsodonor.gender)
-                        print("date of birth: ", elsodonor.dateofbirth)
-                        print("lastdonation:", elsodonor.lastdonationdate)
-                        print("was he/she sick: ", elsodonor.wassick)
-                        print("unique id: ", elsodonor.uniqueid)
-                        print("bloodtype: ", elsodonor.bloodtype)
-                        print("exp of id: ", elsodonor.expofid)
-                        print("email: ",elsodonor.emailaddress)
-                        print("mobilenumber: ", elsodonor.mobilnumber)
-                        input()
+                        print("Name:", elsodonor.name)
+                        print("Weight:", elsodonor.weight)
+                        print("Gender:", elsodonor.gender)
+                        print("Date of Birth:", elsodonor.dateofbirth)
+                        print("Last Donation:", elsodonor.lastdonationdate)
+                        print("Was he/she sick:", elsodonor.wassick)
+                        print("Unique ID:", elsodonor.uniqueid)
+                        print("Blood Type:", elsodonor.bloodtype)
+                        print("Expiration of ID:", elsodonor.expofid)
+                        print("Email:", elsodonor.emailaddress)
+                        print("Mobile Number:", elsodonor.mobilnumber)
+                        input("\n -- Please hit Enter to continue -- ")
                         clear()
 
                     elif user_input=='2':
