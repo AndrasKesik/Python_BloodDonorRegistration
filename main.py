@@ -46,6 +46,7 @@ while True:
                                 time.sleep(2)
                                 clear()
                         clear()
+
                         while True:
                             print("Name:", elsodonor.name)
                             elsodonor.weight = input("Weight (in KG): ")
@@ -205,9 +206,32 @@ while True:
                         input("\n -- Please hit Enter to continue -- ")
                         clear()
 
+                        #print(Donor.parse_name(elsodonor.name))
+                        #print(Donor.is_suitable(elsodonor.weight,elsodonor.lastdonationdate,elsodonor.dateofbirth))
+                        #input()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     elif user_input=='2':
-                        print("----Removing donor-----\n")
-                        input()
+                        print("\n\n\n\n\n\n\n\n\n\t - This will be the remove donor option. It's still under construction -")
+                        print("\n"*20)
+                        input("Press ENTER to go BACK")
                         clear()
 
                     elif user_input=='3':
@@ -231,12 +255,111 @@ while True:
                     user_input=input('(1) Add New Event\n(2) Remove Event\n(3) Back\n\n> ')
                     clear()
                     if user_input=='1':
-                        print("----Adding new event----\n")
-                        input()
+                        print("Adding new event...\n")
+                        time.sleep(1)
                         clear()
+                        elsoevent = Event()
+                        while True:
+                            elsoevent.date_of_event = input("Date of Event: ")
+                            if Validate.validate_date(elsoevent.date_of_event):
+                                break
+                            else:
+                                print("\n ! You can use this format to enter the date: 'YYYY.MM.DD' ! \n")
+                                time.sleep(2)
+                                clear()
+                        clear()
+                        while True:
+                            print("Date of Event:", elsoevent.date_of_event)
+                            elsoevent.start_time = input("Start Time: ")
+                            if Validate.validate_time(elsoevent.start_time):
+                                break
+                            else:
+                                print("\n ! Time format 00:00 !\n")
+                                time.sleep(2)
+                                clear()
+                        clear()
+                        while True:
+                            print("Date of Event:", elsoevent.date_of_event)
+                            print("Start Time:", elsoevent.start_time)
+                            elsoevent.end_time = input("End Time: ")
+                            if Validate.validate_time(elsoevent.end_time):
+                                break
+                            else:
+                                print("\n ! Time format 00:00 ! \n")
+                                time.sleep(2)
+                                clear()
+                        clear()
+                        while True:
+                            print("Date of Event:", elsoevent.date_of_event)
+                            print("Start Time:", elsoevent.start_time)
+                            print("End Time:", elsoevent.end_time)
+                            elsoevent.zip_code = input("ZIP code: ")
+                            if Validate.validate_zipcode(elsoevent.zip_code):
+                                break
+                            else:
+                                print("\n ! 4 digits, that doesnt start with 0 ! \n")
+                                time.sleep(2)
+                                clear()
+                        clear()
+                        while True:
+                            print("Date of Event:", elsoevent.date_of_event)
+                            print("Start Time:", elsoevent.start_time)
+                            print("End Time:", elsoevent.end_time)
+                            print("ZIP code:", elsoevent.zip_code)
+                            elsoevent.city_address = input("City: ")
+                            if Validate.validate_city_name(elsoevent.city_address):
+                                break
+                            else:
+                                print("\n ! Miskolc, Szerencs, Kazincbarckia, Sárospatak ! \n")
+                                time.sleep(2)
+                                clear()
+                        clear()
+                        while True:
+                            print("Date of Event:", elsoevent.date_of_event)
+                            print("Start Time:", elsoevent.start_time)
+                            print("End Time:", elsoevent.end_time)
+                            print("ZIP code:", elsoevent.zip_code)
+                            print("City:", elsoevent.city_address)
+                            elsoevent.available_beds = input("Available beds: ")
+                            if Validate.validate_positive_int(elsoevent.available_beds):
+                                break
+                            else:
+                                print("\n ! Positive number ! \n")
+                                time.sleep(2)
+                                clear()
+                        clear()
+                        while True:
+                            print("Date of Event:", elsoevent.date_of_event)
+                            print("Start Time:", elsoevent.start_time)
+                            print("End Time:", elsoevent.end_time)
+                            print("ZIP code:", elsoevent.zip_code)
+                            print("City:", elsoevent.city_address)
+                            print("Available beds:", elsoevent.available_beds)
+                            elsoevent.planned_donor_number = input("Planned donor number: ")
+                            if Validate.validate_positive_int(elsoevent.planned_donor_number):
+                                break
+                            else:
+                                print("\n ! Positive number ! \n")
+                                time.sleep(2)
+                                clear()
+                        clear()
+                        print("Date of Event:", elsoevent.date_of_event)
+                        print("Start Time:", elsoevent.start_time)
+                        print("End Time:", elsoevent.end_time)
+                        print("ZIP code:", elsoevent.zip_code)
+                        print("City:", elsoevent.city_address)
+                        print("Available beds:", elsoevent.available_beds)
+                        print("Donors:", elsoevent.planned_donor_number)
+                        input("\n -- Please hit Enter to continue -- ")
+                        clear()
+
+
+
+
                     elif user_input=='2':
-                        print("----Removing event-----\n")
-                        input()
+                        print("\n\n\n\n\n\n\n\n\n\t - This will be the remove donor option. It's still under construction -")
+                        print("\n"*20)
+                        input("Press ENTER to go BACK")
                         clear()
                     elif user_input=='3':
                         clear()

@@ -16,13 +16,15 @@ class Donor():
     emailaddress = ""
     mobilnumber = ""
 
-    def parse_name(self,name):
+    @staticmethod
+    def parse_name(name):
         """Parses the name.
             Returns a list"""
         name = name.split()
         return name
 
-    def is_suitable(self, weight, lasdonationdate, dateofbirth):
+    @staticmethod
+    def is_suitable(weight, lasdonationdate, dateofbirth):
         """Is the donor suitable for donation?
             Returns True or False"""
 
@@ -65,17 +67,15 @@ class Donor():
 
 
 class Event():
-    """
-        -Az event adatai:
-        date_of_event
-        startime of donation
-        end time of donation
-        zip code
-        city address
-        available_beds
-        planned donor number
 
-    """
+    date_of_event = ""
+    start_time = ""
+    end_time = ""
+    zip_code = ""
+    city_address = ""
+    available_beds = ""
+    planned_donor_number = ""
+
     def registration_in_tendays(self, date_of_event):
         """Checks if the registration occoured at least 10 days before the event
             Returns True or False"""

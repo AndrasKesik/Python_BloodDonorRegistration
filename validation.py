@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 import datetime
 blood_type = ("A+", "A-", "B+", "B-", "AB+", "AB-", "0+", "0-")
-cities = ("Miskolc", "Kazincbacika", "Szerencs", "Sarospatak")
+cities = ("Miskolc", "Kazincbacika", "Szerencs", "Sárospatak")
 
 
 class Validate():
