@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-
+from datetime import datetime
 import unittest
 from functions import Donor
 from functions import Event
