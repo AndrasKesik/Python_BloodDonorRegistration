@@ -82,6 +82,7 @@ class Event():
             Returns the duration"""
         pass
 
+
     def max_donor_number(self, duration, available_beds):
         """Calculates the maximum donor numbers
             Returns an integer"""
