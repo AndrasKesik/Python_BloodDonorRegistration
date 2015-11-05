@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
-import datetime
-
+import random
 import datetime
 
 class Donor():
@@ -23,10 +22,12 @@ class Donor():
         name = name.split()
         return name
 
-    def is_suitable(self):
+    def is_suitable(self, weight, lasdonationdate, dateofbirth):
         """Is the donor suitable for donation?
             Returns True or False"""
-        pass
+        lastdonation = (datetime.datetime.now() - lasdonationdate).days
+        age = (datetime.datetime.now() - dateofbirth).days // 365
+        return weight > 50 and lastdonation > 90 and age > 18
 
     def donor_age(self, dateofbirth):
         """Calculates the donor's age based on birth date
@@ -58,7 +59,9 @@ class Donor():
     def generate_hemoglobin_level(self):
         """Generate hemoglobin level and decides if the donor is suitable or not
             Returns True or False"""
-        pass
+        hemoglobin = random.randint(80, 200)
+        return hemoglobin > 110
+
 
 class Event():
     """
@@ -76,6 +79,7 @@ class Event():
         """Checks if the registration occoured at least 10 days before the event
             Returns True or False"""
         pass
+
     def is_weekday(self, date_of_event):
         return (date_of_event - datetime.datetime.now().date()).days > 10
 
@@ -85,10 +89,10 @@ class Event():
         return date_of_event.isoweekday() < 5
 
 
-    def caculate_duration(self):
+    def caculate_duration(self, starttime, endtime):
         """Calculates the duration of the donation based on start- and endtime
             Returns the duration"""
-        pass
+        return (endtime - starttime).min
 
 
     def max_donor_number(self, duration, available_beds):
