@@ -3,9 +3,10 @@
 import unittest
 from functions import Donor
 
-class DonorTests(unittest.TestCase):
-    def test_parse_name_single_name(self):
-        # arrange
+
+# Donor Tests
+class ParseNameTests(unittest.TestCase):
+    def test_parse_name(self):
         bela = Donor()
         bela.name = "bela"
         # Act
@@ -23,9 +24,10 @@ class DonorTests(unittest.TestCase):
         # assert
         self.assertEqual(name_parts, result)
 
-class EventTests(unittest.TestCase):
+
+class SuitabilityTests(unittest.TestCase):
     def test_something(self):
-        pass
+        self.assertFalse()
 
 if __name__ == '__main__':
     unittest.main()

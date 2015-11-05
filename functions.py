@@ -93,16 +93,16 @@ class Event():
             Returns True or False"""
         return (date_of_event - datetime.datetime.now().date()).days > 10
 
-    def is_weekday(self):
+    def is_weekday(self, date_of_event):
         """Checks if the Date is on a weekday or not
             Returns True or False"""
         return date_of_event.isoweekday() < 5
 
 
-    def caculate_duration(self, starttime, endtime):
+    def caculate_duration(self, start_time, end_time):
         """Calculates the duration of the donation based on start- and endtime
             Returns the duration"""
-        return (endtime - starttime).min
+        return (end_time - start_time).min
 
 
     def max_donor_number(self, duration, available_beds):
