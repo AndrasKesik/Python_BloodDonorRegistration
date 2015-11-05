@@ -1,5 +1,7 @@
 # -*- coding: UTF-8 -*-
 
+import datetime
+
 class Donor():
 
     name = ""
@@ -30,15 +32,18 @@ class Donor():
             Returns an integer"""
         pass
 
-    def id_not_expired(self):
+    def id_not_expired(self, expiration_date):
         """Checks for ID
             Returns True or False"""
-        pass
+        return expiration_date < datetime.datetime.now()
 
-    def type_of_doc(self):
+    def type_of_doc(self, doc_id):
         """Decides whether it's an ID or a Passport
             Returns 'ID' or 'PASSPORT' strings """
-        pass
+        if doc_id[-2:].isdigit() and doc_id[:-2].isalpha():
+            return "PASSPORT"
+        elif doc_id[:-2].isdigit() and doc_id[-2:].isalpha():
+            return "ID"
 
     def data_out(self):
         """Writes out the donor's data in the given form.
@@ -62,10 +67,11 @@ class Event():
         planned donor number
 
     """
-    def registration_in_tendays(self):
+    def registration_in_tendays(self, date_of_event):
         """Checks if the registration occoured at least 10 days before the event
             Returns True or False"""
-        pass
+        return (date_of_event - datetime.datetime.now().date()).days > 10
+
     def is_weekday(self):
         """Checks if the Date is on a weekday or not
             Returns True or False"""
@@ -80,6 +86,5 @@ class Event():
         """Calculates the maximum donor numbers
             Returns an integer"""
         pass
-
 
 
