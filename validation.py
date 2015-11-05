@@ -101,7 +101,4 @@ class Validate():
         else:
             return False
 
-print(Validate.validate_id("233222as"))
-print(Validate.validate_id("as322223"))
-print(Validate.validate_id("as3222233asd"))
 
