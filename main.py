@@ -12,6 +12,7 @@ clear = lambda: os.system('cls')
 
 #MAIN MENU
 clear()
+
 while True:
     print("\n\t\t\t--- WELCOME TO THE BLOOD DONATION SYSTEM ---\t\t\t")
     print("\t\t\t\t - Made By the Code Stars -\t\t\t\t\n\n")
@@ -118,7 +119,7 @@ while True:
                             if Validate.validate_id(elsodonor.uniqueid):
                                 break
                             else:
-                                print("\n ! Létező ID-t adj meg ! \n")
+                                print("\n ! Létező ID-t adj meg.  6 betű/szam + 2 szam/betu ! \n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -206,10 +207,6 @@ while True:
                         input("\n -- Please hit Enter to continue -- ")
                         clear()
 
-                        #print(Donor.parse_name(elsodonor.name))
-                        #print(Donor.is_suitable(elsodonor.weight,elsodonor.lastdonationdate,elsodonor.dateofbirth))
-                        #input()
-
 
 
 
@@ -241,7 +238,8 @@ while True:
                     else:
                          raise ValueError
 
-                except:
+                except: # Exception as e:
+                    #print(e)
                     print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
                     time.sleep(1)
                     clear()
@@ -310,7 +308,7 @@ while True:
                             if Validate.validate_city_name(elsoevent.city_address):
                                 break
                             else:
-                                print("\n ! Miskolc, Szerencs, Kazincbarckia, Sárospatak ! \n")
+                                print("\n ! Miskolc, Szerencs, Kazincbarcika, Sárospatak ! \n")
                                 time.sleep(2)
                                 clear()
                         clear()

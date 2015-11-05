@@ -16,21 +16,19 @@ class Donor():
     emailaddress = ""
     mobilnumber = ""
 
-    @staticmethod
-    def parse_name(name):
+    def parse_name(self):
         """Parses the name.
             Returns a list"""
-        name = name.split()
+        name = self.name.split()
         return name
 
-    @staticmethod
-    def is_suitable(weight, lasdonationdate, dateofbirth):
+    def is_suitable(self):
         """Is the donor suitable for donation?
             Returns True or False"""
 
-        self.lastdonation = (datetime.datetime.now() - lasdonationdate).days
-        self.age = (datetime.datetime.now() - dateofbirth).days // 365
-        return weight >= 50 and self.lastdonation > 90 and self.age >= 18
+        lastdonation = (datetime.datetime.now() - self.lasdonationdate).days
+        age = (datetime.datetime.now() - self.dateofbirth).days // 365
+        return self.weight >= 50 and self.lastdonation > 90 and age >= 18
 
     def donor_age(self, dateofbirth):
         """Calculates the donor's age based on birth date
@@ -64,7 +62,21 @@ class Donor():
             Returns True or False"""
         self.hemoglobin = random.randint(80, 200)
         return self.hemoglobin >= 110
-
+    """
+    def __str__(self):
+        result = "Name: " + self.name
+        if self.weight != "":
+            result +="\nWeight: " + self.weight
+        if self.gender != "":
+            result +="\nGender: " + self.gender
+        if self.dateofbirth != "":
+            result +="\nDate of Birth: " + self.dateofbirth
+        if self.lastdonationdate:
+            result +="\nLast Donation: " + self.lastdonationdate
+        if self.wassick != "":
+            result +="\nWas he/she sick: " + self.wassick
+        return result
+    """
 
 class Event():
 
