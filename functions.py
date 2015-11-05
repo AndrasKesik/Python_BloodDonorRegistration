@@ -27,7 +27,7 @@ class Donor():
             Returns True or False"""
         lastdonation = (datetime.datetime.now() - lasdonationdate).days
         age = (datetime.datetime.now() - dateofbirth).days // 365
-        return weight > 50 and lastdonation > 90 and age > 18
+        return weight >= 50 and lastdonation > 90 and age >= 18
 
     def donor_age(self, dateofbirth):
         """Calculates the donor's age based on birth date
@@ -60,7 +60,7 @@ class Donor():
         """Generate hemoglobin level and decides if the donor is suitable or not
             Returns True or False"""
         hemoglobin = random.randint(80, 200)
-        return hemoglobin > 110
+        return hemoglobin >= 110
 
 
 class Event():
