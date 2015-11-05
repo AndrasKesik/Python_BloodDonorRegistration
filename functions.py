@@ -16,53 +16,59 @@ class Donor():
     emailaddress = ""
     mobilnumber = ""
 
+    age=""
+
     def parse_name(self):
         """Parses the name.
             Returns a list"""
         name = self.name.split()
         return name
 
+
+    def donor_age(self):
+        """Calculates the donor's age based on birth date
+            Returns an integer"""
+        birth = datetime.datetime.strptime(self.dateofbirth, "%Y.%m.%d")
+        kor = (datetime.datetime.now() - birth).days // 365
+        return kor
+
     def is_suitable(self):
         """Is the donor suitable for donation?
             Returns True or False"""
+        last_don_dateformat = datetime.datetime.strptime(self.lastdonationdate, "%Y.%m.%d")
+        birth = datetime.datetime.strptime(self.dateofbirth, "%Y.%m.%d")
+        hanynapja_adott =  (datetime.datetime.now() - last_don_dateformat).days
+        kor = (datetime.datetime.now() - birth).days // 365
+        return self.weight > 50 and hanynapja_adott > 90 and kor > 18
 
-        lastdonation = (datetime.datetime.now() - self.lasdonationdate).days
-        age = (datetime.datetime.now() - self.dateofbirth).days // 365
-        return self.weight >= 50 and self.lastdonation > 90 and age >= 18
-
-    def donor_age(self, dateofbirth):
-        """Calculates the donor's age based on birth date
-            Returns an integer"""
-        birth = datetime.datetime.strptime(dateofbirth, "%Y.%m.%d")
-        age = (datetime.datetime.now() - birth).days // 365
-        return int(age)
-
-
-    def id_not_expired(self, expiration_date):
+    def id_not_expired(self):
         """Checks for ID
             Returns True or False"""
-        return expiration_date < datetime.datetime.now()
 
-    def type_of_doc(self, doc_id):
+        lejarat = datetime.datetime.strptime(self.expofid, "%Y.%m.%d")
+        return lejarat > datetime.datetime.now()
+
+    def type_of_doc(self):
         """Decides whether it's an ID or a Passport
             Returns 'ID' or 'PASSPORT' strings """
-        if doc_id[-2:].isdigit() and doc_id[:-2].isalpha():
+        if self.uniqueid[-2:].isdigit() and self.uniqueid[:-2].isalpha():
             return "PASSPORT"
-        elif doc_id[:-2].isdigit() and doc_id[-2:].isalpha():
+        elif self.uniqueid[:-2].isdigit() and self.uniqueid[-2:].isalpha():
             return "ID"
 
-    def data_out(self, name, weight, birthdate, age, emailaddress):
+    def data_out(self):
         """Writes out the donor's data in the given form.
             Returns string"""
-        return "{} \n {}kg \n {} - {} years old \n {}".format(name, weight, birthdate, age, emailaddress)
+        return "{} \n {}kg \n {} - {} years old \n {}".format(self.name, self.weight, self.dateofbirth, self.age , self.emailaddress)
 
 
     def generate_hemoglobin_level(self):
         """Generate hemoglobin level and decides if the donor is suitable or not
             Returns True or False"""
-        self.hemoglobin = random.randint(80, 200)
-        return self.hemoglobin >= 110
+        hemoglobin = random.randint(80, 200)
+        return hemoglobin >= 110
     """
+    ## FUTURE FEATURE NE NYULJ HOZZÁ ##
     def __str__(self):
         result = "Name: " + self.name
         if self.weight != "":
@@ -88,29 +94,35 @@ class Event():
     available_beds = ""
     planned_donor_number = ""
 
-    def registration_in_tendays(self, date_of_event):
+    duration = ""
+
+    def registration_in_tendays(self):
         """Checks if the registration occoured at least 10 days before the event
             Returns True or False"""
-        return (date_of_event - datetime.datetime.now().date()).days > 10
+        datum = datetime.datetime.strptime(self.date_of_event, '%Y.%m.%d')
+        return (datum - datetime.datetime.now()).days >= 10
 
-    def is_weekday(self, date_of_event):
+    def is_weekday(self):
         """Checks if the Date is on a weekday or not
             Returns True or False"""
-        return date_of_event.isoweekday() < 5
+        datum = datetime.datetime.strptime(self.date_of_event, '%Y.%m.%d')
+        return datum.isoweekday() < 6
 
 
-    def caculate_duration(self, start_time, end_time):
+    def calculate_duration(self):
         """Calculates the duration of the donation based on start- and endtime
             Returns the duration"""
-        return (end_time - start_time).min
+        end = datetime.datetime.strptime(self.end_time, '%H:%M')
+        start = datetime.datetime.strptime(self.start_time, '%H:%M')
+        return (end - start).seconds//60
 
 
-    def max_donor_number(self, duration, available_beds):
+    def max_donor_number(self):
         """Calculates the maximum donor numbers
             Returns an integer"""
         preparation_time = 30
         donation_time = 30
-        max_donor_number = ((duration - preparation_time) / donation_time) * available_beds
-        return int(max_donor_number)
+        max_donor_number = ((self.duration - preparation_time) / donation_time) * self.available_beds
+        return max_donor_number
 
 

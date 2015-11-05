@@ -207,8 +207,21 @@ while True:
                         input("\n -- Please hit Enter to continue -- ")
                         clear()
 
+                        namelist = elsodonor.parse_name()
+                        print(namelist)
 
+                        print("Suitable for donation: ",elsodonor.is_suitable())
 
+                        elsodonor.age = elsodonor.donor_age()
+                        print(elsodonor.age)
+
+                        print("id not expired : ", elsodonor.id_not_expired())
+
+                        print("doctype: ",elsodonor.type_of_doc())
+
+                        print(data_out)
+
+                        print("hemoglobin:" elsodonor.generate_hemoglobin_level())
 
 
 
@@ -350,6 +363,20 @@ while True:
                         print("Donors:", elsoevent.planned_donor_number)
                         input("\n -- Please hit Enter to continue -- ")
                         clear()
+
+                        elsoevent.duration = elsoevent.calculate_duration()
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

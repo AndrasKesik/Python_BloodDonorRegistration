@@ -2,6 +2,8 @@
 
 import unittest
 from functions import Donor
+from functions import Event
+import datetime
 
 
 # Donor Tests
@@ -26,113 +28,131 @@ class ParseNameTests(unittest.TestCase):
 
 
 class SuitabilityTests(unittest.TestCase):
+    def test_enough_weight(self):
+        bela = Donor()
+        bela.weight = 51
+        bela.lastdonationdate = '2013.11.05'
+        bela.dateofbirth = '1990.02.26'
+        self.assertTrue(bela.is_suitable())
+
     def test_too_skinny(self):
-        weight = 49
-        last_donation_date = datetime.strptime('2013.11.05', '%Y.%m.%d')
-        date_of_birth = datetime.strptime('1990.02.26', '%Y.%m.%d')
-        self.assertFalse(Donor.is_suitable(weight, last_donation_date, date_of_birth))
+        bela = Donor()
+        bela.weight = 50
+        bela.lastdonationdate = '2013.11.05'
+        bela.dateofbirth = '1990.02.26'
+        self.assertFalse(bela.is_suitable())
 
     def test_too_early_last_donation(self):
-        weight = 75
-        date_of_testing = datetime.today()
-        last_donation_date = datetime.strptime('2013.11.05', '%Y.%m.%d')
-        date_of_birth = datetime.strptime('1990.02.26', '%Y.%m.%d')
-        self.assertFalse(Donor.is_suitable(weight, last_donation_date, date_of_birth))
+        bela = Donor()
+        bela.weight = 75
+        bela.lastdonationdate = (datetime.datetime.today()-datetime.timedelta(days=70)).strftime("%Y.%m.%d")
+        bela.dateofbirth = '1990.02.26'
+        self.assertFalse(bela.is_suitable())
+
+    def test_more_than_three_months(self):
+        bela = Donor()
+        bela.weight = 75
+        bela.lastdonationdate = (datetime.datetime.today()-datetime.timedelta(days=100)).strftime("%Y.%m.%d")
+        bela.dateofbirth = '1990.02.26'
+        self.assertTrue(bela.is_suitable())
 
     def test_donor_too_young(self):
-        weight = 75
-        date_of_testing = datetime.today()
-        last_donation_date = date_of_testing - timedelta(days=31)
-        date_of_birth = date_of_testing - timedelta(days=750)
-        self.assertFalse(Donor.is_suitable(weight, last_donation_date, date_of_birth))
+        bela = Donor()
+        bela.weight = 75
+        bela.lastdonationdate = "2014.01.01"
+        bela.dateofbirth = "2014.01.01"
+        self.assertFalse(bela.is_suitable())
+
+    def test_donor_old_enough(self):
+        bela = Donor()
+        bela.weight = 75
+        bela.lastdonationdate = "2014.01.01"
+        bela.dateofbirth = "1956.01.01"
+        self.assertTrue(bela.is_suitable())
 
 
 class DonorAgeTests(unittest.TestCase):
     def test_donor_age(self):
-        date_of_testing = datetime.today()
-        birthday = datetime.strptime('1990.02.26', '%Y.%m.%d')
-        age = (birthday - date_of_testing).days // 365
-        self.assertEqual(Donor.donor_age(birthday), age)
+        bela = Donor()
+        bela.dateofbirth = '1990.02.26'
+        szuletes = datetime.datetime.strptime(bela.dateofbirth, "%Y.%m.%d")
+        kor = (datetime.datetime.today() - szuletes).days // 365
+        self.assertEqual(bela.donor_age(), kor)
 
 
 class IDExpirationTests(unittest.TestCase):
     def test_ID_expired_8_days_ago(self):
-        date_of_testing = datetime.today()
-        expired_date = date_of_testing - timedelta(days=8)
-        self.assertFalse(Donor.id_not_expired(expired_date))
+        bela = Donor()
+        bela.expofid = (datetime.datetime.today() - datetime.timedelta(days=8)).strftime("%Y.%m.%d")
+        self.assertFalse(bela.id_not_expired())
 
     def test_ID_expired_1_days_ago(self):
-        date_of_testing = datetime.today()
-        expired_date = date_of_testing - timedelta(days=1)
-        self.assertFalse(Donor.id_not_expired(expired_date))
+        bela = Donor()
+        bela.expofid = (datetime.datetime.today() - datetime.timedelta(days=1)).strftime("%Y.%m.%d")
+        self.assertFalse(bela.id_not_expired())
 
     def test_ID_not_expired(self):
-        date_of_testing = datetime.today()
-        expiration_date = date_of_testing + timedelta(days=3)
-        self.assertFalse(Donor.id_not_expired(expiration_date))
+        bela = Donor()
+        bela.expofid = (datetime.datetime.today() + datetime.timedelta(days=3)).strftime("%Y.%m.%d")
+        self.assertTrue(bela.id_not_expired())
 
 
 class DocTypeTests(unittest.TestCase):
     def test_valid_passport(self):
-        self.assertEqual(Donor.type_of_doc('ASDFGH12'), 'PASSPORT')
+        bela = Donor()
+        bela.uniqueid = 'ASDFGH12'
+        self.assertEqual(bela.type_of_doc(), 'PASSPORT')
 
     def test_valid_ID(self):
-        self.assertEqual(Donor.type_of_doc('123456AB'), 'ID')
-
-
-class DataOutTests(unittest.TestCase):
-    def test_something(self):
-        self.assertFalse()
-
-
-class HemoglobinTests(unittest.TestCase):
-    pass
-
+        bela = Donor()
+        bela.uniqueid = '123456AB'
+        self.assertEqual(bela.type_of_doc(), 'ID')
 
 # Event Tests
 class TenDaysRegTests(unittest.TestCase):
-    # needs review and edit
-    date_of_testing = datetime.today()
-    plus_12_days = date_of_testing + timedelta(days=12)
-    plus_8_days = date_of_testing + timedelta(days=8)
-
     def test_more_than_ten_days(self):
-        self.assertTrue(Event.registration_in_tendays(plus_12_days))
+        vampireparty = Event()
+        vampireparty.date_of_event = (datetime.datetime.today() + datetime.timedelta(days=11)).strftime("%Y.%m.%d")
+        self.assertTrue(vampireparty.registration_in_tendays())
 
     def test_less_than_ten_days(self):
-        self.assertFalse(Event.registration_in_tendays(plus_8_days))
-
+        vampireparty = Event()
+        vampireparty.date_of_event = (datetime.datetime.today() + datetime.timedelta(days=9)).strftime("%Y.%m.%d")
+        self.assertFalse(vampireparty.registration_in_tendays())
 
 class IsWeekdayTests(unittest.TestCase):
-    # needs review and edit
-    def test_valid_case(self):
-        friday = datetime.strptime('2015.11.06', '%Y.%m.%d')
-        self.assertTrue(Event.is_weekday(friday))
+    def test_friday(self):
+        vampireparty = Event()
+        vampireparty.date_of_event = '2015.11.06'
+        self.assertTrue(vampireparty.is_weekday())
 
-    def test_invalid_case(self):
-        saturday = datetime.strptime('2015.11.07', '%Y.%m.%d')
-        self.assertFalse(Event.is_weekday(saturday))
+    def test_saturday(self):
+        vampireparty = Event()
+        vampireparty.date_of_event = '2015.11.07'
+        self.assertFalse(vampireparty.is_weekday())
 
-    def test_invalid_case2(self):
-        sunday = datetime.strptime('2015.11.08', '%Y.%m.%d')
-        self.assertFalse(Event.is_weekday(sunday))
+    def test_sunday(self):
+        vampireparty = Event()
+        vampireparty.date_of_event = '2015.11.08'
+        self.assertFalse(vampireparty.is_weekday())
 
 
 class CalculateDurationTests(unittest.TestCase):
     def test_valid_calculation(self):
-        start_time = datetime.strptime('10:00', '%H:%M')
-        end_time = datetime.strptime('18:00', '%H:%M')
-        duration = end_time - start_time
-        self.assertEqual(Event.caculate_duration(start_time, end_time), duration)
+        vampireparty = Event()
+        vampireparty.start_time = '10:00'
+        vampireparty.end_time = '18:00'
+        self.assertEqual(vampireparty.calculate_duration(), 480)
 
 
 class MaxDonorNumberTests(unittest.TestCase):
     def test_max_donor_with_2_beds(self):
-        start_time = datetime.strptime('10:00', '%H:%M')
-        end_time = datetime.strptime('18:00', '%H:%M')
-        duration = end_time - start_time
-        available_beds = 2
-        self.assertEqual(Event.max_donor_number(duration, available_beds), 30)
+        vampireparty = Event()
+        vampireparty.start_time = '10:00'
+        vampireparty.end_time = '18:00'
+        vampireparty.duration = vampireparty.calculate_duration()
+        vampireparty.available_beds = 2
+        self.assertEqual(vampireparty.max_donor_number(), 30)
 
 if __name__ == '__main__':
     unittest.main()
