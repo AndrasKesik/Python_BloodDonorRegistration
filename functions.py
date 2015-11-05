@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+import datetime
 
 import datetime
 
@@ -27,10 +28,13 @@ class Donor():
             Returns True or False"""
         pass
 
-    def donor_age(self):
+    def donor_age(self, dateofbirth):
         """Calculates the donor's age based on birth date
             Returns an integer"""
-        pass
+        birth = datetime.datetime.strptime(dateofbirth, "%Y.%m.%d")
+        age = (datetime.datetime.now() - birth).days // 365
+        return int(age)
+
 
     def id_not_expired(self, expiration_date):
         """Checks for ID
@@ -45,10 +49,11 @@ class Donor():
         elif doc_id[:-2].isdigit() and doc_id[-2:].isalpha():
             return "ID"
 
-    def data_out(self):
+    def data_out(self, name, weight, birthdate, age, emailaddress):
         """Writes out the donor's data in the given form.
             Returns string"""
-        pass
+        print(name, "\n", weight,"kg" "\n", birthdate, "-", age,"years old" "\n", emailaddress)
+
 
     def generate_hemoglobin_level(self):
         """Generate hemoglobin level and decides if the donor is suitable or not
@@ -63,7 +68,7 @@ class Event():
         end time of donation
         zip code
         city address
-        available beds
+        available_beds
         planned donor number
 
     """
@@ -82,9 +87,12 @@ class Event():
             Returns the duration"""
         pass
 
-    def max_donor_number(self):
+    def max_donor_number(self, duration, available_beds):
         """Calculates the maximum donor numbers
             Returns an integer"""
-        pass
+        preparation_time = 30
+        donation_time = 30
+        max_donor_number = ((duration - preparation_time) / donation_time) * available_beds
+        return int(max_donor_number)
 
 
