@@ -25,9 +25,10 @@ class Donor():
     def is_suitable(self, weight, lasdonationdate, dateofbirth):
         """Is the donor suitable for donation?
             Returns True or False"""
-        lastdonation = (datetime.datetime.now() - lasdonationdate).days
-        age = (datetime.datetime.now() - dateofbirth).days // 365
-        return weight >= 50 and lastdonation > 90 and age >= 18
+
+        self.lastdonation = (datetime.datetime.now() - lasdonationdate).days
+        self.age = (datetime.datetime.now() - dateofbirth).days // 365
+        return weight >= 50 and self.lastdonation > 90 and self.age >= 18
 
     def donor_age(self, dateofbirth):
         """Calculates the donor's age based on birth date
@@ -59,8 +60,8 @@ class Donor():
     def generate_hemoglobin_level(self):
         """Generate hemoglobin level and decides if the donor is suitable or not
             Returns True or False"""
-        hemoglobin = random.randint(80, 200)
-        return hemoglobin >= 110
+        self.hemoglobin = random.randint(80, 200)
+        return self.hemoglobin >= 110
 
 
 class Event():
@@ -80,7 +81,7 @@ class Event():
             Returns True or False"""
         return (date_of_event - datetime.datetime.now().date()).days > 10
 
-    def is_weekday(self, date_of_event):
+    def is_weekday(self):
         """Checks if the Date is on a weekday or not
             Returns True or False"""
         return date_of_event.isoweekday() < 5
