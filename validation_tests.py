@@ -51,7 +51,7 @@ class PositiveIntTests(unittest.TestCase):
     def test_string(self):
         self.assertFalse(Validate.validate_positive_int("hsvee"))
 
-    def test_nothing(self):
+    def test_nuber(self):
         self.assertFalse(Validate.validate_positive_int("-15"))
 
     def test_null(self):
