@@ -75,7 +75,7 @@ class Validate():
 
     @staticmethod
     def validate_id(doc_id):
-        if doc_id[:-2].isdigit() and doc_id[-2:].isalpha() or doc_id[2:].isdigit() and doc_id[:2].isalpha():
+        if doc_id[:-2].isdigit() and doc_id[-2:].isalpha() or doc_id[-2:].isdigit() and doc_id[:-2].isalpha():
             return True
         else:
             return False
@@ -101,7 +101,5 @@ class Validate():
         else:
             return False
 
-print(Validate.validate_id("233222as"))
-print(Validate.validate_id("as322223"))
-print(Validate.validate_id("as3222233asd"))
+
 
