@@ -2,8 +2,6 @@
 import random
 import datetime
 
-import datetime
-
 class Donor():
 
     name = ""
@@ -80,12 +78,9 @@ class Event():
     def registration_in_tendays(self, date_of_event):
         """Checks if the registration occoured at least 10 days before the event
             Returns True or False"""
-        pass
-
-    def is_weekday(self, date_of_event):
         return (date_of_event - datetime.datetime.now().date()).days > 10
 
-    def is_weekday(self):
+    def is_weekday(self, date_of_event):
         """Checks if the Date is on a weekday or not
             Returns True or False"""
         return date_of_event.isoweekday() < 5
