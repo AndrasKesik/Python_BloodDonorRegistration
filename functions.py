@@ -47,7 +47,7 @@ class Donor():
     def data_out(self, name, weight, birthdate, age, emailaddress):
         """Writes out the donor's data in the given form.
             Returns string"""
-        print(name, "\n", weight,"kg" "\n", birthdate, "-", age,"years old" "\n", emailaddress)
+        return "{} \n {}kg \n {} - {} years old \n {}".format(name, weight, birthdate, age, emailaddress)
 
 
     def generate_hemoglobin_level(self):
@@ -58,7 +58,7 @@ class Donor():
 class Event():
     """
         -Az event adatai:
-        date of event
+        date_of_event
         startime of donation
         end time of donation
         zip code
@@ -71,10 +71,11 @@ class Event():
         """Checks if the registration occoured at least 10 days before the event
             Returns True or False"""
         pass
-    def is_weekday(self):
+    def is_weekday(self, date_of_event):
         """Checks if the Date is on a weekday or not
             Returns True or False"""
-        pass
+        return date_of_event.isoweekday() < 5
+
 
     def caculate_duration(self):
         """Calculates the duration of the donation based on start- and endtime
@@ -88,6 +89,4 @@ class Event():
         donation_time = 30
         max_donor_number = ((duration - preparation_time) / donation_time) * available_beds
         return int(max_donor_number)
-
-
 
