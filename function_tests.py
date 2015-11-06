@@ -157,52 +157,45 @@ class MaxDonorNumberTests(unittest.TestCase):
 class SuccessRateTests(unittest.TestCase):
     def test_below_20_percent(self):
         vampireparty = Event()
-        vampireparty.max_donor_number = 100
-        vampireparty.succesfull = 19
-        success_message = vampireparty.success_rate()
-        self.assertEqual(vampireparty.success_rate(), success_message)
+        vampireparty.planned_donor_number = 100
+        vampireparty.successfull = 19
+        self.assertEqual(vampireparty.success_rate(), "Unsuccessfull, not worths to organise there again")
 
     def test_between_20_and_75_percent(self):
         vampireparty = Event()
-        vampireparty.max_donor_number = 100
-        vampireparty.succesfull = 60
-        success_message = vampireparty.success_rate()
-        self.assertEqual(vampireparty.success_rate(), success_message)
+        vampireparty.planned_donor_number = 100
+        vampireparty.successfull = 60
+        self.assertEqual(vampireparty.success_rate(), "Normal event")
 
     def test_between_75_and_110_percent(self):
         vampireparty = Event()
-        vampireparty.max_donor_number = 100
-        vampireparty.succesfull = 80
-        success_message = vampireparty.success_rate()
-        self.assertEqual(vampireparty.success_rate(), success_message)
+        vampireparty.planned_donor_number = 100
+        vampireparty.successfull = 80
+        self.assertEqual(vampireparty.success_rate(), "Successfull")
 
     def test_above_110_percent(self):
         vampireparty = Event()
-        vampireparty.max_donor_number = 100
-        vampireparty.succesfull = 111
-        success_message = vampireparty.success_rate()
-        self.assertEqual(vampireparty.success_rate(), success_message)
+        vampireparty.planned_donor_number = 100
+        vampireparty.successfull = 111
+        self.assertEqual(vampireparty.success_rate(), "Outstanding")
 
     def test_exactly_110_percent(self):
         vampireparty = Event()
-        vampireparty.max_donor_number = 100
-        vampireparty.succesfull = 110
-        success_message = vampireparty.success_rate()
-        self.assertEqual(vampireparty.success_rate(), success_message)
+        vampireparty.planned_donor_number = 100
+        vampireparty.successfull = 110
+        self.assertEqual(vampireparty.success_rate(), "Outstanding")
 
     def test_exactly_75_percent(self):
         vampireparty = Event()
-        vampireparty.max_donor_number = 100
-        vampireparty.succesfull = 75
-        success_message = vampireparty.success_rate()
-        self.assertEqual(vampireparty.success_rate(), success_message)
+        vampireparty.planned_donor_number = 100
+        vampireparty.successfull = 75
+        self.assertEqual(vampireparty.success_rate(), "Successfull")
 
     def test_exactly_20_percent(self):
         vampireparty = Event()
-        vampireparty.max_donor_number = 100
-        vampireparty.succesfull = 20
-        success_message = vampireparty.success_rate()
-        self.assertEqual(vampireparty.success_rate(), success_message)
+        vampireparty.planned_donor_number = 100
+        vampireparty.successfull = 20
+        self.assertEqual(vampireparty.success_rate(), "Normal event")
 
 if __name__ == '__main__':
     unittest.main()
