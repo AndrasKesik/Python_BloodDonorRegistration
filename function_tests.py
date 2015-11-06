@@ -153,5 +153,56 @@ class MaxDonorNumberTests(unittest.TestCase):
         vampireparty.available_beds = 2
         self.assertEqual(vampireparty.max_donor_number(), 30)
 
+
+class SuccessRateTests(unittest.TestCase):
+    def test_below_20_percent(self):
+        vampireparty = Event()
+        vampireparty.max_donor_number = 100
+        vampireparty.succesfull = 19
+        success_message = vampireparty.success_rate()
+        self.assertEqual(vampireparty.success_rate(), success_message)
+
+    def test_between_20_and_75_percent(self):
+        vampireparty = Event()
+        vampireparty.max_donor_number = 100
+        vampireparty.succesfull = 60
+        success_message = vampireparty.success_rate()
+        self.assertEqual(vampireparty.success_rate(), success_message)
+
+    def test_between_75_and_110_percent(self):
+        vampireparty = Event()
+        vampireparty.max_donor_number = 100
+        vampireparty.succesfull = 80
+        success_message = vampireparty.success_rate()
+        self.assertEqual(vampireparty.success_rate(), success_message)
+
+    def test_above_110_percent(self):
+        vampireparty = Event()
+        vampireparty.max_donor_number = 100
+        vampireparty.succesfull = 111
+        success_message = vampireparty.success_rate()
+        self.assertEqual(vampireparty.success_rate(), success_message)
+
+    def test_exactly_110_percent(self):
+        vampireparty = Event()
+        vampireparty.max_donor_number = 100
+        vampireparty.succesfull = 110
+        success_message = vampireparty.success_rate()
+        self.assertEqual(vampireparty.success_rate(), success_message)
+
+    def test_exactly_75_percent(self):
+        vampireparty = Event()
+        vampireparty.max_donor_number = 100
+        vampireparty.succesfull = 75
+        success_message = vampireparty.success_rate()
+        self.assertEqual(vampireparty.success_rate(), success_message)
+
+    def test_exactly_20_percent(self):
+        vampireparty = Event()
+        vampireparty.max_donor_number = 100
+        vampireparty.succesfull = 20
+        success_message = vampireparty.success_rate()
+        self.assertEqual(vampireparty.success_rate(), success_message)
+
 if __name__ == '__main__':
     unittest.main()
