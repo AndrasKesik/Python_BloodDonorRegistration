@@ -43,8 +43,8 @@ while True:
                             if Validate.validate_name(elsodonor.name):
                                 break
                             else:
-                                print("\n ! Nem tartalmazhat speciális karaktert a donor neve és legalább 2 részből kell állnia ! \n")
-                                time.sleep(2)
+                                print("\n ! Your name should have at least 2 parts and shouldn't contain special characters ! \n")
+                                time.sleep(2.5)
                                 clear()
                         clear()
 
@@ -54,7 +54,7 @@ while True:
                             if Validate.validate_positive_int(elsodonor.weight):
                                 break
                             else:
-                                print("\n ! Your weight must be a positive number !\n")
+                                print("\n\t\t ! Your weight must be a positive number !\n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -65,7 +65,7 @@ while True:
                             if Validate.validate_gender(elsodonor.gender):
                                 break
                             else:
-                                print("\n ! Válaszd ki a donor nemét, (M)ale or (F)emale ! \n")
+                                print("\n\t\t ! Choose the donors gender, (M)ale or (F)emale ! \n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -77,7 +77,7 @@ while True:
                             if Validate.validate_date(elsodonor.dateofbirth):
                                 break
                             else:
-                                print("\n ! You can use this format to enter the date: 'YYYY.MM.DD' ! \n")
+                                print("\n\t\t ! Use this format to enter the date: 'YYYY.MM.DD' ! \n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -90,12 +90,12 @@ while True:
                             if Validate.validate_date(elsodonor.lastdonationdate):
                                 break
                             else:
-                                print("\n ! A következő formátum alapján tudod megadni a dátumot: 'YYYY.MM.DD' ! \n")
+                                print("\n\t\t ! Use this format to enter the date: 'YYYY.MM.DD' ! \n")
                                 time.sleep(2)
                                 clear()
                         if not elsodonor.is_suitable():
-                            print("Hmm, úgyytünik a megadott adatok alapján nem felelsz meg az elvárásoknak\n Sajnálom =(")
-                            time.sleep(2)
+                            print("\n\t - It seems your donor is not suitable for the donation. =( - ")
+                            input("\n\n (Press ENTER to go BACK)")
                             clear()
                             continue
                         clear()
@@ -109,7 +109,7 @@ while True:
                             if Validate.validate_sickness(elsodonor.wassick):
                                 break
                             else:
-                                print("\n ! Choose from the given answers: (Y)es or (N)o ! \n")
+                                print("\n\t\t ! Choose from the given answers: (Y)es or (N)o ! \n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -124,7 +124,7 @@ while True:
                             if Validate.validate_id(elsodonor.uniqueid):
                                 break
                             else:
-                                print("\n ! Létező ID-t adj meg.  6 betű/szam + 2 szam/betu ! \n")
+                                print("\n ! Please enter an existing ID or Passport.  6 letter/number + 2 letter/number ! \n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -140,8 +140,8 @@ while True:
                             if Validate.validate_blood_type(elsodonor.bloodtype):
                                 break
                             else:
-                                print("\n ! It should be a real blood type ! \n")
-                                time.sleep(2)
+                                print("\n   ! It should be a real blood type. ( A+, A-, B+, B-, AB+, AB-, 0+, 0- ) ! \n")
+                                time.sleep(2.5)
                                 clear()
                         clear()
                         while True:
@@ -157,7 +157,7 @@ while True:
                             if Validate.validate_date(elsodonor.expofid):
                                 break
                             else:
-                                print("\n ! A következő formátum alapján tudod megadni a dátumot: 'YYYY.MM.DD' ! \n")
+                                print("\n\t\t ! Use this format to enter the date: 'YYYY.MM.DD' ! \n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -175,7 +175,7 @@ while True:
                             if Validate.validate_email(elsodonor.emailaddress):
                                 break
                             else:
-                                print("\n ! Email should contain a @ and should end with .com or .hu ! \n")
+                                print("\n\t ! Email should contain a @ and should end with .com or .hu ! \n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -194,7 +194,7 @@ while True:
                             if Validate.validate_mobilnumber(elsodonor.mobilnumber):
                                 break
                             else:
-                                print("\n ! Használd a következö formátumot: +36701234567 or 06703216547 ! \n")
+                                print("\n\t\t ! Use this format: +36701234567 or 06703216547 ! \n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -209,18 +209,19 @@ while True:
                         print("Expiration of ID:", elsodonor.expofid)
                         print("Email:", elsodonor.emailaddress)
                         print("Mobile Number:", elsodonor.mobilnumber)
-                        input("\n -- Please press Enter to continue -- ")
-
-
+                        print("\n\t\t - Your donor is added to the database -\n")
+                        input("\n\t (Press ENTER to view the required functions)")
+                        clear()
+                        print("\nThe required functions: \n")
                         namelist = elsodonor.parse_name()
-                        print("\n\nParsed name in seperate objects:", namelist)
+                        print("Parsed name in seperate objects:", namelist)
 
                         elsodonor.age = elsodonor.donor_age()
                         print("Age of the donor:", elsodonor.age)
-                        print("id not expired : ", elsodonor.id_not_expired())
-                        print("doctype: ", elsodonor.type_of_doc())
+                        print("Id not expired:", elsodonor.id_not_expired())
+                        print("Documentum type: ", elsodonor.type_of_doc())
                         print("Hemoglobin:", elsodonor.generate_hemoglobin_level())
-                        print("\n\n{}\n\n".format(elsodonor.data_out()))
+                        print("\n----------\n{}\n----------\n".format(elsodonor.data_out()))
 
 
                         input()
@@ -254,8 +255,7 @@ while True:
                 except: #Exception as e:
                     #print(e)
                     print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
-                    time.sleep(1)
-                    input()
+                    time.sleep(1.5)
                     clear()
 
         #EVENT REGISTER MENUPONT
@@ -273,10 +273,11 @@ while True:
                         elsoevent = Event()
                         while True:
                             elsoevent.date_of_event = input("Date of Event: ")
-                            if Validate.validate_date(elsoevent.date_of_event):
+                            if Validate.validate_date(elsoevent.date_of_event) and elsoevent.registration_in_tendays():
                                 break
                             else:
-                                print("\n ! You can use this format to enter the date: 'YYYY.MM.DD' ! \n")
+                                print("\n\t ! The registration should be at least 10 days from now. ! ")
+                                print("\t   ! Use this format to enter date: 'YYYY.MM.DD' ! \n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -286,7 +287,7 @@ while True:
                             if Validate.validate_time(elsoevent.start_time):
                                 break
                             else:
-                                print("\n ! Time format 00:00 !\n")
+                                print("\n\t\t ! Use this time format 00:00 !\n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -297,7 +298,7 @@ while True:
                             if Validate.validate_time(elsoevent.end_time):
                                 break
                             else:
-                                print("\n ! Time format 00:00 ! \n")
+                                print("\n\t\t ! Use this time format 00:00 ! \n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -309,7 +310,7 @@ while True:
                             if Validate.validate_zipcode(elsoevent.zip_code):
                                 break
                             else:
-                                print("\n ! 4 digits, that doesnt start with 0 ! \n")
+                                print("\n\t ! Should be 4 digits, that doesn't start with 0 ! \n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -318,11 +319,11 @@ while True:
                             print("Start Time:", elsoevent.start_time)
                             print("End Time:", elsoevent.end_time)
                             print("ZIP code:", elsoevent.zip_code)
-                            elsoevent.city_address = input("City: ").upper()
+                            elsoevent.city_address = input("City: ").capitalize()
                             if Validate.validate_city_name(elsoevent.city_address):
                                 break
                             else:
-                                print("\n ! Miskolc, Szerencs, Kazincbarcika, Sárospatak ! \n")
+                                print("\n\t ! Miskolc, Szerencs, Kazincbarcika, Sárospatak ! \n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -336,7 +337,7 @@ while True:
                             if Validate.validate_positive_int(elsoevent.available_beds):
                                 break
                             else:
-                                print("\n ! Positive number ! \n")
+                                print("\n\t\t ! It should be a positive number ! \n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -351,7 +352,7 @@ while True:
                             if Validate.validate_positive_int(elsoevent.planned_donor_number):
                                 break
                             else:
-                                print("\n ! Positive number ! \n")
+                                print("\n\t\t ! It should be a positive number ! \n")
                                 time.sleep(2)
                                 clear()
                         clear()
@@ -361,17 +362,26 @@ while True:
                         print("ZIP code:", elsoevent.zip_code)
                         print("City:", elsoevent.city_address)
                         print("Available beds:", elsoevent.available_beds)
-                        print("Donors:", elsoevent.planned_donor_number)
-                        input("\n -- Please hit Enter to continue -- ")
+                        print("Planned donor number:", elsoevent.planned_donor_number)
+
+                        while True:
+                            elsoevent.successfull = input("\n How many successfull donation was on the event?\n > ")
+                            if Validate.validate_positive_int(elsoevent.successfull):
+                                break
+                            else:
+                                print("\n\t\t ! It should be a positive number ! \n")
+                                time.sleep(2)
+                                clear()
 
 
+                        print("\nThe required functions: \n")
 
                         print("Weekday :", elsoevent.is_weekday())
                         elsoevent.duration = elsoevent.calculate_duration()
-                        print("Duration: ",elsoevent.duration)
-                        #print("Maximum donor number:", elsoevent.max_donor_number())
-
-                        input()
+                        print("Duration: {} min  --  {} hours ".format(elsoevent.duration,round(elsoevent.duration/60,1)))
+                        print("Maximum donor number:", elsoevent.max_donor_number())
+                        print("Success rate: {}".format(elsoevent.success_rate()))
+                        input("\n\n (Press ENTER to go BACK)")
                         clear()
 
 
@@ -394,7 +404,7 @@ while True:
                     elif user_input=='2':
                         print("\n\n\n\n\n\n\n\n\n\t - This will be the remove donor option. It's still under construction -")
                         print("\n"*20)
-                        input("Press ENTER to go BACK")
+                        input("(Press ENTER to go BACK)")
                         clear()
                     elif user_input=='3':
                         clear()
@@ -405,7 +415,7 @@ while True:
                     print(e)
                     print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
                     input()
-                    time.sleep(1)
+                    time.sleep(1.5)
                     clear()
 
         #EXIT
@@ -414,12 +424,12 @@ while True:
             print("\n\n\n\n\n\n\t\t\t   - Thank you for using our software -\t\t\t\t")
             print("\t\t\t      - Made By the Code Stars - ")
             print("\n\n\t\t\t\t    --- GOODBYE ---")
-            time.sleep(1)
+            time.sleep(3)
             clear()
             break
         else:
             raise ValueError
     except:
         print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
-        time.sleep(2)
+        time.sleep(1.5)
         clear()

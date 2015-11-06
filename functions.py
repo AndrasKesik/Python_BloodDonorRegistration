@@ -59,7 +59,7 @@ class Donor():
     def data_out(self):
         """Writes out the donor's data in the given form.
             Returns string"""
-        return "{} \n {}kg \n {} - {} years old \n {}".format(self.name, self.weight, self.dateofbirth, self.age , self.emailaddress)
+        return " {} \n {}kg \n {} - {} years old \n {}".format(self.name, self.weight, self.dateofbirth, self.age , self.emailaddress)
 
 
     def generate_hemoglobin_level(self):
@@ -93,7 +93,7 @@ class Event():
     city_address = ""
     available_beds = ""
     planned_donor_number = ""
-
+    successfull = ""
     duration = ""
 
     def registration_in_tendays(self):
@@ -122,6 +122,21 @@ class Event():
             Returns an integer"""
         preparation_time = 30
         donation_time = 30
-        max_donor_number = ((self.duration - preparation_time) // donation_time) * self.available_beds
+        max_donor_number = ((self.duration - preparation_time) // donation_time) * int(self.available_beds)
         return max_donor_number
+
+
+    def success_rate(self):
+        rate = int(self.successfull) * 100 / int(self.planned_donor_number)
+        is_successfull = ""
+        if rate < 20:
+            is_successfull = "Unsuccessfull, not worths to organise there again"
+        elif 20 <= rate < 75:
+            is_successfull = "Normal event"
+        elif 75 <= rate < 110:
+            is_successfull = "Successfull"
+        else:
+            is_successfull = "Outstanding"
+        return is_successfull
+
 
