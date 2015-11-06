@@ -39,7 +39,7 @@ while True:
                         clear()
                         elsodonor = Donor()
                         while True:
-                            elsodonor.name = input("Name: ")
+                            elsodonor.name = input("Name: ").upper()
                             if Validate.validate_name(elsodonor.name):
                                 break
                             else:
@@ -61,7 +61,7 @@ while True:
                         while True:
                             print("Name:", elsodonor.name)
                             print("Weight:", elsodonor.weight)
-                            elsodonor.gender = input("Gender (M/F): ")
+                            elsodonor.gender = input("Gender (M/F): ").upper()
                             if Validate.validate_gender(elsodonor.gender):
                                 break
                             else:
@@ -93,6 +93,11 @@ while True:
                                 print("\n ! A következő formátum alapján tudod megadni a dátumot: 'YYYY.MM.DD' ! \n")
                                 time.sleep(2)
                                 clear()
+                        if not elsodonor.is_suitable():
+                            print("Hmm, úgyytünik a megadott adatok alapján nem felelsz meg az elvárásoknak\n Sajnálom =(")
+                            time.sleep(2)
+                            clear()
+                            continue
                         clear()
                         while True:
                             print("Name:", elsodonor.name)
@@ -100,7 +105,7 @@ while True:
                             print("Gender:", elsodonor.gender)
                             print("Date of Birth:", elsodonor.dateofbirth)
                             print("Last Donation:", elsodonor.lastdonationdate)
-                            elsodonor.wassick = input("Was he/she sick in the last month? (Y/N) ")
+                            elsodonor.wassick = input("Was he/she sick in the last month? (Y/N) ").upper()
                             if Validate.validate_sickness(elsodonor.wassick):
                                 break
                             else:
@@ -115,7 +120,7 @@ while True:
                             print("Date of Birth:", elsodonor.dateofbirth)
                             print("Last Donation:", elsodonor.lastdonationdate)
                             print("Was he/she sick:", elsodonor.wassick)
-                            elsodonor.uniqueid = input("Unique ID: ")
+                            elsodonor.uniqueid = input("Unique ID: ").upper()
                             if Validate.validate_id(elsodonor.uniqueid):
                                 break
                             else:
@@ -131,7 +136,7 @@ while True:
                             print("Last Donation:", elsodonor.lastdonationdate)
                             print("Was he/she sick:", elsodonor.wassick)
                             print("Unique ID:", elsodonor.uniqueid)
-                            elsodonor.bloodtype = input("Blood Type: ")
+                            elsodonor.bloodtype = input("Blood Type: ").upper()
                             if Validate.validate_blood_type(elsodonor.bloodtype):
                                 break
                             else:
@@ -166,7 +171,7 @@ while True:
                             print("Unique ID:", elsodonor.uniqueid)
                             print("Blood Type:", elsodonor.bloodtype)
                             print("Expiration of ID:", elsodonor.expofid)
-                            elsodonor.emailaddress = input("Email address: ")
+                            elsodonor.emailaddress = input("Email address: ").lower()
                             if Validate.validate_email(elsodonor.emailaddress):
                                 break
                             else:
@@ -204,27 +209,22 @@ while True:
                         print("Expiration of ID:", elsodonor.expofid)
                         print("Email:", elsodonor.emailaddress)
                         print("Mobile Number:", elsodonor.mobilnumber)
-                        input("\n -- Please hit Enter to continue -- ")
-                        clear()
+                        input("\n -- Please press Enter to continue -- ")
+
 
                         namelist = elsodonor.parse_name()
-                        print(namelist)
-
-                        print("Suitable for donation: ",elsodonor.is_suitable())
+                        print("\n\nParsed name in seperate objects:", namelist)
 
                         elsodonor.age = elsodonor.donor_age()
-                        print(elsodonor.age)
-
+                        print("Age of the donor:", elsodonor.age)
                         print("id not expired : ", elsodonor.id_not_expired())
-
-                        print("doctype: ",elsodonor.type_of_doc())
-
-                        print(data_out)
-
-                        print("hemoglobin:" elsodonor.generate_hemoglobin_level())
+                        print("doctype: ", elsodonor.type_of_doc())
+                        print("Hemoglobin:", elsodonor.generate_hemoglobin_level())
+                        print("\n\n{}\n\n".format(elsodonor.data_out()))
 
 
-
+                        input()
+                        clear()
 
 
 
@@ -251,10 +251,11 @@ while True:
                     else:
                          raise ValueError
 
-                except: # Exception as e:
+                except: #Exception as e:
                     #print(e)
                     print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
                     time.sleep(1)
+                    input()
                     clear()
 
         #EVENT REGISTER MENUPONT
@@ -317,7 +318,7 @@ while True:
                             print("Start Time:", elsoevent.start_time)
                             print("End Time:", elsoevent.end_time)
                             print("ZIP code:", elsoevent.zip_code)
-                            elsoevent.city_address = input("City: ")
+                            elsoevent.city_address = input("City: ").upper()
                             if Validate.validate_city_name(elsoevent.city_address):
                                 break
                             else:
@@ -362,9 +363,18 @@ while True:
                         print("Available beds:", elsoevent.available_beds)
                         print("Donors:", elsoevent.planned_donor_number)
                         input("\n -- Please hit Enter to continue -- ")
+
+
+
+                        print("Weekday :", elsoevent.is_weekday())
+                        elsoevent.duration = elsoevent.calculate_duration()
+                        print("Duration: ",elsoevent.duration)
+                        #print("Maximum donor number:", elsoevent.max_donor_number())
+
+                        input()
                         clear()
 
-                        elsoevent.duration = elsoevent.calculate_duration()
+
 
 
 
@@ -391,8 +401,10 @@ while True:
                         break
                     else:
                          raise ValueError
-                except:
+                except Exception as e:
+                    print(e)
                     print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
+                    input()
                     time.sleep(1)
                     clear()
 

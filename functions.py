@@ -35,11 +35,11 @@ class Donor():
     def is_suitable(self):
         """Is the donor suitable for donation?
             Returns True or False"""
-        last_don_dateformat = datetime.datetime.strptime(self.lastdonationdate, "%Y.%m.%d")
+        last = datetime.datetime.strptime(self.lastdonationdate, "%Y.%m.%d")
         birth = datetime.datetime.strptime(self.dateofbirth, "%Y.%m.%d")
-        hanynapja_adott =  (datetime.datetime.now() - last_don_dateformat).days
-        kor = (datetime.datetime.now() - birth).days // 365
-        return self.weight > 50 and hanynapja_adott > 90 and kor > 18
+        hanynapja_adott =  (datetime.datetime.today() - last).days
+        kor = (datetime.datetime.today() - birth).days // 365
+        return int(self.weight) > 50 and hanynapja_adott > 90 and kor > 18
 
     def id_not_expired(self):
         """Checks for ID
@@ -68,7 +68,7 @@ class Donor():
         hemoglobin = random.randint(80, 200)
         return hemoglobin >= 110
     """
-    ## FUTURE FEATURE NE NYULJ HOZZÁ ##
+    ## FUTURE FEATURE; NE NYULJ HOZZÁ, MERT BUGOS HA BERAKOD##
     def __str__(self):
         result = "Name: " + self.name
         if self.weight != "":
@@ -116,13 +116,12 @@ class Event():
         start = datetime.datetime.strptime(self.start_time, '%H:%M')
         return (end - start).seconds//60
 
-
+    # vmi nemjo benne
     def max_donor_number(self):
         """Calculates the maximum donor numbers
             Returns an integer"""
         preparation_time = 30
         donation_time = 30
-        max_donor_number = ((self.duration - preparation_time) / donation_time) * self.available_beds
+        max_donor_number = ((self.duration - preparation_time) // donation_time) * self.available_beds
         return max_donor_number
-
 
