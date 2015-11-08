@@ -75,7 +75,8 @@ class Validate():
 
     @staticmethod
     def validate_id(doc_id):
-        if doc_id[:-2].isdigit() and doc_id[-2:].isalpha() or doc_id[-2:].isdigit() and doc_id[:-2].isalpha():
+        if (doc_id[:-2].isdigit() and doc_id[-2:].isalpha() or doc_id[-2:].isdigit() and doc_id[:-2].isalpha()) \
+                and len(doc_id)==8:
             return True
         else:
             return False

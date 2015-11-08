@@ -16,7 +16,7 @@ class Donor():
     emailaddress = ""
     mobilnumber = ""
 
-    age=""
+    age = ""
 
     def parse_name(self):
         """Parses the name.
@@ -67,8 +67,7 @@ class Donor():
             Returns True or False"""
         hemoglobin = random.randint(80, 200)
         return hemoglobin >= 110
-    """
-    ## FUTURE FEATURE; NE NYULJ HOZZÁ, MERT BUGOS HA BERAKOD##
+
     def __str__(self):
         result = "Name: " + self.name
         if self.weight != "":
@@ -81,8 +80,17 @@ class Donor():
             result +="\nLast Donation: " + self.lastdonationdate
         if self.wassick != "":
             result +="\nWas he/she sick: " + self.wassick
+        if self.uniqueid != "":
+            result +="\nUnique ID: " + self.uniqueid
+        if self.bloodtype != "":
+            result +="\nBlood Type: " + self.bloodtype
+        if self.expofid != "":
+            result +="\nExpiration of ID: " + self.expofid
+        if self.emailaddress != "":
+            result +="\nEmail address: " + self.emailaddress
+        if self.mobilnumber != "":
+            result +="\nMobile Number: " + self.mobilnumber
         return result
-    """
 
 class Event():
 
@@ -139,4 +147,18 @@ class Event():
             is_successfull = "Outstanding"
         return is_successfull
 
-
+    def __str__(self):
+        result = "Date of Event: " + self.date_of_event
+        if self.start_time != "":
+            result +="\nStart Time: " + self.start_time
+        if self.end_time != "":
+            result +="\nEnd Time: " + self.end_time
+        if self.zip_code != "":
+            result +="\nZIP code: " + self.zip_code
+        if self.city_address:
+            result +="\nCity: " + self.city_address
+        if self.available_beds != "":
+            result +="\nAvailable beds: " + self.available_beds
+        if self.planned_donor_number != "":
+            result +="\nPlanned donor number: " + self.planned_donor_number
+        return result
