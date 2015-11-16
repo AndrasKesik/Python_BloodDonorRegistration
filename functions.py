@@ -98,7 +98,8 @@ class Event():
     start_time = ""
     end_time = ""
     zip_code = ""
-    city_address = ""
+    city = ""
+    address = ""
     available_beds = ""
     planned_donor_number = ""
     successfull = ""
@@ -155,8 +156,10 @@ class Event():
             result +="\nEnd Time: " + self.end_time
         if self.zip_code != "":
             result +="\nZIP code: " + self.zip_code
-        if self.city_address:
-            result +="\nCity: " + self.city_address
+        if self.city:
+            result +="\nCity: " + self.city
+        if self.address:
+            result +="\nAddress: " + self.address
         if self.available_beds != "":
             result +="\nAvailable beds: " + self.available_beds
         if self.planned_donor_number != "":
