@@ -74,14 +74,22 @@ def file_line_number(fname):
     return int(item) + 1
 
 
+def put_string_in_quotes_if_has_comma(text):
+    for letter in text:
+        if letter == ',':
+            return '"' + text + '"'
+        else:
+            return text
+
+
 def store_donation_data():
-    donation = ""
+    donation_sample = ""
     number_of_line = file_line_number("Data/donations.csv")
-    donation += "\n" + str(number_of_line) + "," + str(e1.date_of_event) + "," + str(e1.start_time) + "," + str(e1.end_time) + "," + \
-                str(e1.zip_code) + "," + str(e1.city_address) + "," + str(e1.available_beds) + "," + \
+    donation_sample += "\n" + str(number_of_line) + "," + str(e1.date_of_event) + "," + str(e1.start_time) + "," + str(e1.end_time) + "," + \
+                str(e1.zip_code) + "," + str(e1.city_address) + "," + put_string_in_quotes_if_has_comma(e1.address) +"," + str(e1.available_beds) + "," + \
                 str(e1.planned_donor_number) + "," + str(e1.successfull)
     with open("Data/donations.csv", "a") as donations:
-        donations.writelines(donation)
+        donations.writelines(donation_sample)
 
 donors = []
 
