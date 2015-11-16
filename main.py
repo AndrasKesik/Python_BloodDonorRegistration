@@ -56,7 +56,7 @@ if not os.path.isfile("Data/donors.csv"):
     with open("Data/donors.csv","w") as f:
         f.write("name,weight,gender,date_of_birth,last_donation,last_month_sickness,unique_identifier,expiration_of_id,blood_type,hemoblogin,email,mobil")
 if not os.path.isfile("Data/donations.csv"):
-    with open("Data/donations.csv") as f:
+    with open("Data/donations.csv", "w") as f:
         f.write("id,date_of_event,start_time,end_time,zip_code,city,address,number_of_available_beds,planned_donor_number,final_donor_number")
 
 
@@ -114,7 +114,6 @@ while True:
 
                         with open("Data/donors.csv", "a") as f:
                             f.write("\n"+donor_sample.name+",")
-                            f.write(donor_sample.name+",")
                             f.write(donor_sample.weight+",")
                             f.write(donor_sample.gender+",")
                             f.write(donor_sample.dateofbirth+",")
