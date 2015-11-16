@@ -23,21 +23,6 @@ WELCOME_MESSAGE =  "\n\t\t\t--- WELCOME TO THE BLOOD DONATION SYSTEM ---\t\t\t" 
                      "\n\t\t\t\t - Made By the Code Stars -\t\t\t\t\n\n"
 
 
-def data_print(self):
-    result = "Name: " + self.name
-    if self.weight != "":
-        result +="\nWeight: " + self.weight
-    if self.gender != "":
-        result +="\nGender: " + self.gender
-    if self.dateofbirth != "":
-        result +="\nDate of Birth: " + self.dateofbirth
-    if self.lastdonationdate:
-        result +="\nLast Donation: " + self.lastdonationdate
-    if self.wassick != "":
-        result +="\nWas he/she sick: " + self.wassick
-    return result
-
-
 def data_in(d, validate, input_mess, error_mess):
     valid_input = ""
     while not valid_input:
@@ -67,6 +52,15 @@ def data_in_e(e, validate, input_mess, error_mess):
             time.sleep(2)
 
 donors = []
+if not os.path.isfile("Data/donors.csv"):
+    with open("Data/donors.csv","w") as f:
+        f.write("name,weight,gender,date_of_birth,last_donation,last_month_sickness,unique_identifier,expiration_of_id,blood_type,hemoblogin,email,mobil")
+if not os.path.isfile("Data/donations.csv"):
+    with open("Data/donations.csv") as f:
+        f.write("id,date_of_event,start_time,end_time,zip_code,city,address,number_of_available_beds,planned_donor_number,final_donor_number")
+
+
+
 
 #MAIN MENU
 clear()
@@ -94,29 +88,44 @@ while True:
                         time.sleep(1)
                         clear()
 
-                        donors.append(Donor())
+                        donor_sample = Donor()
 
 
 
-                        donors[-1].name = data_in(donors[-1], Validate.validate_name, "Name: ", NAME_ERR)
-                        donors[-1].weight = data_in(donors[-1], Validate.validate_positive_int, "Weight (in KG): ", POSINT_ERR)
-                        donors[-1].gender = data_in(donors[-1], Validate.validate_gender, "Gender (M/F): ", GEND_ERR)
-                        donors[-1].dateofbirth = data_in(donors[-1], Validate.validate_date, "Date of Birth: ", DATE_ERR)
-                        donors[-1].lastdonationdate = data_in(donors[-1], Validate.validate_date, "Last Donation: ", DATE_ERR)
+                        donor_sample.name = data_in(donor_sample, Validate.validate_name, "Name: ", NAME_ERR)
+                        donor_sample.weight = data_in(donor_sample, Validate.validate_positive_int, "Weight (in KG): ", POSINT_ERR)
+                        donor_sample.gender = data_in(donor_sample, Validate.validate_gender, "Gender (M/F): ", GEND_ERR)
+                        donor_sample.dateofbirth = data_in(donor_sample, Validate.validate_date, "Date of Birth: ", DATE_ERR)
+                        donor_sample.lastdonationdate = data_in(donor_sample, Validate.validate_date, "Last Donation: ", DATE_ERR)
 
-                        if not donors[-1].is_suitable():
+                        if not donor_sample.is_suitable():
                             print("\n\t - It seems your donor is not suitable for the donation. =( - ")
                             donors.pop()
                             input("\n\n (Press ENTER to go BACK)")
                             clear()
                             continue
 
-                        donors[-1].wassick = data_in(donors[-1], Validate.validate_sickness, "Was he/she sick in the last month? (Y/N) ", SICK_ERR)
-                        donors[-1].uniqueid = data_in(donors[-1], Validate.validate_id, "Unique ID: ", ID_ERR)
-                        donors[-1].bloodtype = data_in(donors[-1], Validate.validate_blood_type, "Blood Type: ", BTYPE_ERR)
-                        donors[-1].expofid = data_in(donors[-1], Validate.validate_date, "Expiration of ID: ", DATE_ERR)
-                        donors[-1].emailaddress = data_in(donors[-1], Validate.validate_email, "Email address: ", EMAIL_ERR)
-                        donors[-1].mobilnumber = data_in(donors[-1], Validate.validate_mobilnumber, "Mobile Number: ", MOBILE_ERR )
+                        donor_sample.wassick = data_in(donor_sample, Validate.validate_sickness, "Was he/she sick in the last month? (Y/N) ", SICK_ERR)
+                        donor_sample.uniqueid = data_in(donor_sample, Validate.validate_id, "Unique ID: ", ID_ERR)
+                        donor_sample.bloodtype = data_in(donor_sample, Validate.validate_blood_type, "Blood Type: ", BTYPE_ERR)
+                        donor_sample.expofid = data_in(donor_sample, Validate.validate_date, "Expiration of ID: ", DATE_ERR)
+                        donor_sample.emailaddress = data_in(donor_sample, Validate.validate_email, "Email address: ", EMAIL_ERR)
+                        donor_sample.mobilnumber = data_in(donor_sample, Validate.validate_mobilnumber, "Mobile Number: ", MOBILE_ERR )
+
+                        with open("Data/donors.csv", "a") as f:
+                            f.write("\n"+donor_sample.name+",")
+                            f.write(donor_sample.name+",")
+                            f.write(donor_sample.weight+",")
+                            f.write(donor_sample.gender+",")
+                            f.write(donor_sample.dateofbirth+",")
+                            f.write(donor_sample.lastdonationdate+",")
+                            f.write(donor_sample.wassick+",")
+                            f.write(donor_sample.uniqueid+",")
+                            f.write(donor_sample.expofid+",")
+                            f.write(donor_sample.bloodtype+",")
+                            f.write("127,")    # átirni hemoglobinra
+                            f.write(donor_sample.emailaddress+",")
+                            f.write(donor_sample.mobilnumber+",")
 
                         print("\n\t\t - Your donor is added to the database -\n")
                         input("\n\t (Press ENTER to go BACK)")
