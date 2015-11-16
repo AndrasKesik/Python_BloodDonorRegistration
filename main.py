@@ -18,6 +18,7 @@ MOBILE_ERR = "\n\t\t ! Use this format: +36701234567 or 06703216547 ! \n"
 TIME_ERR = "\n\t\t ! Use this time format 00:00 !\n"
 ZIP_ERR =  "\n\t ! Should be 4 digits, that doesn't start with 0 ! \n"
 CITY_ERR = "\n\t ! Miskolc, Szerencs, Kazincbarcika, Sárospatak ! \n"
+ADDRESS_ERR = "\n\t ! Address must be less than 25 characters ! \n"
 
 WELCOME_MESSAGE =  "\n\t\t\t--- WELCOME TO THE BLOOD DONATION SYSTEM ---\t\t\t" \
                      "\n\t\t\t\t - Made By the Code Stars -\t\t\t\t\n\n"
@@ -75,19 +76,18 @@ def file_line_number(fname):
 
 
 def put_string_in_quotes_if_has_comma(text):
-    for letter in text:
-        if letter == ',':
-            return '"' + text + '"'
-        else:
-            return text
+    if ',' in text:
+        return '"' + text + '"'
+    else:
+        return text
 
 
 def store_donation_data():
     donation_sample = ""
     number_of_line = file_line_number("Data/donations.csv")
     donation_sample += "\n" + str(number_of_line) + "," + str(e1.date_of_event) + "," + str(e1.start_time) + "," + str(e1.end_time) + "," + \
-                str(e1.zip_code) + "," + str(e1.city_address) + "," + put_string_in_quotes_if_has_comma(e1.address) +"," + str(e1.available_beds) + "," + \
-                str(e1.planned_donor_number) + "," + str(e1.successfull)
+                str(e1.zip_code) + "," + str(e1.city) + "," + put_string_in_quotes_if_has_comma(e1.address) + "," + str(e1.available_beds) + "," + \
+                       str(e1.planned_donor_number) + "," + str(e1.successfull)
     with open("Data/donations.csv", "a") as donations:
         donations.writelines(donation_sample)
 
@@ -207,7 +207,8 @@ while True:
                         e1.start_time = data_in_e(e1, Validate.validate_time, "Start Time: ", TIME_ERR)
                         e1.end_time = data_in_e(e1, Validate.validate_time, "End Time: ", TIME_ERR)
                         e1.zip_code = data_in_e(e1, Validate.validate_zipcode, "ZIP code: ", ZIP_ERR)
-                        e1.city_address = data_in_e(e1, Validate.validate_city_name, "City: ", CITY_ERR)
+                        e1.city = data_in_e(e1, Validate.validate_city_name, "City: ", CITY_ERR)
+                        e1.address = data_in_e(e1, Validate.validate_address, "Address of event: ", ADDRESS_ERR)
                         e1.available_beds = data_in_e(e1, Validate.validate_positive_int, "Available beds: ", POSINT_ERR)
                         e1.planned_donor_number = data_in_e(e1, Validate.validate_positive_int, "Planned donor number: ", POSINT_ERR)
 
