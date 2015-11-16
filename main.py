@@ -68,13 +68,61 @@ clear()
 while True:
     print(WELCOME_MESSAGE)
     try:
-        user_input = input("(1) Blood Donor Registration\n(2) Event Registration\n(3) EXIT\n\n> ")
-        if user_input not in '123' or len(user_input)!=1:
+        user_input = input("(1) Add new donor\n(2) Add new donation event\n(3) Delete a donor\n"    \
+                           "(4) Delete donation event\n(5) List donors and donation events\n(6) Search\n(7) EXIT\n\n> ")
+        if user_input not in '1234567' or len(user_input)!=1:
             raise ValueError
         clear()
 
+        #ADD NEW DONOR
+
+
         #BLOOD DONATION MENUPONT
         if user_input=='1':
+            print("Adding new donor...\n")
+            time.sleep(1)
+            clear()
+
+            donor_sample = Donor()
+            donor_sample.name = data_in(donor_sample, Validate.validate_name, "Name: ", NAME_ERR)
+            donor_sample.weight = data_in(donor_sample, Validate.validate_positive_int, "Weight (in KG): ", POSINT_ERR)
+            donor_sample.gender = data_in(donor_sample, Validate.validate_gender, "Gender (M/F): ", GEND_ERR)
+            donor_sample.dateofbirth = data_in(donor_sample, Validate.validate_date, "Date of Birth: ", DATE_ERR)
+            donor_sample.lastdonationdate = data_in(donor_sample, Validate.validate_date, "Last Donation: ", DATE_ERR)
+
+            if not donor_sample.is_suitable():
+                print("\n\t - It seems your donor is not suitable for the donation. =( - ")
+                donors.pop()
+                input("\n\n (Press ENTER to go BACK)")
+                clear()
+                continue
+
+            donor_sample.wassick = data_in(donor_sample, Validate.validate_sickness, "Was he/she sick in the last month? (Y/N) ", SICK_ERR)
+            donor_sample.uniqueid = data_in(donor_sample, Validate.validate_id, "Unique ID: ", ID_ERR)
+            donor_sample.bloodtype = data_in(donor_sample, Validate.validate_blood_type, "Blood Type: ", BTYPE_ERR)
+            donor_sample.expofid = data_in(donor_sample, Validate.validate_date, "Expiration of ID: ", DATE_ERR)
+            donor_sample.emailaddress = data_in(donor_sample, Validate.validate_email, "Email address: ", EMAIL_ERR)
+            donor_sample.mobilnumber = data_in(donor_sample, Validate.validate_mobilnumber, "Mobile Number: ", MOBILE_ERR )
+
+            with open("Data/donors.csv", "a") as f:
+                f.write("\n"+donor_sample.name+",")
+                f.write(donor_sample.weight+",")
+                f.write(donor_sample.gender+",")
+                f.write(donor_sample.dateofbirth+",")
+                f.write(donor_sample.lastdonationdate+",")
+                f.write(donor_sample.wassick+",")
+                f.write(donor_sample.uniqueid+",")
+                f.write(donor_sample.expofid+",")
+                f.write(donor_sample.bloodtype+",")
+                f.write("127,")    # átirni hemoglobinra
+                f.write(donor_sample.emailaddress+",")
+                f.write(donor_sample.mobilnumber+",")
+
+            print("\n\t\t - Your donor is added to the database -\n")
+            input("\n\t (Press ENTER to go BACK)")
+            clear()
+
+            """
             while True:
                 print(WELCOME_MESSAGE)
                 try:
@@ -84,53 +132,10 @@ while True:
                     clear()
 
                     if user_input=='1':
-                        print("Adding new donor...\n")
-                        time.sleep(1)
-                        clear()
 
-                        donor_sample = Donor()
-
-
-
-                        donor_sample.name = data_in(donor_sample, Validate.validate_name, "Name: ", NAME_ERR)
-                        donor_sample.weight = data_in(donor_sample, Validate.validate_positive_int, "Weight (in KG): ", POSINT_ERR)
-                        donor_sample.gender = data_in(donor_sample, Validate.validate_gender, "Gender (M/F): ", GEND_ERR)
-                        donor_sample.dateofbirth = data_in(donor_sample, Validate.validate_date, "Date of Birth: ", DATE_ERR)
-                        donor_sample.lastdonationdate = data_in(donor_sample, Validate.validate_date, "Last Donation: ", DATE_ERR)
-
-                        if not donor_sample.is_suitable():
-                            print("\n\t - It seems your donor is not suitable for the donation. =( - ")
-                            donors.pop()
-                            input("\n\n (Press ENTER to go BACK)")
-                            clear()
-                            continue
-
-                        donor_sample.wassick = data_in(donor_sample, Validate.validate_sickness, "Was he/she sick in the last month? (Y/N) ", SICK_ERR)
-                        donor_sample.uniqueid = data_in(donor_sample, Validate.validate_id, "Unique ID: ", ID_ERR)
-                        donor_sample.bloodtype = data_in(donor_sample, Validate.validate_blood_type, "Blood Type: ", BTYPE_ERR)
-                        donor_sample.expofid = data_in(donor_sample, Validate.validate_date, "Expiration of ID: ", DATE_ERR)
-                        donor_sample.emailaddress = data_in(donor_sample, Validate.validate_email, "Email address: ", EMAIL_ERR)
-                        donor_sample.mobilnumber = data_in(donor_sample, Validate.validate_mobilnumber, "Mobile Number: ", MOBILE_ERR )
-
-                        with open("Data/donors.csv", "a") as f:
-                            f.write("\n"+donor_sample.name+",")
-                            f.write(donor_sample.weight+",")
-                            f.write(donor_sample.gender+",")
-                            f.write(donor_sample.dateofbirth+",")
-                            f.write(donor_sample.lastdonationdate+",")
-                            f.write(donor_sample.wassick+",")
-                            f.write(donor_sample.uniqueid+",")
-                            f.write(donor_sample.expofid+",")
-                            f.write(donor_sample.bloodtype+",")
-                            f.write("127,")    # átirni hemoglobinra
-                            f.write(donor_sample.emailaddress+",")
-                            f.write(donor_sample.mobilnumber+",")
-
-                        print("\n\t\t - Your donor is added to the database -\n")
-                        input("\n\t (Press ENTER to go BACK)")
-                        clear()
 
                     elif user_input=='2':
+
                         if len(donors)>0:
                             for i in range(len(donors)):
                                 print(donors[i])
@@ -146,6 +151,7 @@ while True:
                                 print("\n----------\n{}\n----------\n".format(donors[i].data_out()))
                                 input("\n\n\n >>> Press ENTER to see the next entry <<< ")
                                 clear()
+
                         else:
                             print("\n\n\n\t - NO DONORS ADDED YET -")
                             time.sleep(2)
@@ -164,47 +170,60 @@ while True:
                     print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
                     time.sleep(1.5)
                     clear()
-
+            """
         #EVENT REGISTER MENUPONT
         elif user_input=='2':
+            print("Adding new event...\n")
+            time.sleep(1)
+            clear()
+            e1 = Event()
+            while True:
+                e1.date_of_event = input("Date of Event: ")
+                if Validate.validate_date(e1.date_of_event) and e1.registration_in_tendays():
+                    break
+                else:
+                    print("\n\t ! The registration should be at least 10 days from now. ! ")
+                    print("\t   ! Use this format to enter date: 'YYYY.MM.DD' ! \n")
+                    time.sleep(2)
+                    clear()
+
+            e1.start_time = data_in_e(e1, Validate.validate_time, "Start Time: ", TIME_ERR)
+            e1.end_time = data_in_e(e1, Validate.validate_time, "End Time: ", TIME_ERR)
+            e1.zip_code = data_in_e(e1, Validate.validate_zipcode, "ZIP code: ", ZIP_ERR)
+            e1.city_address = data_in_e(e1, Validate.validate_city_name, "City: ", CITY_ERR)
+            e1.available_beds = data_in_e(e1, Validate.validate_positive_int, "Available beds: ", POSINT_ERR)
+            e1.planned_donor_number = data_in_e(e1, Validate.validate_positive_int, "Planned donor number: ", POSINT_ERR)
+
+            e1.successfull = data_in_e(e1, Validate.validate_positive_int, "\n How many successfull donation was on the event?\n > ",POSINT_ERR)
+
+            print("\nThe required functions: \n")
+
+            print("Weekday :", e1.is_weekday())
+            e1.duration = e1.calculate_duration()
+            print("Duration: {} min  --  {} hours ".format(e1.duration,round(e1.duration/60,1)))
+            print("Maximum donor number:", e1.max_donor_number())
+            print("Success rate: {}".format(e1.success_rate()))
+            input("\n\n (Press ENTER to go BACK)")
+            clear()
+
+
+
+
+        elif user_input=='3':
+            pass
+        elif user_input == '4':
+            pass
+        elif user_input == '5':
+            pass
+        elif user_input == '6':
+            """
             while True:
                 print(WELCOME_MESSAGE)
                 try:
                     user_input=input('(1) Add New Event\n(2) Remove Event\n(3) Back\n\n> ')
                     clear()
                     if user_input=='1':
-                        print("Adding new event...\n")
-                        time.sleep(1)
-                        clear()
-                        e1 = Event()
-                        while True:
-                            e1.date_of_event = input("Date of Event: ")
-                            if Validate.validate_date(e1.date_of_event) and e1.registration_in_tendays():
-                                break
-                            else:
-                                print("\n\t ! The registration should be at least 10 days from now. ! ")
-                                print("\t   ! Use this format to enter date: 'YYYY.MM.DD' ! \n")
-                                time.sleep(2)
-                                clear()
 
-                        e1.start_time = data_in_e(e1, Validate.validate_time, "Start Time: ", TIME_ERR)
-                        e1.end_time = data_in_e(e1, Validate.validate_time, "End Time: ", TIME_ERR)
-                        e1.zip_code = data_in_e(e1, Validate.validate_zipcode, "ZIP code: ", ZIP_ERR)
-                        e1.city_address = data_in_e(e1, Validate.validate_city_name, "City: ", CITY_ERR)
-                        e1.available_beds = data_in_e(e1, Validate.validate_positive_int, "Available beds: ", POSINT_ERR)
-                        e1.planned_donor_number = data_in_e(e1, Validate.validate_positive_int, "Planned donor number: ", POSINT_ERR)
-
-                        e1.successfull = data_in_e(e1, Validate.validate_positive_int, "\n How many successfull donation was on the event?\n > ",POSINT_ERR)
-
-                        print("\nThe required functions: \n")
-
-                        print("Weekday :", e1.is_weekday())
-                        e1.duration = e1.calculate_duration()
-                        print("Duration: {} min  --  {} hours ".format(e1.duration,round(e1.duration/60,1)))
-                        print("Maximum donor number:", e1.max_donor_number())
-                        print("Success rate: {}".format(e1.success_rate()))
-                        input("\n\n (Press ENTER to go BACK)")
-                        clear()
 
                     elif user_input=='2':
                         print("\n\n\n\n\n\n\n\n\n\t - This will be the remove donor option. It's still under construction -")
@@ -223,9 +242,9 @@ while True:
                     input()
                     time.sleep(1.5)
                     clear()
-
+            """
         #EXIT
-        elif user_input=='3':
+        elif user_input == '7':
             clear()
             print("\n\n\n\n\n\n\t\t\t   - Thank you for using our software -\t\t\t\t")
             print("\t\t\t      - Made By the Code Stars - ")
@@ -233,6 +252,10 @@ while True:
             time.sleep(3)
             clear()
             break
+
+
+
+
         else:
             raise ValueError
     except:
