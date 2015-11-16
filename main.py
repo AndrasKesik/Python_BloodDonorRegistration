@@ -69,7 +69,7 @@ while True:
     print(WELCOME_MESSAGE)
     try:
         user_input = input("(1) Add new donor\n(2) Add new donation event\n(3) Delete a donor\n"    \
-                           "(4) Delete donation event\n(5) List donors and donation events\n(6) Search\n(7) EXIT\n\n> ")
+                           "(4) Delete donation event\n(5) List donors and donation events\n(6) Search\n(7) Exit\n\n> ")
         if user_input not in '1234567' or len(user_input)!=1:
             raise ValueError
         clear()
