@@ -212,26 +212,26 @@ while True:
                     time.sleep(2)
                     clear()
 
-                        e1.start_time = data_in_e(e1, Validate.validate_time, "Start Time: ", TIME_ERR)
-                        e1.end_time = data_in_e(e1, Validate.validate_time, "End Time: ", TIME_ERR)
-                        e1.zip_code = data_in_e(e1, Validate.validate_zipcode, "ZIP code: ", ZIP_ERR)
-                        e1.city = data_in_e(e1, Validate.validate_city_name, "City: ", CITY_ERR)
-                        e1.address = data_in_e(e1, Validate.validate_address, "Address of event: ", ADDRESS_ERR)
-                        e1.available_beds = data_in_e(e1, Validate.validate_positive_int, "Available beds: ", POSINT_ERR)
-                        e1.planned_donor_number = data_in_e(e1, Validate.validate_positive_int, "Planned donor number: ", POSINT_ERR)
+                    e1.start_time = data_in_e(e1, Validate.validate_time, "Start Time: ", TIME_ERR)
+                    e1.end_time = data_in_e(e1, Validate.validate_time, "End Time: ", TIME_ERR)
+                    e1.zip_code = data_in_e(e1, Validate.validate_zipcode, "ZIP code: ", ZIP_ERR)
+                    e1.city = data_in_e(e1, Validate.validate_city_name, "City: ", CITY_ERR)
+                    e1.address = data_in_e(e1, Validate.validate_address, "Address of event: ", ADDRESS_ERR)
+                    e1.available_beds = data_in_e(e1, Validate.validate_positive_int, "Available beds: ", POSINT_ERR)
+                    e1.planned_donor_number = data_in_e(e1, Validate.validate_positive_int, "Planned donor number: ", POSINT_ERR)
 
-                        e1.successfull = data_in_e(e1, Validate.validate_positive_int, "\n How many successfull donation was on the event?\n > ",POSINT_ERR)
+                    e1.successfull = data_in_e(e1, Validate.validate_positive_int, "\n How many successfull donation was on the event?\n > ",POSINT_ERR)
 
-                        print("\nThe required functions: \n")
+                    print("\nThe required functions: \n")
 
-                        print("Weekday :", e1.is_weekday())
-                        e1.duration = e1.calculate_duration()
-                        print("Duration: {} min  --  {} hours ".format(e1.duration,round(e1.duration/60,1)))
-                        print("Maximum donor number:", e1.max_donor_number())
-                        print("Success rate: {}".format(e1.success_rate()))
-                        input("\n\n (Press ENTER to go BACK)")
-                        store_donation_data()
-                        clear()
+                    print("Weekday :", e1.is_weekday())
+                    e1.duration = e1.calculate_duration()
+                    print("Duration: {} min  --  {} hours ".format(e1.duration,round(e1.duration/60,1)))
+                    print("Maximum donor number:", e1.max_donor_number())
+                    print("Success rate: {}".format(e1.success_rate()))
+                    input("\n\n (Press ENTER to go BACK)")
+                    store_donation_data()
+                    clear()
 
 
 
@@ -241,35 +241,65 @@ while True:
         elif user_input == '4':
             pass
         elif user_input == '5':
-            pass
-        elif user_input == '6':
-            """
+
             while True:
                 print(WELCOME_MESSAGE)
                 try:
-                    user_input=input('(1) Add New Event\n(2) Remove Event\n(3) Back\n\n> ')
+                    user_input=input('(1) List donors\n(2) List donation events\n(0) Cancel\n\n> ')
+                    if user_input not in '120' or len(user_input) != 1:
+                        raise ValueError
                     clear()
                     if user_input=='1':
-
-
-                    elif user_input=='2':
-                        print("\n\n\n\n\n\n\n\n\n\t - This will be the remove donor option. It's still under construction -")
-                        print("\n"*20)
-                        input("(Press ENTER to go BACK)")
+                        input("List donors")
                         clear()
 
-                    elif user_input=='3':
+                    elif user_input=='2':
+                        input("List donation events")
+                        clear()
+
+                    elif user_input=='0':
                         clear()
                         break
                     else:
                          raise ValueError
+
                 except Exception as e:
                     print(e)
                     print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
                     input()
                     time.sleep(1.5)
                     clear()
-            """
+
+        elif user_input == '6':
+
+            while True:
+                print(WELCOME_MESSAGE)
+                try:
+                    user_input=input('(1) Donors\n(2) Donations\n(0) Cancel\n\n> ')
+                    if user_input not in '120' or len(user_input) != 1:
+                        raise ValueError
+                    clear()
+                    if user_input=='1':
+                        input("Search donors")
+                        clear()
+
+                    elif user_input=='2':
+                        input("Search donations")
+                        clear()
+
+                    elif user_input=='0':
+                        clear()
+                        break
+                    else:
+                         raise ValueError
+
+                except Exception as e:
+                    print(e)
+                    print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
+                    input()
+                    time.sleep(1.5)
+                    clear()
+
         #EXIT
         elif user_input == '7':
             clear()
