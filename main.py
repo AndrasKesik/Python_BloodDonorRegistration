@@ -66,6 +66,23 @@ def data_in_e(e, validate, input_mess, error_mess):
             valid_input = ""
             time.sleep(2)
 
+
+def file_line_number(fname):
+    with open(fname) as f:
+        for item, l in enumerate(f):
+            pass
+    return int(item) + 1
+
+
+def store_donation_data():
+    donation = ""
+    number_of_line = file_line_number("Data/donations.csv")
+    donation += "\n" + str(number_of_line) + "," + str(e1.date_of_event) + "," + str(e1.start_time) + "," + str(e1.end_time) + "," + \
+                str(e1.zip_code) + "," + str(e1.city_address) + "," + str(e1.available_beds) + "," + \
+                str(e1.planned_donor_number) + "," + str(e1.successfull)
+    with open("Data/donations.csv", "a") as donations:
+        donations.writelines(donation)
+
 donors = []
 
 #MAIN MENU
@@ -196,6 +213,7 @@ while True:
                         print("Maximum donor number:", e1.max_donor_number())
                         print("Success rate: {}".format(e1.success_rate()))
                         input("\n\n (Press ENTER to go BACK)")
+                        store_donation_data()
                         clear()
 
                     elif user_input=='2':

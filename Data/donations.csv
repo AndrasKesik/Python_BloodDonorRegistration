@@ -1,0 +1,3 @@
+id,date_of_event,start_time,end_time,zip_code,city,address,number_of_available_beds,planned_donor_number,final_donor_number
+1,2015.12.02,10:00,12:00,1234,MISKOLC,2,12,23
+2,2015.12.12,10:00,12:00,1234,MISKOLC,2,12,23
