@@ -4,6 +4,8 @@ import time
 from validation import Validate
 from functions import Donor
 from functions import Event
+import csv
+from collections import deque
 clear = lambda: os.system('cls')
 NAME_ERR = "\n ! Your name should have at least 2 parts and shouldn't contain special characters ! \n"
 POSINT_ERR = "\n\t\t ! Your weight must be a positive number !\n"
@@ -53,12 +55,6 @@ def data_in_e(e, validate, input_mess, error_mess):
             time.sleep(2)
 
 
-def id_generator():
-    counter = 0
-    counter += 1
-    return counter
-
-
 def put_string_in_quotes_if_has_comma(text):
     if ',' in text:
         return '"' + text + '"'
@@ -66,16 +62,19 @@ def put_string_in_quotes_if_has_comma(text):
         return text
 
 
-def find_item_by_id(id, donation_list):
-    for line in donation_list:
-        if id == line[0:len(id)]:
-            return line
+def event_id_generator(donations_csv):
+    if not os.path.isfile(donations_csv):
+        return 1
+    with open(donations_csv, 'r') as f:
+        last_line_list = deque(csv.reader(f), 1)[0]
+        if last_line_list[0].isdigit():
+            return int(last_line_list[0]) + 1
 
 
 def store_donation_data():
+    id_int = event_id_generator("Data/donations.csv")
     donation_sample = ""
-    event_id = id_generator()
-    donation_sample += "\n" + str(event_id) + "," + str(e1.date_of_event) + "," + str(e1.start_time) + "," + str(e1.end_time) + "," + \
+    donation_sample += "\n" + str(id_int) + "," + str(e1.date_of_event) + "," + str(e1.start_time) + "," + str(e1.end_time) + "," + \
                 str(e1.zip_code) + "," + str(e1.city) + "," + put_string_in_quotes_if_has_comma(e1.address) + "," + str(e1.available_beds) + "," + \
                        str(e1.planned_donor_number) + "," + str(e1.successfull)
     with open("Data/donations.csv", "a") as donations:
@@ -238,31 +237,50 @@ while True:
                 clear()
                 break
         #
-        # DELETE A DONOR
+        # DElETE A DONOR
         #
-        elif user_input=='3':
-            pass
-        #
-        # DELETE DONATION EVENT
-        #
-        elif user_input == '4':
+        elif user_input == '3':
             while True:
                 try:
-                    user_input = input('Enter donation ID:')
-                    if user_input.isdigit() and not user_input:
-                        with open("Data/donations.csv", "w+") as f:
-                            content = f.read()
-                            donations = content.split("\n")
-                            donations.pop(find_item_by_id(user_input, donations))
-                            f.seek(0)
-                            f.truncate()
-                            for item in donations:
-                                f.writelines(item)
+                    user_input = input("Enter donor's ID or passport number:")
+                    if user_input and Validate.validate_id(user_input):
+                        with open("Data/donors.csv", "r") as f:
+                            content = f.readlines()
+                        with open("Data/donors.csv", "w") as f:
+                            for line in content:
+                                if ("," + user_input.upper() + ",") not in line:
+                                    f.write(line)
+                        clear()
+                        break
                     else:
                         raise ValueError
                 except Exception as e:
                     print(e)
-                    print("\n\t\t! ! !  Id must be a positive integer.  ! ! !\t\t\n ")
+                    print("\n\t\t! ! !  Input is not a positive integer.  ! ! !\t\t\n ")
+                    input()
+                    time.sleep(1.5)
+                    clear()
+        #
+        #
+        # DELETE DONATION EVENT
+        elif user_input == '4':
+            while True:
+                try:
+                    user_input = input('Enter donation event ID:')
+                    if user_input and user_input.isdigit():
+                        with open("Data/donations.csv", "r") as f:
+                            content = f.readlines()
+                        with open("Data/donations.csv", "w") as f:
+                            for line in content:
+                                if not line.startswith(user_input + ","):
+                                    f.write(line)
+                        clear()
+                        break
+                    else:
+                        raise ValueError
+                except Exception as e:
+                    print(e)
+                    print("\n\t\t! ! !  Input is not a positive integer.  ! ! !\t\t\n ")
                     input()
                     time.sleep(1.5)
                     clear()
