@@ -205,34 +205,35 @@ while True:
             while True:
                 e1.date_of_event = input("Date of Event: ")
                 if Validate.validate_date(e1.date_of_event) and e1.registration_in_tendays():
-                    break
+                    pass
                 else:
                     print("\n\t ! The registration should be at least 10 days from now. ! ")
                     print("\t   ! Use this format to enter date: 'YYYY.MM.DD' ! \n")
                     time.sleep(2)
                     clear()
+                    continue
 
-                    e1.start_time = data_in_e(e1, Validate.validate_time, "Start Time: ", TIME_ERR)
-                    e1.end_time = data_in_e(e1, Validate.validate_time, "End Time: ", TIME_ERR)
-                    e1.zip_code = data_in_e(e1, Validate.validate_zipcode, "ZIP code: ", ZIP_ERR)
-                    e1.city = data_in_e(e1, Validate.validate_city_name, "City: ", CITY_ERR)
-                    e1.address = data_in_e(e1, Validate.validate_address, "Address of event: ", ADDRESS_ERR)
-                    e1.available_beds = data_in_e(e1, Validate.validate_positive_int, "Available beds: ", POSINT_ERR)
-                    e1.planned_donor_number = data_in_e(e1, Validate.validate_positive_int, "Planned donor number: ", POSINT_ERR)
+                e1.start_time = data_in_e(e1, Validate.validate_time, "Start Time: ", TIME_ERR)
+                e1.end_time = data_in_e(e1, Validate.validate_time, "End Time: ", TIME_ERR)
+                e1.zip_code = data_in_e(e1, Validate.validate_zipcode, "ZIP code: ", ZIP_ERR)
+                e1.city = data_in_e(e1, Validate.validate_city_name, "City: ", CITY_ERR)
+                e1.address = data_in_e(e1, Validate.validate_address, "Address of event: ", ADDRESS_ERR)
+                e1.available_beds = data_in_e(e1, Validate.validate_positive_int, "Available beds: ", POSINT_ERR)
+                e1.planned_donor_number = data_in_e(e1, Validate.validate_positive_int, "Planned donor number: ", POSINT_ERR)
 
-                    e1.successfull = data_in_e(e1, Validate.validate_positive_int, "\n How many successfull donation was on the event?\n > ",POSINT_ERR)
+                e1.successfull = data_in_e(e1, Validate.validate_positive_int, "\n How many successfull donation was on the event?\n > ",POSINT_ERR)
 
-                    print("\nThe required functions: \n")
+                print("\nThe required functions: \n")
 
-                    print("Weekday :", e1.is_weekday())
-                    e1.duration = e1.calculate_duration()
-                    print("Duration: {} min  --  {} hours ".format(e1.duration,round(e1.duration/60,1)))
-                    print("Maximum donor number:", e1.max_donor_number())
-                    print("Success rate: {}".format(e1.success_rate()))
-                    input("\n\n (Press ENTER to go BACK)")
-                    store_donation_data()
-                    clear()
-
+                print("Weekday :", e1.is_weekday())
+                e1.duration = e1.calculate_duration()
+                print("Duration: {} min  --  {} hours ".format(e1.duration,round(e1.duration/60,1)))
+                print("Maximum donor number:", e1.max_donor_number())
+                print("Success rate: {}".format(e1.success_rate()))
+                input("\n\n (Press ENTER to go BACK)")
+                store_donation_data()
+                clear()
+                break
 
 
 
