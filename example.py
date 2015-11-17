@@ -11,3 +11,5 @@ print(type((today-today2).days))
 
 print(today2.strftime("%Y.%m.%d"))
 print(type(today2.strftime("%Y.%m.%d")))
+
+print("123456ab".upper())
