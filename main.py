@@ -281,23 +281,38 @@ while True:
         elif user_input == '4':
             while True:
                 try:
-                    user_input = input('Enter donation event ID:')
-                    if user_input and user_input.isdigit():
-                        with open("Data/donations.csv", "r") as f:
-                            content = f.readlines()
+                    with open("Data/donations.csv", "r") as f:
+                        content=[]
+                        for line in f:
+                            content.append(line.strip())
+                    ids = [content[i].split(',')[0] for i in range(len(content)) if i != 0]
+                    print(ids)
+                    user_input = input("Enter donation event's ID number: ")
+                    if not user_input.isdigit():
+                        print("\n\tWrong ID, enter a real value")
+                        time.sleep(2)
+                        clear()
+                        continue
+                    elif user_input not in ids:
+                        print("\n\tID is valid, but there is no entry with this ID yet.")
+                        time.sleep(2)
+                        clear()
+                        continue
+                    else:
+                        print("Deleting entry...")
                         with open("Data/donations.csv", "w") as f:
                             for line in content:
-                                if not line.startswith(user_input + ","):
-                                    f.write(line)
-                        clear()
-                        break
-                    else:
-                        raise ValueError
+                                if user_input != line.split(",")[0]:
+                                    f.write(line + "\n")
+                        time.sleep(1)
+                    print("Done!")
+                    input()
+                    clear()
+                    break
                 except Exception as e:
                     print(e)
-                    print("\n\t\t! ! !  Input is not a positive integer.  ! ! !\t\t\n ")
+                    print("\n\t! ! !  Belso Error ! ! ! ")
                     input()
-                    time.sleep(1.5)
                     clear()
         #
         # LIST DONORS AND DONATION EVENTS
