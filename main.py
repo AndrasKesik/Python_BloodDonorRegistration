@@ -130,7 +130,7 @@ while True:
             donor_sample.mobilnumber = data_in(donor_sample, Validate.validate_mobilnumber, "Mobile Number: ", MOBILE_ERR )
 
             with open("Data/donors.csv", "a") as f:
-                f.write("\n"+donor_sample.name+",")
+                f.write(donor_sample.name+",")
                 f.write(donor_sample.weight+",")
                 f.write(donor_sample.gender+",")
                 f.write(donor_sample.dateofbirth+",")
@@ -199,7 +199,7 @@ while True:
         #
         # ADD NEW DONATION EVENT
         #
-        elif user_input=='2':
+        elif user_input == '2':
             print("Adding new event...\n")
             time.sleep(1)
             clear()
@@ -242,27 +242,42 @@ while True:
         elif user_input == '3':
             while True:
                 try:
-                    user_input = input("Enter donor's ID or passport number:")
-                    if user_input and Validate.validate_id(user_input):
-                        with open("Data/donors.csv", "r") as f:
-                            content = f.readlines()
+                    with open("Data/donors.csv", "r") as f:
+                        content=[]
+                        for line in f:
+                            content.append(line.strip())
+                    ids = [content[i].split(',')[6] for i in range(len(content)) if i != 0]
+                    print(ids)
+                    user_input = input("Enter donor's ID or passport number: ").upper()
+                    if not Validate.validate_id(user_input):
+                        print("\n\tWrong ID or Passport number, enter a real value")
+                        time.sleep(2)
+                        clear()
+                        continue
+                    elif user_input not in ids:
+                        print("\n\tID is valid, but there is no entry with this ID yet.")
+                        time.sleep(2)
+                        clear()
+                        continue
+                    else:
+                        print("Deleting entry...")
                         with open("Data/donors.csv", "w") as f:
                             for line in content:
-                                if ("," + user_input.upper() + ",") not in line:
-                                    f.write(line)
-                        clear()
-                        break
-                    else:
-                        raise ValueError
+                                if user_input != line.split(",")[6]:
+                                    f.write(line+"\n")
+                        time.sleep(1)
+                    print("Done!")
+                    input()
+                    clear()
+                    break
                 except Exception as e:
                     print(e)
-                    print("\n\t\t! ! !  Input is not a positive integer.  ! ! !\t\t\n ")
+                    print("\n\t! ! !  Belso Error ! ! ! ")
                     input()
-                    time.sleep(1.5)
                     clear()
         #
-        #
         # DELETE DONATION EVENT
+        #
         elif user_input == '4':
             while True:
                 try:
@@ -356,7 +371,7 @@ while True:
             print("\n\n\n\n\n\n\n\n\n\n\t\t\t\t    - Thank you for using our software -\t\t\t\t")
             print("\t\t\t\t       - Made By the Code Stars - ")
             print("\n\n\t\t\t\t\t     --- GOODBYE ---")
-            time.sleep(3)
+            time.sleep(2)
             clear()
             break
 
