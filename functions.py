@@ -64,9 +64,9 @@ class Donor():
 
     def generate_hemoglobin_level(self):
         """Generate hemoglobin level and decides if the donor is suitable or not
-            Returns True or False"""
+            Returns thr number"""
         hemoglobin = random.randint(80, 200)
-        return hemoglobin >= 110
+        return str(hemoglobin)
 
     def __str__(self):
         result = "Name: " + self.name

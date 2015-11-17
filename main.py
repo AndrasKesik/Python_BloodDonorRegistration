@@ -20,8 +20,8 @@ ZIP_ERR =  "\n\t ! Should be 4 digits, that doesn't start with 0 ! \n"
 CITY_ERR = "\n\t ! Miskolc, Szerencs, Kazincbarcika, Sárospatak ! \n"
 ADDRESS_ERR = "\n\t ! Address must be less than 25 characters ! \n"
 
-WELCOME_MESSAGE =  "\n\t\t\t--- WELCOME TO THE BLOOD DONATION SYSTEM ---\t\t\t" \
-                     "\n\t\t\t\t - Made By the Code Stars -\t\t\t\t\n\n"
+WELCOME_MESSAGE =  "\n\t\t\t\t--- WELCOME TO THE BLOOD DONATION SYSTEM ---\t\t\t" \
+                     "\n\t\t\t\t\t  - Made By the Code Stars -\t\t\t\t\n\n"
 
 
 def data_in(d, validate, input_mess, error_mess):
@@ -100,14 +100,10 @@ while True:
     try:
         user_input = input("(1) Add new donor\n(2) Add new donation event\n(3) Delete a donor\n"    \
                            "(4) Delete donation event\n(5) List donors and donation events\n(6) Search\n(7) Exit\n\n> ")
-        if user_input not in '1234567' or len(user_input)!=1:
-            raise ValueError
         clear()
-
-        #ADD NEW DONOR
-
-
-        #BLOOD DONATION MENUPONT
+        #
+        # ADD NEW DONOR
+        #
         if user_input=='1':
             print("Adding new donor...\n")
             time.sleep(1)
@@ -144,12 +140,12 @@ while True:
                 f.write(donor_sample.uniqueid+",")
                 f.write(donor_sample.expofid+",")
                 f.write(donor_sample.bloodtype+",")
-                f.write("127,")    # átirni hemoglobinra
+                f.write(donor_sample.generate_hemoglobin_level()+",")
                 f.write(donor_sample.emailaddress+",")
-                f.write(donor_sample.mobilnumber+",")
+                f.write(donor_sample.mobilnumber)
 
-            print("\n\t\t - Your donor is added to the database -\n")
-            input("\n\t (Press ENTER to go BACK)")
+            print("\n - Your donor is added to the csv -\n\n Going back to main menu...")
+            time.sleep(2.5)
             clear()
 
             """
@@ -201,7 +197,9 @@ while True:
                     time.sleep(1.5)
                     clear()
             """
-        #EVENT REGISTER MENUPONT
+        #
+        # ADD NEW DONATION EVENT
+        #
         elif user_input=='2':
             print("Adding new event...\n")
             time.sleep(1)
@@ -239,11 +237,14 @@ while True:
                 store_donation_data()
                 clear()
                 break
-
-
-
+        #
+        # DELETE A DONOR
+        #
         elif user_input=='3':
             pass
+        #
+        # DELETE DONATION EVENT
+        #
         elif user_input == '4':
             while True:
                 try:
@@ -265,6 +266,9 @@ while True:
                     input()
                     time.sleep(1.5)
                     clear()
+        #
+        # LIST DONORS AND DONATION EVENTS
+        #
         elif user_input == '5':
 
             while True:
@@ -294,7 +298,9 @@ while True:
                     input()
                     time.sleep(1.5)
                     clear()
-
+        #
+        # SEARCH
+        #
         elif user_input == '6':
 
             while True:
@@ -324,13 +330,14 @@ while True:
                     input()
                     time.sleep(1.5)
                     clear()
-
-        #EXIT
+        #
+        # EXIT
+        #
         elif user_input == '7':
             clear()
-            print("\n\n\n\n\n\n\t\t\t   - Thank you for using our software -\t\t\t\t")
-            print("\t\t\t      - Made By the Code Stars - ")
-            print("\n\n\t\t\t\t    --- GOODBYE ---")
+            print("\n\n\n\n\n\n\n\n\n\n\t\t\t\t    - Thank you for using our software -\t\t\t\t")
+            print("\t\t\t\t       - Made By the Code Stars - ")
+            print("\n\n\t\t\t\t\t     --- GOODBYE ---")
             time.sleep(3)
             clear()
             break
