@@ -53,11 +53,10 @@ def data_in_e(e, validate, input_mess, error_mess):
             time.sleep(2)
 
 
-def file_line_number(fname):
-    with open(fname) as f:
-        for item, l in enumerate(f):
-            pass
-    return int(item) + 1
+def id_generator():
+    counter = 0
+    counter += 1
+    return counter
 
 
 def put_string_in_quotes_if_has_comma(text):
@@ -67,10 +66,16 @@ def put_string_in_quotes_if_has_comma(text):
         return text
 
 
+def find_item_by_id(id, donation_list):
+    for line in donation_list:
+        if id == line[0:len(id)]:
+            return line
+
+
 def store_donation_data():
     donation_sample = ""
-    number_of_line = file_line_number("Data/donations.csv")
-    donation_sample += "\n" + str(number_of_line) + "," + str(e1.date_of_event) + "," + str(e1.start_time) + "," + str(e1.end_time) + "," + \
+    event_id = id_generator()
+    donation_sample += "\n" + str(event_id) + "," + str(e1.date_of_event) + "," + str(e1.start_time) + "," + str(e1.end_time) + "," + \
                 str(e1.zip_code) + "," + str(e1.city) + "," + put_string_in_quotes_if_has_comma(e1.address) + "," + str(e1.available_beds) + "," + \
                        str(e1.planned_donor_number) + "," + str(e1.successfull)
     with open("Data/donations.csv", "a") as donations:
@@ -240,7 +245,26 @@ while True:
         elif user_input=='3':
             pass
         elif user_input == '4':
-            pass
+            while True:
+                try:
+                    user_input = input('Enter donation ID:')
+                    if user_input.isdigit() and not user_input:
+                        with open("Data/donations.csv", "w+") as f:
+                            content = f.read()
+                            donations = content.split("\n")
+                            donations.pop(find_item_by_id(user_input, donations))
+                            f.seek(0)
+                            f.truncate()
+                            for item in donations:
+                                f.writelines(item)
+                    else:
+                        raise ValueError
+                except Exception as e:
+                    print(e)
+                    print("\n\t\t! ! !  Id must be a positive integer.  ! ! !\t\t\n ")
+                    input()
+                    time.sleep(1.5)
+                    clear()
         elif user_input == '5':
 
             while True:
