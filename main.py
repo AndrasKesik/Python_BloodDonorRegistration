@@ -23,6 +23,8 @@ ZIP_ERR =  "\n\t ! Should be 4 digits, that doesn't start with 0 ! \n"
 CITY_ERR = "\n\t ! Miskolc, Szerencs, Kazincbarcika, Sárospatak ! \n"
 ADDRESS_ERR = "\n\t ! Address must be less than 25 characters ! \n"
 
+DONORS_ELSOSOR = "name,weight,gender,date_of_birth,last_donation,last_month_sickness,unique_identifier,expiration_of_id,blood_type,hemoblogin,email,mobil\n"
+EVENT_ELSOSOR = "id,date_of_event,start_time,end_time,zip_code,city,address,number_of_available_beds,planned_donor_number,final_donor_number\n"
 WELCOME_MESSAGE =  "\n\t\t\t\t--- WELCOME TO THE BLOOD DONATION SYSTEM ---\t\t\t" \
                      "\n\t\t\t\t\t  - Made By the Code Stars -\t\t\t\t\n\n"
 
@@ -83,15 +85,38 @@ def store_donation_data():
     with open("Data/donations.csv", "a") as donations:
         donations.writelines(donation_sample)
 
-donors = []
+
+#
+# DONORS.CSV CHECK
+#
 if not os.path.isfile("Data/donors.csv"):
-    with open("Data/donors.csv","w") as f:
-        f.write("name,weight,gender,date_of_birth,last_donation,last_month_sickness,unique_identifier,expiration_of_id,blood_type,hemoblogin,email,mobil")
+    with open("Data/donors.csv", "w") as f:
+        f.write(DONORS_ELSOSOR)
+with open("Data/donors.csv", "r") as f:
+    donorselso = f.readline()
+    content = [line for line in f]
+if donorselso != DONORS_ELSOSOR:
+    with open("Data/donors.csv", "w") as f:
+        f.truncate()
+        f.write(DONORS_ELSOSOR)
+        for i in content:
+            f.write(i)
+
+#
+# DONATIONS.CSV CHECK
+#
 if not os.path.isfile("Data/donations.csv"):
     with open("Data/donations.csv", "w") as f:
-        f.write("id,date_of_event,start_time,end_time,zip_code,city,address,number_of_available_beds,planned_donor_number,final_donor_number")
-
-
+        f.write(EVENT_ELSOSOR)
+with open("Data/donations.csv", "r") as f:
+    donorselso = f.readline()
+    content = [line for line in f]
+if donorselso != EVENT_ELSOSOR:
+    with open("Data/donations.csv", "w") as f:
+        f.truncate()
+        f.write(EVENT_ELSOSOR)
+        for i in content:
+            f.write(i)
 
 
 #MAIN MENU
