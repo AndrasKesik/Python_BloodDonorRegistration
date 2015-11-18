@@ -394,10 +394,10 @@ while True:
                             szoveg = ""
                             for i in eventlista:
                                 szoveg += "------------------------------\n"
-                                szoveg += i.nemdunderstr()+"\n"
+                                szoveg += "ID: " + i.id + "\n"
+                                szoveg += str(i)+"\n"
                             szoveg += "------------------------------\n"
                             pydoc.pager(szoveg)
-                            time.sleep(2)
                             input("\n Press (ENTER) to go back")
                             clear()
 
