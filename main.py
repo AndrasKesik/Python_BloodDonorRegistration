@@ -429,10 +429,40 @@ while True:
                         raise ValueError
                     clear()
                     if user_input == '1':
-                        input("Search donors")
+                        with open("Data/donors.csv", "r") as f:
+                            content = []
+                            for line in f:
+                                content.append(line.strip())
+                        del(content[0])
+                        if len(content) < 1:
+                            print("\n No entry found\n")
+                            input("\n Press (ENTER) to go back")
+                            clear()
+                            continue
+                        else:
+                            string_to_search = input("Search for donor: ")
+                            found_items = []
+                            for donor in content:
+                                if string_to_search in donor:
+                                    found_items.append(donor)
+                            donorlista = []
+                            for i in found_items:
+                                l = i.split(",")
+                                donorlista.append(Donor())
+                                donorlista[-1].name = l[0]
+                                donorlista[-1].weight = l[1]
+                                donorlista[-1].dateofbirth = l[3]
+                                donorlista[-1].emailaddress = l[-2]
+                                donorlista[-1].age = donorlista[-1].donor_age()
+                            szoveg = ""
+                            for i in donorlista:
+                                szoveg += "------------------------------\n"
+                                szoveg += i.data_out()+"\n"
+                            szoveg += "------------------------------\n"
+                            pydoc.pager(szoveg)
 
-
-                        clear()
+                            input("\n Press (ENTER) to go back")
+                            clear()
 
                     elif user_input == '2':
                         input("Search donations")
