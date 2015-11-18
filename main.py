@@ -247,9 +247,12 @@ while True:
                         for line in f:
                             content.append(line.strip())
                     ids = [content[i].split(',')[6] for i in range(len(content)) if i != 0]
-                    print(ids)
+                    print(ids, "(0) Cancel")
                     user_input = input("Enter donor's ID or passport number: ").upper()
-                    if not Validate.validate_id(user_input):
+                    if user_input=='0':
+                        clear()
+                        break
+                    elif not Validate.validate_id(user_input):
                         print("\n\tWrong ID or Passport number, enter a real value")
                         time.sleep(2)
                         clear()
@@ -286,13 +289,16 @@ while True:
                         for line in f:
                             content.append(line.strip())
                     ids = [content[i].split(',')[0] for i in range(len(content)) if i != 0]
-                    print(ids)
+                    print(ids, "(0) Cancel")
                     user_input = input("Enter donation event's ID number: ")
                     if not user_input.isdigit():
                         print("\n\tWrong ID, enter a real value")
                         time.sleep(2)
                         clear()
                         continue
+                    elif user_input=='0':
+                        clear()
+                        break
                     elif user_input not in ids:
                         print("\n\tID is valid, but there is no entry with this ID yet.")
                         time.sleep(2)
