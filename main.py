@@ -64,10 +64,10 @@ def put_string_in_quotes_if_has_comma(text):
 
 
 def event_id_generator(donations_csv):
-    if not os.path.isfile(donations_csv):
-        return 1
     with open(donations_csv, 'r') as f:
         last_line_list = deque(csv.reader(f), 1)[0]
+        if last_line_list[0] == "id":
+            return 1
         if last_line_list and last_line_list[0].isdigit():
             return int(last_line_list[0]) + 1
         else:
@@ -89,7 +89,7 @@ if not os.path.isfile("Data/donors.csv"):
         f.write("name,weight,gender,date_of_birth,last_donation,last_month_sickness,unique_identifier,expiration_of_id,blood_type,hemoblogin,email,mobil")
 if not os.path.isfile("Data/donations.csv"):
     with open("Data/donations.csv", "w") as f:
-        f.write("id,date_of_event,start_time,end_time,zip_code,city,address,number_of_available_beds,planned_donor_number,final_donor_number")
+        f.write("id,date_of_event,start_time,end_time,zip_code,city,address,number_of_available_beds,planned_donor_number,final_donor_number\n")
 
 
 
