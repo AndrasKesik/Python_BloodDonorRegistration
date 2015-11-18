@@ -6,6 +6,7 @@ from functions import Donor
 from functions import Event
 import csv
 from collections import deque
+import pydoc
 clear = lambda: os.system('cls')
 NAME_ERR = "\n ! Your name should have at least 2 parts and shouldn't contain special characters ! \n"
 POSINT_ERR = "\n\t\t ! Your weight must be a positive number !\n"
@@ -74,7 +75,7 @@ def event_id_generator(donations_csv):
 def store_donation_data():
     id_int = event_id_generator("Data/donations.csv")
     donation_sample = ""
-    donation_sample += "\n" + str(id_int) + "," + str(e1.date_of_event) + "," + str(e1.start_time) + "," + str(e1.end_time) + "," + \
+    donation_sample +=  str(id_int) + "," + str(e1.date_of_event) + "," + str(e1.start_time) + "," + str(e1.end_time) + "," + \
                 str(e1.zip_code) + "," + str(e1.city) + "," + put_string_in_quotes_if_has_comma(e1.address) + "," + str(e1.available_beds) + "," + \
                        str(e1.planned_donor_number) + "," + str(e1.successfull)
     with open("Data/donations.csv", "a") as donations:
@@ -285,7 +286,7 @@ while True:
             while True:
                 try:
                     with open("Data/donations.csv", "r") as f:
-                        content=[]
+                        content = []
                         for line in f:
                             content.append(line.strip())
                     ids = [content[i].split(',')[0] for i in range(len(content)) if i != 0]
@@ -332,13 +333,74 @@ while True:
                     if user_input not in '120' or len(user_input) != 1:
                         raise ValueError
                     clear()
-                    if user_input=='1':
-                        input("List donors")
-                        clear()
+                    if user_input == '1':
+                        with open("Data/donors.csv", "r") as f:
+                            content = []
+                            for line in f:
+                                content.append(line.strip())
+                        del(content[0])
+                        if len(content) < 1:
+                            print("\n No entry found\n")
+                            input("\n Press (ENTER) to go back")
+                            clear()
+                            continue
+                        else:
+                            donorlista = []
+                            for i in content:
+                                l = i.split(",")
+                                donorlista.append(Donor())
+                                donorlista[-1].name = l[0]
+                                donorlista[-1].weight = l[1]
+                                donorlista[-1].dateofbirth = l[3]
+                                donorlista[-1].emailaddress = l[-2]
+                                donorlista[-1].age = donorlista[-1].donor_age()
+                            szoveg = ""
+                            for i in donorlista:
+                                szoveg += "------------------------------\n"
+                                szoveg += i.data_out()+"\n"
+                            szoveg += "------------------------------\n"
+                            pydoc.pager(szoveg)
 
-                    elif user_input=='2':
-                        input("List donation events")
-                        clear()
+                            input("\n Press (ENTER) to go back")
+                            clear()
+
+                    elif user_input == '2':
+                        with open("Data/donations.csv", "r") as f:
+                            content = []
+                            for line in f:
+                                content.append(line.strip())
+                        del(content[0])
+                        if len(content) < 1:
+                            print("\n No entry found\n")
+                            input("\n Press (ENTER) to go back")
+                            clear()
+                            continue
+                        else:
+                            eventlista = []
+                            for i in content:
+                                l = i.split(",")
+                                eventlista.append(Event())
+                                eventlista[-1].id = l[0]
+                                eventlista[-1].date_of_event = l[1]
+                                eventlista[-1].start_time = l[2]
+                                eventlista[-1].end_time = l[3]
+                                eventlista[-1].zip_code = l[4]
+                                eventlista[-1].city = l[5]
+                                eventlista[-1].address = l[6]
+                                eventlista[-1].available_beds = l[7]
+                                eventlista[-1].planned_donor_number = l[8]
+                                eventlista[-1].successfull = l[9]
+
+                            szoveg = ""
+                            for i in eventlista:
+                                szoveg += "------------------------------\n"
+                                szoveg += i.nemdunderstr()+"\n"
+                            szoveg += "------------------------------\n"
+                            pydoc.pager(szoveg)
+                            time.sleep(2)
+                            input("\n Press (ENTER) to go back")
+                            clear()
+
 
                     elif user_input=='0':
                         clear()
@@ -364,15 +426,17 @@ while True:
                     if user_input not in '120' or len(user_input) != 1:
                         raise ValueError
                     clear()
-                    if user_input=='1':
+                    if user_input == '1':
                         input("Search donors")
+
+
                         clear()
 
-                    elif user_input=='2':
+                    elif user_input == '2':
                         input("Search donations")
                         clear()
 
-                    elif user_input=='0':
+                    elif user_input == '0':
                         clear()
                         break
                     else:

@@ -105,6 +105,8 @@ class Event():
     successfull = ""
     duration = ""
 
+    id="" #just for listing
+
     def registration_in_tendays(self):
         """Checks if the registration occoured at least 10 days before the event
             Returns True or False"""
@@ -147,6 +149,18 @@ class Event():
         else:
             is_successfull = "Outstanding"
         return is_successfull
+
+    def nemdunderstr(self):
+        result = "ID:" + self.id
+        result +="\nDate of Event: " + self.date_of_event
+        result +="\nStart Time: " + self.start_time
+        result +="\nEnd Time: " + self.end_time
+        result +="\nZIP code: " + self.zip_code
+        result +="\nCity: " + self.city
+        result +="\nAddress: " + self.address
+        result +="\nAvailable beds: " + self.available_beds
+        result +="\nPlanned donor number: " + self.planned_donor_number
+        return result
 
     def __str__(self):
         result = "Date of Event: " + self.date_of_event
