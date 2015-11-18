@@ -67,16 +67,18 @@ def event_id_generator(donations_csv):
         return 1
     with open(donations_csv, 'r') as f:
         last_line_list = deque(csv.reader(f), 1)[0]
-        if last_line_list[0].isdigit():
+        if last_line_list and last_line_list[0].isdigit():
             return int(last_line_list[0]) + 1
+        else:
+            return -100
 
 
 def store_donation_data():
     id_int = event_id_generator("Data/donations.csv")
     donation_sample = ""
-    donation_sample += "\n" + str(id_int) + "," + str(e1.date_of_event) + "," + str(e1.start_time) + "," + str(e1.end_time) + "," + \
+    donation_sample += str(id_int) + "," + str(e1.date_of_event) + "," + str(e1.start_time) + "," + str(e1.end_time) + "," + \
                 str(e1.zip_code) + "," + str(e1.city) + "," + put_string_in_quotes_if_has_comma(e1.address) + "," + str(e1.available_beds) + "," + \
-                       str(e1.planned_donor_number) + "," + str(e1.successfull)
+                       str(e1.planned_donor_number) + "," + str(e1.successfull) + "\n"
     with open("Data/donations.csv", "a") as donations:
         donations.writelines(donation_sample)
 
@@ -296,7 +298,7 @@ while True:
                         time.sleep(2)
                         clear()
                         continue
-                    elif user_input=='0':
+                    elif user_input == '0':
                         clear()
                         break
                     elif user_input not in ids:
