@@ -465,8 +465,46 @@ while True:
                             clear()
 
                     elif user_input == '2':
-                        input("Search donations")
-                        clear()
+                        with open("Data/donations.csv", "r") as f:
+                            content = []
+                            for line in f:
+                                content.append(line.strip())
+                        del(content[0])
+                        if len(content) < 1:
+                            print("\n No entry found\n")
+                            input("\n Press (ENTER) to go back")
+                            clear()
+                            continue
+                        else:
+                            string_to_search = input("Search for donor: ")
+                            found_items = []
+                            for donation in content:
+                                if string_to_search in donation:
+                                    found_items.append(donation)
+                            eventlista = []
+                            for i in found_items:
+                                l = i.split(",")
+                                eventlista.append(Event())
+                                eventlista[-1].id = l[0]
+                                eventlista[-1].date_of_event = l[1]
+                                eventlista[-1].start_time = l[2]
+                                eventlista[-1].end_time = l[3]
+                                eventlista[-1].zip_code = l[4]
+                                eventlista[-1].city = l[5]
+                                eventlista[-1].address = l[6]
+                                eventlista[-1].available_beds = l[7]
+                                eventlista[-1].planned_donor_number = l[8]
+                                eventlista[-1].successfull = l[9]
+
+                            szoveg = ""
+                            for i in eventlista:
+                                szoveg += "------------------------------\n"
+                                szoveg += "ID: " + i.id + "\n"
+                                szoveg += str(i)+"\n"
+                            szoveg += "------------------------------\n"
+                            pydoc.pager(szoveg)
+                            input("\n Press (ENTER) to go back")
+                            clear()
 
                     elif user_input == '0':
                         clear()
