@@ -7,6 +7,7 @@ from functions import Event
 import csv
 from collections import deque
 import pydoc
+import datetime
 clear = lambda: os.system('cls')
 NAME_ERR = "\n ! Your name should have at least 2 parts and shouldn't contain special characters ! \n"
 POSINT_ERR = "\n\t\t ! Your weight must be a positive number !\n"
@@ -400,10 +401,10 @@ while True:
                                     szoveg += i.data_out()+"\n"
                                 szoveg += "------------------------------\n"
                                 pydoc.pager(szoveg)
-
                                 input("\n Press (ENTER) to go back")
                                 clear()
                                 continue
+
                             elif sort_by == "weight":
                                 donorlista.sort(key=lambda x: int(x.weight))
                                 szoveg = ""
@@ -412,7 +413,6 @@ while True:
                                     szoveg += i.data_out()+"\n"
                                 szoveg += "------------------------------\n"
                                 pydoc.pager(szoveg)
-
                                 input("\n Press (ENTER) to go back")
                                 clear()
                                 continue
@@ -446,15 +446,133 @@ while True:
                                 eventlista[-1].planned_donor_number = l[8]
                                 eventlista[-1].successfull = l[9]
 
-                            szoveg = ""
-                            for i in eventlista:
-                                szoveg += "------------------------------\n"
-                                szoveg += "ID: " + i.id + "\n"
-                                szoveg += str(i)+"\n"
-                            szoveg += "------------------------------\n"
-                            pydoc.pager(szoveg)
-                            input("\n Press (ENTER) to go back")
-                            clear()
+                            #
+                            # EVENT SORT BY MENU
+                            #
+                            while True:
+                                print("Please type the criteria by which you would like to sort the list")
+                                print("\n(1) Date of Event\n(2) Start Time\n(3) End Time\n(4) Zip code\n"
+                                      "(5) City\n(6) Address\n(7) Available beds\n(8) Planned donor number\n"
+                                      "(9) Final donor number\n(0) Cancel")
+                                user_input = input("\n> ")
+
+                                if user_input == "1" or user_input == "":
+                                    eventlista.sort(key=lambda x: x.date_of_event)
+                                    szoveg = ""
+                                    for i in eventlista:
+                                        szoveg += "------------------------------\n"
+                                        szoveg += "ID: " + i.id + "\n"
+                                        szoveg += str(i)+"\n"
+                                    szoveg += "------------------------------\n"
+                                    pydoc.pager(szoveg)
+                                    input("\n Press (ENTER) to go back")
+                                    clear()
+
+                                elif user_input == "2":
+                                    eventlista.sort(key=lambda x: datetime.datetime.strptime(x.start_time, '%H:%M'))
+                                    szoveg = ""
+                                    for i in eventlista:
+                                        szoveg += "------------------------------\n"
+                                        szoveg += "ID: " + i.id + "\n"
+                                        szoveg += str(i)+"\n"
+                                    szoveg += "------------------------------\n"
+                                    pydoc.pager(szoveg)
+                                    input("\n Press (ENTER) to go back")
+                                    clear()
+
+                                elif user_input == "3":
+                                    eventlista.sort(key=lambda x:  datetime.datetime.strptime(x.end_time, '%H:%M'))
+                                    szoveg = ""
+                                    for i in eventlista:
+                                        szoveg += "------------------------------\n"
+                                        szoveg += "ID: " + i.id + "\n"
+                                        szoveg += str(i)+"\n"
+                                    szoveg += "------------------------------\n"
+                                    pydoc.pager(szoveg)
+                                    input("\n Press (ENTER) to go back")
+                                    clear()
+
+                                elif user_input == "4":
+                                    eventlista.sort(key=lambda x: int(x.zip_code))
+                                    szoveg = ""
+                                    for i in eventlista:
+                                        szoveg += "------------------------------\n"
+                                        szoveg += "ID: " + i.id + "\n"
+                                        szoveg += str(i)+"\n"
+                                    szoveg += "------------------------------\n"
+                                    pydoc.pager(szoveg)
+                                    input("\n Press (ENTER) to go back")
+                                    clear()
+
+                                elif user_input == "5":
+                                    eventlista.sort(key=lambda x: x.city)
+                                    szoveg = ""
+                                    for i in eventlista:
+                                        szoveg += "------------------------------\n"
+                                        szoveg += "ID: " + i.id + "\n"
+                                        szoveg += str(i)+"\n"
+                                    szoveg += "------------------------------\n"
+                                    pydoc.pager(szoveg)
+                                    input("\n Press (ENTER) to go back")
+                                    clear()
+
+                                elif user_input == "6":
+                                    eventlista.sort(key=lambda x: x.address)
+                                    szoveg = ""
+                                    for i in eventlista:
+                                        szoveg += "------------------------------\n"
+                                        szoveg += "ID: " + i.id + "\n"
+                                        szoveg += str(i)+"\n"
+                                    szoveg += "------------------------------\n"
+                                    pydoc.pager(szoveg)
+                                    input("\n Press (ENTER) to go back")
+                                    clear()
+
+                                elif user_input == "7":
+                                    eventlista.sort(key=lambda x: int(x.available_beds))
+                                    szoveg = ""
+                                    for i in eventlista:
+                                        szoveg += "------------------------------\n"
+                                        szoveg += "ID: " + i.id + "\n"
+                                        szoveg += str(i)+"\n"
+                                    szoveg += "------------------------------\n"
+                                    pydoc.pager(szoveg)
+                                    input("\n Press (ENTER) to go back")
+                                    clear()
+
+                                elif user_input == "8":
+                                    eventlista.sort(key=lambda x: int(x.planned_donor_number))
+                                    szoveg = ""
+                                    for i in eventlista:
+                                        szoveg += "------------------------------\n"
+                                        szoveg += "ID: " + i.id + "\n"
+                                        szoveg += str(i)+"\n"
+                                    szoveg += "------------------------------\n"
+                                    pydoc.pager(szoveg)
+                                    input("\n Press (ENTER) to go back")
+                                    clear()
+
+                                elif user_input == "9":
+                                    eventlista.sort(key=lambda x: int(x.successfull))
+                                    szoveg = ""
+                                    for i in eventlista:
+                                        szoveg += "------------------------------\n"
+                                        szoveg += "ID: " + i.id + "\n"
+                                        szoveg += str(i)+"\n"
+                                    szoveg += "------------------------------\n"
+                                    pydoc.pager(szoveg)
+                                    input("\n Press (ENTER) to go back")
+                                    clear()
+                                elif user_input == "0":
+                                    clear()
+                                    break
+
+
+
+                                else:
+                                    print("Please choose from the given numbers")
+                                    time.sleep(1)
+                                    clear()
 
                     elif user_input=='0':
                         clear()

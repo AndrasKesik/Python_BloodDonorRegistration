@@ -141,7 +141,7 @@ class Event():
         rate = int(self.successfull) * 100 / int(self.planned_donor_number)
         is_successfull = ""
         if rate < 20:
-            is_successfull = "Unsuccessfull, not worths to organise there again"
+            is_successfull = "Unsuccessfull, not worth to organise there again"
         elif 20 <= rate < 75:
             is_successfull = "Normal event"
         elif 75 <= rate < 110:
