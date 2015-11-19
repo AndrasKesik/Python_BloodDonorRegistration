@@ -390,9 +390,15 @@ while True:
                                 donorlista[-1].mobilnumber = l[-1]
                                 donorlista[-1].age = donorlista[-1].donor_age()
 
-                            sort_by = input("Please type the criteria by which you would like to sort the list: ")
+                            sort_by = input("Please choose the criteria by which you would like to sort the list: "
+                                            "\n\n(ENTER) or (1) by name\n(2) by weight\n(3) by gender\n(4) by birth date"
+                                            "\n(5) by date of last donation\n(6) by health status in last month"
+                                            "\n(7) by ID or Passport number\n(8) by expiration date of ID"
+                                            "\n(9) by blood type\n(10) by hemoglobin\n(11) by e-mail address"
+                                            "\n(12) by mobile number\n(13) by age\n> ")
+                            clear()
 
-                            if sort_by == "":
+                            if sort_by == "" or sort_by == "1":
 
                                 donorlista.sort(key=lambda x: x.name)
                                 szoveg = ""
@@ -405,7 +411,7 @@ while True:
                                 clear()
                                 continue
 
-                            elif sort_by == "weight":
+                            elif sort_by == "2":
                                 donorlista.sort(key=lambda x: int(x.weight))
                                 szoveg = ""
                                 for i in donorlista:
@@ -417,7 +423,153 @@ while True:
                                 clear()
                                 continue
 
+                            elif sort_by == "3":
+                                donorlista.sort(key=lambda x: x.gender)
+                                szoveg = ""
+                                for i in donorlista:
+                                    szoveg += "------------------------------\n"
+                                    szoveg += i.data_out()+"\n"
+                                szoveg += "------------------------------\n"
+                                pydoc.pager(szoveg)
 
+                                input("\n Press (ENTER) to go back")
+                                clear()
+                                continue
+
+                            elif sort_by == "4":
+                                donorlista.sort(key=lambda x: x.dateofbirth)
+                                szoveg = ""
+                                for i in donorlista:
+                                    szoveg += "------------------------------\n"
+                                    szoveg += i.data_out()+"\n"
+                                szoveg += "------------------------------\n"
+                                pydoc.pager(szoveg)
+
+                                input("\n Press (ENTER) to go back")
+                                clear()
+                                continue
+
+                            elif sort_by == "5":
+                                donorlista.sort(key=lambda x: x.lastdonationdate)
+                                szoveg = ""
+                                for i in donorlista:
+                                    szoveg += "------------------------------\n"
+                                    szoveg += i.data_out()+"\n"
+                                szoveg += "------------------------------\n"
+                                pydoc.pager(szoveg)
+
+                                input("\n Press (ENTER) to go back")
+                                clear()
+                                continue
+
+                            elif sort_by == "6":
+                                donorlista.sort(key=lambda x: x.wassick)
+                                szoveg = ""
+                                for i in donorlista:
+                                    szoveg += "------------------------------\n"
+                                    szoveg += i.data_out()+"\n"
+                                szoveg += "------------------------------\n"
+                                pydoc.pager(szoveg)
+
+                                input("\n Press (ENTER) to go back")
+                                clear()
+                                continue
+
+                            elif sort_by == "7":
+                                donorlista.sort(key=lambda x: x.uniqueid)
+                                szoveg = ""
+                                for i in donorlista:
+                                    szoveg += "------------------------------\n"
+                                    szoveg += i.data_out()+"\n"
+                                szoveg += "------------------------------\n"
+                                pydoc.pager(szoveg)
+
+                                input("\n Press (ENTER) to go back")
+                                clear()
+                                continue
+
+                            elif sort_by == "8":
+                                donorlista.sort(key=lambda x: x.expofid)
+                                szoveg = ""
+                                for i in donorlista:
+                                    szoveg += "------------------------------\n"
+                                    szoveg += i.data_out()+"\n"
+                                szoveg += "------------------------------\n"
+                                pydoc.pager(szoveg)
+
+                                input("\n Press (ENTER) to go back")
+                                clear()
+                                continue
+
+                            elif sort_by == "9":
+                                donorlista.sort(key=lambda x: x.bloodtype)
+                                szoveg = ""
+                                for i in donorlista:
+                                    szoveg += "------------------------------\n"
+                                    szoveg += i.data_out()+"\n"
+                                szoveg += "------------------------------\n"
+                                pydoc.pager(szoveg)
+
+                                input("\n Press (ENTER) to go back")
+                                clear()
+                                continue
+
+                            elif sort_by == "10":
+                                donorlista.sort(key=lambda x: x.hemoglobin)
+                                szoveg = ""
+                                for i in donorlista:
+                                    szoveg += "------------------------------\n"
+                                    szoveg += i.data_out()+"\n"
+                                szoveg += "------------------------------\n"
+                                pydoc.pager(szoveg)
+
+                                input("\n Press (ENTER) to go back")
+                                clear()
+                                continue
+
+                            elif sort_by == "11":
+                                donorlista.sort(key=lambda x: x.emailaddress)
+                                szoveg = ""
+                                for i in donorlista:
+                                    szoveg += "------------------------------\n"
+                                    szoveg += i.data_out()+"\n"
+                                szoveg += "------------------------------\n"
+                                pydoc.pager(szoveg)
+
+                                input("\n Press (ENTER) to go back")
+                                clear()
+                                continue
+
+                            elif sort_by == "12":
+                                donorlista.sort(key=lambda x: x.mobilnumber)
+                                szoveg = ""
+                                for i in donorlista:
+                                    szoveg += "------------------------------\n"
+                                    szoveg += i.data_out()+"\n"
+                                szoveg += "------------------------------\n"
+                                pydoc.pager(szoveg)
+
+                                input("\n Press (ENTER) to go back")
+                                clear()
+                                continue
+
+                            elif sort_by == "13":
+                                donorlista.sort(key=lambda x: int(x.age))
+                                szoveg = ""
+                                for i in donorlista:
+                                    szoveg += "------------------------------\n"
+                                    szoveg += i.data_out()+"\n"
+                                szoveg += "------------------------------\n"
+                                pydoc.pager(szoveg)
+
+                                input("\n Press (ENTER) to go back")
+                                clear()
+                                continue
+
+                            else:
+                                print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
+                                time.sleep(1.5)
+                                clear()
 
                     elif user_input == '2':
                         with open("Data/donations.csv", "r") as f:
