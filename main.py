@@ -377,18 +377,47 @@ while True:
                                 donorlista.append(Donor())
                                 donorlista[-1].name = l[0]
                                 donorlista[-1].weight = l[1]
+                                donorlista[-1].gender = l[2]
                                 donorlista[-1].dateofbirth = l[3]
+                                donorlista[-1].lastdonationdate = l[4]
+                                donorlista[-1].wassick = l[5]
+                                donorlista[-1].uniqueid = l[6]
+                                donorlista[-1].expofid = l[7]
+                                donorlista[-1].bloodtype = l[8]
+                                donorlista[-1].hemoglobin = l[9]
                                 donorlista[-1].emailaddress = l[-2]
+                                donorlista[-1].mobilnumber = l[-1]
                                 donorlista[-1].age = donorlista[-1].donor_age()
-                            szoveg = ""
-                            for i in donorlista:
-                                szoveg += "------------------------------\n"
-                                szoveg += i.data_out()+"\n"
-                            szoveg += "------------------------------\n"
-                            pydoc.pager(szoveg)
 
-                            input("\n Press (ENTER) to go back")
-                            clear()
+                            sort_by = input("Please type the criteria by which you would like to sort the list: ")
+
+                            if sort_by == "":
+
+                                donorlista.sort(key=lambda x: x.name)
+                                szoveg = ""
+                                for i in donorlista:
+                                    szoveg += "------------------------------\n"
+                                    szoveg += i.data_out()+"\n"
+                                szoveg += "------------------------------\n"
+                                pydoc.pager(szoveg)
+
+                                input("\n Press (ENTER) to go back")
+                                clear()
+                                continue
+                            elif sort_by == "weight":
+                                donorlista.sort(key=lambda x: int(x.weight))
+                                szoveg = ""
+                                for i in donorlista:
+                                    szoveg += "------------------------------\n"
+                                    szoveg += i.data_out()+"\n"
+                                szoveg += "------------------------------\n"
+                                pydoc.pager(szoveg)
+
+                                input("\n Press (ENTER) to go back")
+                                clear()
+                                continue
+
+
 
                     elif user_input == '2':
                         with open("Data/donations.csv", "r") as f:
@@ -426,7 +455,6 @@ while True:
                             pydoc.pager(szoveg)
                             input("\n Press (ENTER) to go back")
                             clear()
-
 
                     elif user_input=='0':
                         clear()
