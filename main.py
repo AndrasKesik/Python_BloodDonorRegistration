@@ -19,7 +19,7 @@ EMAIL_ERR = "\n\t ! Email should contain a @ and should end with .com or .hu ! \
 MOBILE_ERR = "\n\t\t ! Use this format: +36701234567 or 06703216547 ! \n"
 
 TIME_ERR = "\n\t\t ! Use this time format 00:00 !\n"
-ZIP_ERR =  "\n\t ! Should be 4 digits, that doesn't start with 0 ! \n"
+ZIP_ERR = "\n\t ! Should be 4 digits, that doesn't start with 0 ! \n"
 CITY_ERR = "\n\t ! Miskolc, Szerencs, Kazincbarcika, Sárospatak ! \n"
 ADDRESS_ERR = "\n\t ! Address must be less than 25 characters ! \n"
 
@@ -66,10 +66,10 @@ def put_string_in_quotes_if_has_comma(text):
 
 
 def event_id_generator(donations_csv):
-    if not os.path.isfile(donations_csv):
-        return 1
     with open(donations_csv, 'r') as f:
         last_line_list = deque(csv.reader(f), 1)[0]
+        if last_line_list[0] == "id":
+            return 1
         if last_line_list and last_line_list[0].isdigit():
             return int(last_line_list[0]) + 1
         else:
@@ -125,7 +125,7 @@ clear()
 while True:
     print(WELCOME_MESSAGE)
     try:
-        user_input = input("(1) Add new donor\n(2) Add new donation event\n(3) Delete a donor\n"    \
+        user_input = input("(1) Add new donor\n(2) Add new donation event\n(3) Delete a donor\n"
                            "(4) Delete donation event\n(5) List donors and donation events\n(6) Search\n(7) Exit\n\n> ")
         clear()
         #
@@ -145,7 +145,6 @@ while True:
 
             if not donor_sample.is_suitable():
                 print("\n\t - It seems your donor is not suitable for the donation. =( - ")
-                donors.pop()
                 input("\n\n (Press ENTER to go BACK)")
                 clear()
                 continue
@@ -257,7 +256,7 @@ while True:
 
                 print("Weekday :", e1.is_weekday())
                 e1.duration = e1.calculate_duration()
-                print("Duration: {} min  --  {} hours ".format(e1.duration,round(e1.duration/60,1)))
+                print("Duration: {} min  --  {} hours ".format(e1.duration, round(e1.duration/60, 1)))
                 print("Maximum donor number:", e1.max_donor_number())
                 print("Success rate: {}".format(e1.success_rate()))
                 input("\n\n (Press ENTER to go BACK)")
@@ -454,14 +453,82 @@ while True:
                         raise ValueError
                     clear()
                     if user_input == '1':
-                        input("Search donors")
+                        with open("Data/donors.csv", "r") as f:
+                            content = []
+                            for line in f:
+                                content.append(line.strip())
+                        del(content[0])
+                        if len(content) < 1:
+                            print("\n No entry found\n")
+                            input("\n Press (ENTER) to go back")
+                            clear()
+                            continue
+                        else:
+                            string_to_search = input("Search for donor: ")
+                            found_items = []
+                            for donor in content:
+                                if string_to_search in donor:
+                                    found_items.append(donor)
+                            donorlista = []
+                            for i in found_items:
+                                l = i.split(",")
+                                donorlista.append(Donor())
+                                donorlista[-1].name = l[0]
+                                donorlista[-1].weight = l[1]
+                                donorlista[-1].dateofbirth = l[3]
+                                donorlista[-1].emailaddress = l[-2]
+                                donorlista[-1].age = donorlista[-1].donor_age()
+                            szoveg = ""
+                            for i in donorlista:
+                                szoveg += "------------------------------\n"
+                                szoveg += i.data_out()+"\n"
+                            szoveg += "------------------------------\n"
+                            pydoc.pager(szoveg)
 
-
-                        clear()
+                            input("\n Press (ENTER) to go back")
+                            clear()
 
                     elif user_input == '2':
-                        input("Search donations")
-                        clear()
+                        with open("Data/donations.csv", "r") as f:
+                            content = []
+                            for line in f:
+                                content.append(line.strip())
+                        del(content[0])
+                        if len(content) < 1:
+                            print("\n No entry found\n")
+                            input("\n Press (ENTER) to go back")
+                            clear()
+                            continue
+                        else:
+                            string_to_search = input("Search for donor: ")
+                            found_items = []
+                            for donation in content:
+                                if string_to_search in donation:
+                                    found_items.append(donation)
+                            eventlista = []
+                            for i in found_items:
+                                l = i.split(",")
+                                eventlista.append(Event())
+                                eventlista[-1].id = l[0]
+                                eventlista[-1].date_of_event = l[1]
+                                eventlista[-1].start_time = l[2]
+                                eventlista[-1].end_time = l[3]
+                                eventlista[-1].zip_code = l[4]
+                                eventlista[-1].city = l[5]
+                                eventlista[-1].address = l[6]
+                                eventlista[-1].available_beds = l[7]
+                                eventlista[-1].planned_donor_number = l[8]
+                                eventlista[-1].successfull = l[9]
+
+                            szoveg = ""
+                            for i in eventlista:
+                                szoveg += "------------------------------\n"
+                                szoveg += "ID: " + i.id + "\n"
+                                szoveg += str(i)+"\n"
+                            szoveg += "------------------------------\n"
+                            pydoc.pager(szoveg)
+                            input("\n Press (ENTER) to go back")
+                            clear()
 
                     elif user_input == '0':
                         clear()
