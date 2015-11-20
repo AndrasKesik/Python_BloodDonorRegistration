@@ -8,6 +8,8 @@ import csv
 from collections import deque
 import pydoc
 import datetime
+from msvcrt import getch
+from colorama import Fore, Back, Style, init
 clear = lambda: os.system('cls')
 NAME_ERR = "\n ! Your name should have at least 2 parts and shouldn't contain special characters ! \n"
 POSINT_ERR = "\n\t\t ! Your weight must be a positive number !\n"
@@ -122,13 +124,134 @@ if donorselso != EVENT_ELSOSOR:
 
 #MAIN MENU
 clear()
+holjar = 1
+init()
 
+#
+# KEYPRESS MENU
+#
 while True:
-    print(WELCOME_MESSAGE)
-    try:
-        user_input = input("(1) Add new donor\n(2) Add new donation event\n(3) Delete a donor\n"
-                           "(4) Delete donation event\n(5) List donors and donation events\n(6) Search\n(7) Exit\n\n> ")
+    if holjar == 1:
         clear()
+        print(holjar)
+        print(Style.RESET_ALL, end="")
+        print(WELCOME_MESSAGE)
+        print(Back.WHITE + Fore.BLACK + 'Add new donor')
+        print(Style.RESET_ALL, end="")
+        print('Add new donation event')
+        print('Delete a donor')
+        print('Delete donation event')
+        print('List donors and donation events')
+        print('Search')
+        print('Exit')
+    elif holjar == 2:
+        clear()
+        print(holjar)
+        print(Style.RESET_ALL, end="")
+        print(WELCOME_MESSAGE)
+        print('Add new donor')
+        print(Back.WHITE + Fore.BLACK + 'Add new donation event')
+        print(Style.RESET_ALL, end="")
+        print('Delete a donor')
+        print('Delete donation event')
+        print('List donors and donation events')
+        print('Search')
+        print('Exit')
+    elif holjar == 3:
+        clear()
+        print(holjar)
+        print(Style.RESET_ALL, end="")
+        print(WELCOME_MESSAGE)
+        print('Add new donor')
+        print('Add new donation event')
+        print(Back.WHITE + Fore.BLACK + 'Delete a donor')
+        print(Style.RESET_ALL, end="")
+        print('Delete donation event')
+        print('List donors and donation events')
+        print('Search')
+        print('Exit')
+    elif holjar == 4:
+        clear()
+        print(holjar)
+        print(Style.RESET_ALL, end="")
+        print(WELCOME_MESSAGE)
+        print('Add new donor')
+        print('Add new donation event')
+        print('Delete a donor')
+        print(Back.WHITE + Fore.BLACK + 'Delete donation event')
+        print(Style.RESET_ALL, end="")
+        print('List donors and donation events')
+        print('Search')
+        print('Exit')
+
+    elif holjar == 5:
+        clear()
+        print(holjar)
+        print(Style.RESET_ALL, end="")
+        print(WELCOME_MESSAGE)
+        print('Add new donor')
+        print('Add new donation event')
+        print('Delete a donor')
+        print('Delete donation event')
+        print(Back.WHITE + Fore.BLACK + 'List donors and donation events')
+        print(Style.RESET_ALL, end="")
+        print('Search')
+        print('Exit')
+    elif holjar == 6:
+        clear()
+        print(holjar)
+        print(Style.RESET_ALL, end="")
+        print(WELCOME_MESSAGE)
+        print('Add new donor')
+        print('Add new donation event')
+        print('Delete a donor')
+        print('Delete donation event')
+        print('List donors and donation events')
+        print(Back.WHITE + Fore.BLACK + 'Search')
+        print(Style.RESET_ALL, end="")
+        print('Exit')
+    elif holjar == 7:
+        clear()
+        print(holjar)
+        print(Style.RESET_ALL, end="")
+        print(WELCOME_MESSAGE)
+        print('Add new donor')
+        print('Add new donation event')
+        print('Delete a donor')
+        print('Delete donation event')
+        print('List donors and donation events')
+        print('Search')
+        print(Back.WHITE + Fore.BLACK + 'Exit')
+        print(Style.RESET_ALL, end="")
+
+    key = ord(getch())
+    if key == 27: #ESC
+        print("cancel")
+        break
+    elif key == 13: #Enter
+        user_input = str(holjar)
+        clear()
+    elif key == 224: #Special keys (arrows, f keys, ins, del, etc.)
+        key = ord(getch())
+        if key == 80: #Down arrow
+            if holjar < 7:
+                holjar += 1
+            continue
+
+        elif key == 72: #Up arrow
+            if holjar > 1:
+                holjar -= 1
+            continue
+    else:
+        print("wrong key")
+        break
+
+
+
+
+    try:
+        #user_input = input("(1) Add new donor\n(2) Add new donation event\n(3) Delete a donor\n"
+        #                   "(4) Delete donation event\n(5) List donors and donation events\n(6) Search\n(7) Exit\n\n> ")
         #
         # ADD NEW DONOR
         #
@@ -354,7 +477,47 @@ while True:
         elif user_input == '5':
 
             while True:
-                print(WELCOME_MESSAGE)
+
+                """
+                print(Back.WHITE + Fore.Balck + 'List donors')
+                print(Style.RESET_ALL, end="")
+                print('List donation events')
+                print('Cancel')
+
+
+                print('List donors')
+                print(Back.WHITE + Fore.BLACK + 'List donation events')
+                print(Style.RESET_ALL, end="")
+                print('Cancel')
+
+
+                print('List donors')
+                print('List donation events')
+                print(Back.WHITE + Fore.BALCK + 'Cancel')
+                print(Style.RESET_ALL, end="")
+                key = ord(getch())
+                if key == 27: #ESC
+                    print("cancel")
+                    break
+                elif key == 13: #Enter
+                    user_input = str(holjar)
+                    clear()
+                elif key == 224: #Special keys (arrows, f keys, ins, del, etc.)
+                    key = ord(getch())
+                    if key == 80: #Down arrow
+                        if holjar < 7:
+                            holjar += 1
+                        continue
+
+                    elif key == 72: #Up arrow
+                        if holjar > 1:
+                            holjar -= 1
+                        continue
+                else:
+                    print("wrong key")
+                    break
+
+                """
                 try:
                     user_input=input('(1) List donors\n(2) List donation events\n(0) Cancel\n\n> ')
                     if user_input not in '120' or len(user_input) != 1:
