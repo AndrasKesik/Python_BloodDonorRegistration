@@ -226,8 +226,10 @@ while True:
 
     key = ord(getch())
     if key == 27: #ESC
-        print("cancel")
-        break
+        print("\n Exiting...")
+        time.sleep(1)
+        user_input = "7"
+
     elif key == 13: #Enter
         user_input = str(holjar)
         clear()
@@ -243,8 +245,9 @@ while True:
                 holjar -= 1
             continue
     else:
-        print("wrong key")
-        break
+        print("\n! Wrong key !")
+        time.sleep(1)
+        continue
 
 
 
@@ -475,37 +478,48 @@ while True:
         # LIST DONORS AND DONATION EVENTS
         #
         elif user_input == '5':
-
+            holjar = 1
             while True:
+                if holjar == 1:
+                    clear()
+                    print(holjar)
+                    print(Style.RESET_ALL, end="")
+                    print(WELCOME_MESSAGE)
+                    print(Back.WHITE + Fore.BLACK + 'List donors')
+                    print(Style.RESET_ALL, end="")
+                    print('List donation events')
+                    print('Cancel')
+                elif holjar== 2:
+                    clear()
+                    print(holjar)
+                    print(Style.RESET_ALL, end="")
+                    print(WELCOME_MESSAGE)
+                    print('List donors')
+                    print(Back.WHITE + Fore.BLACK + 'List donation events')
+                    print(Style.RESET_ALL, end="")
+                    print('Cancel')
 
-                """
-                print(Back.WHITE + Fore.Balck + 'List donors')
-                print(Style.RESET_ALL, end="")
-                print('List donation events')
-                print('Cancel')
+                elif holjar== 3:
+                    clear()
+                    print(holjar)
+                    print(Style.RESET_ALL, end="")
+                    print(WELCOME_MESSAGE)
+                    print('List donors')
+                    print('List donation events')
+                    print(Back.WHITE + Fore.BLACK + 'Cancel')
+                    print(Style.RESET_ALL, end="")
 
-
-                print('List donors')
-                print(Back.WHITE + Fore.BLACK + 'List donation events')
-                print(Style.RESET_ALL, end="")
-                print('Cancel')
-
-
-                print('List donors')
-                print('List donation events')
-                print(Back.WHITE + Fore.BALCK + 'Cancel')
-                print(Style.RESET_ALL, end="")
                 key = ord(getch())
                 if key == 27: #ESC
-                    print("cancel")
-                    break
+                    user_input = "3"
+                    clear()
                 elif key == 13: #Enter
                     user_input = str(holjar)
                     clear()
                 elif key == 224: #Special keys (arrows, f keys, ins, del, etc.)
                     key = ord(getch())
                     if key == 80: #Down arrow
-                        if holjar < 7:
+                        if holjar < 3:
                             holjar += 1
                         continue
 
@@ -514,16 +528,18 @@ while True:
                             holjar -= 1
                         continue
                 else:
-                    print("wrong key")
-                    break
+                    print("\n! Wrong key !")
+                    time.sleep(1)
+                    continue
 
-                """
+
                 try:
-                    user_input=input('(1) List donors\n(2) List donation events\n(0) Cancel\n\n> ')
-                    if user_input not in '120' or len(user_input) != 1:
-                        raise ValueError
+                    #user_input = input('(1) List donors\n(2) List donation events\n(0) Cancel\n\n> ')
+                    #if user_input not in '120' or len(user_input) != 1:
+                    #    raise ValueError
                     clear()
                     if user_input == '1':
+
                         with open("Data/donors.csv", "r") as f:
                             content = []
                             for line in f:
@@ -889,7 +905,8 @@ while True:
                                     time.sleep(1)
                                     clear()
 
-                    elif user_input=='0':
+                    elif user_input=='3':
+                        holjar=1
                         clear()
                         break
                     else:
@@ -905,14 +922,65 @@ while True:
         # SEARCH
         #
         elif user_input == '6':
-
+            holjar = 1
             while True:
-                print(WELCOME_MESSAGE)
-                try:
-                    user_input=input('(1) Donors\n(2) Donations\n(0) Cancel\n\n> ')
-                    if user_input not in '120' or len(user_input) != 1:
-                        raise ValueError
+                if holjar == 1:
                     clear()
+                    print(holjar)
+                    print(Style.RESET_ALL, end="")
+                    print(WELCOME_MESSAGE)
+                    print(Back.WHITE + Fore.BLACK + 'Search Donors')
+                    print(Style.RESET_ALL, end="")
+                    print('Search Donations')
+                    print('Cancel')
+                elif holjar== 2:
+                    clear()
+                    print(holjar)
+                    print(Style.RESET_ALL, end="")
+                    print(WELCOME_MESSAGE)
+                    print('Search Donors')
+                    print(Back.WHITE + Fore.BLACK + 'Search Donations')
+                    print(Style.RESET_ALL, end="")
+                    print('Cancel')
+
+                elif holjar== 3:
+                    clear()
+                    print(holjar)
+                    print(Style.RESET_ALL, end="")
+                    print(WELCOME_MESSAGE)
+                    print('Search Donors')
+                    print('Search Donations')
+                    print(Back.WHITE + Fore.BLACK + 'Cancel')
+                    print(Style.RESET_ALL, end="")
+
+                key = ord(getch())
+                if key == 27: #ESC
+                    user_input = "3"
+                    clear()
+                elif key == 13: #Enter
+                    user_input = str(holjar)
+                    clear()
+                elif key == 224: #Special keys (arrows, f keys, ins, del, etc.)
+                    key = ord(getch())
+                    if key == 80: #Down arrow
+                        if holjar < 3:
+                            holjar += 1
+                        continue
+
+                    elif key == 72: #Up arrow
+                        if holjar > 1:
+                            holjar -= 1
+                        continue
+                else:
+                    print("\n! Wrong key !")
+                    time.sleep(1)
+                    continue
+
+                try:
+                    #user_input=input('(1) Donors\n(2) Donations\n(0) Cancel\n\n> ')
+                    #if user_input not in '120' or len(user_input) != 1:
+                    #    raise ValueError
+                    #clear()
                     if user_input == '1':
                         with open("Data/donors.csv", "r") as f:
                             content = []
@@ -961,7 +1029,7 @@ while True:
                             clear()
                             continue
                         else:
-                            string_to_search = input("Search for donor: ")
+                            string_to_search = input("Search for donations: ")
                             found_items = []
                             for donation in content:
                                 if string_to_search in donation:
@@ -991,8 +1059,9 @@ while True:
                             input("\n Press (ENTER) to go back")
                             clear()
 
-                    elif user_input == '0':
+                    elif user_input == '3':
                         clear()
+                        holjar=1
                         break
                     else:
                          raise ValueError
@@ -1020,7 +1089,8 @@ while True:
 
         else:
             raise ValueError
-    except:
-        print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
+    except Exception as e:
+        print(e)
+        print("\n\t\t! ! !  main Please choose from the given numbers.  ! ! !\t\t\n ")
         time.sleep(1.5)
         clear()
