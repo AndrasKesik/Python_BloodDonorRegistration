@@ -539,7 +539,6 @@ while True:
                     #    raise ValueError
                     clear()
                     if user_input == '1':
-
                         with open("Data/donors.csv", "r") as f:
                             content = []
                             for line in f:
@@ -569,12 +568,15 @@ while True:
                                 donorlista[-1].mobilnumber = l[-1]
                                 donorlista[-1].age = donorlista[-1].donor_age()
 
+
+
+
                             sort_by = input("Please choose the criteria by which you would like to sort the list: "
                                             "\n\n(ENTER) or (1) by name\n(2) by weight\n(3) by gender\n(4) by birth date"
                                             "\n(5) by date of last donation\n(6) by health status in last month"
                                             "\n(7) by ID or Passport number\n(8) by expiration date of ID"
                                             "\n(9) by blood type\n(10) by hemoglobin\n(11) by e-mail address"
-                                            "\n(12) by mobile number\n(13) by age\n> ")
+                                            "\n(12) by mobile number\n(13) by age\n(0) Cancel\n\n> ")
                             clear()
 
                             if sort_by == "" or sort_by == "1":
@@ -744,6 +746,9 @@ while True:
                                 input("\n Press (ENTER) to go back")
                                 clear()
                                 continue
+                            elif sort_by == "0":
+                               clear()
+                               break
 
                             else:
                                 print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
