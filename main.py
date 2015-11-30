@@ -10,6 +10,7 @@ import pydoc
 import datetime
 from msvcrt import getch
 from colorama import Fore, Back, Style, init
+from operator import attrgetter
 clear = lambda: os.system('cls')
 NAME_ERR = "\n ! Your name should have at least 2 parts and shouldn't contain special characters ! \n"
 POSINT_ERR = "\n\t\t ! Your weight must be a positive number !\n"
@@ -154,28 +155,13 @@ def search_submenu(hol):
     return None
 
 
-def print_sorted_list(donor_lista, input_string):
-    input_donor_data_pairs = {"1": 0, "2": 1, "3": 2, "4": 3, "5": 4, "6": 5, "7": 6, "8": 7, "9": 8,
-                                   "10": 9, "11": 10, "12": 11, "13": 12}
-    donor_lista.sort(key=lambda x: x[input_donor_data_pairs[input_string]])
-    donor_object_list = []
-    for l in donor_lista:
-        donor_object_list.append(Donor())
-        donor_object_list[-1].name = l[0]
-        donor_object_list[-1].weight = l[1]
-        donor_object_list[-1].gender = l[2]
-        donor_object_list[-1].dateofbirth = l[3]
-        donor_object_list[-1].lastdonationdate = l[4]
-        donor_object_list[-1].wassick = l[5]
-        donor_object_list[-1].uniqueid = l[6]
-        donor_object_list[-1].expofid = l[7]
-        donor_object_list[-1].bloodtype = l[8]
-        donor_object_list[-1].hemoglobin = l[9]
-        donor_object_list[-1].emailaddress = l[-2]
-        donor_object_list[-1].mobilnumber = l[-1]
-        donor_object_list[-1].age = donor_object_list[-1].donor_age()
+def print_sorted_list(donor_objects, input_string):
+    input_donor_data_pairs = {"1": "name", "2": "weight", "3": "gender", "4": "dateofbirth", "5": "lastdonationdate",
+                              "6": "wassick", "7": "uniqueid", "8": "expofid", "9": "bloodtype", "10": "hemoglobin",
+                              "11": "emailaddress", "12": "mobilnumber", "13": "age"}
+    list_to_print = sorted(donor_objects, key=attrgetter(input_donor_data_pairs[input_string]))
     text = ""
-    for i in donor_object_list:
+    for i in list_to_print:
         text += "------------------------------\n"
         text += i.data_out()+"\n"
     text += "------------------------------\n"
@@ -517,7 +503,6 @@ while True:
                     clear()
                     if user_input == '0':
                         with open("Data/donors.csv", "r") as f:
-                            content = []
                             donor_list = list(csv.reader(f))
 
                         del(donor_list[0])
@@ -527,25 +512,24 @@ while True:
                             clear()
                             continue
                         else:
-                            donorlista = []
-                            for i in content:
-                                l = i.split(",")
-                                donorlista.append(Donor())
-                                donorlista[-1].name = l[0]
-                                donorlista[-1].weight = l[1]
-                                donorlista[-1].gender = l[2]
-                                donorlista[-1].dateofbirth = l[3]
-                                donorlista[-1].lastdonationdate = l[4]
-                                donorlista[-1].wassick = l[5]
-                                donorlista[-1].uniqueid = l[6]
-                                donorlista[-1].expofid = l[7]
-                                donorlista[-1].bloodtype = l[8]
-                                donorlista[-1].hemoglobin = l[9]
-                                donorlista[-1].emailaddress = l[-2]
-                                donorlista[-1].mobilnumber = l[-1]
-                                donorlista[-1].age = donorlista[-1].donor_age()
+                            donor_object_list = []
+                            for l in donor_list:
+                                donor_object_list.append(Donor())
+                                donor_object_list[-1].name = l[0]
+                                donor_object_list[-1].weight = l[1]
+                                donor_object_list[-1].gender = l[2]
+                                donor_object_list[-1].dateofbirth = l[3]
+                                donor_object_list[-1].lastdonationdate = l[4]
+                                donor_object_list[-1].wassick = l[5]
+                                donor_object_list[-1].uniqueid = l[6]
+                                donor_object_list[-1].expofid = l[7]
+                                donor_object_list[-1].bloodtype = l[8]
+                                donor_object_list[-1].hemoglobin = l[9]
+                                donor_object_list[-1].emailaddress = l[-2]
+                                donor_object_list[-1].mobilnumber = l[-1]
+                                donor_object_list[-1].age = donor_object_list[-1].donor_age()
 
-                            sort_by = input("Please choose the criteria by which you would like to sort the list: "
+                            sort_by_input = input("Please choose the criteria by which you would like to sort the list: "
                                             "\n\n(ENTER) or (1) by name\n(2) by weight\n(3) by gender\n(4) by birth date"
                                             "\n(5) by date of last donation\n(6) by health status in last month"
                                             "\n(7) by ID or Passport number\n(8) by expiration date of ID"
@@ -553,12 +537,12 @@ while True:
                                             "\n(12) by mobile number\n(13) by age\n(0) Cancel\n\n> ")
                             clear()
 
-                            if sort_by == "":
-                                sort_by = "1"
-                            if sort_by.isdigit() and int(sort_by) in range(1, 14):
-                                print_sorted_list(donor_list, sort_by)
+                            if sort_by_input == "":
+                                sort_by_input = "1"
+                            if sort_by_input.isdigit() and int(sort_by_input) in range(1, 14):
+                                print_sorted_list(donor_object_list, sort_by_input)
                                 continue
-                            elif sort_by == "0":
+                            elif sort_by_input == "0":
                                clear()
                                break
 
@@ -789,17 +773,17 @@ while True:
                             for donor in content:
                                 if string_to_search in donor:
                                     found_items.append(donor)
-                            donorlista = []
+                            donor_object_list = []
                             for i in found_items:
                                 l = i.split(",")
-                                donorlista.append(Donor())
-                                donorlista[-1].name = l[0]
-                                donorlista[-1].weight = l[1]
-                                donorlista[-1].dateofbirth = l[3]
-                                donorlista[-1].emailaddress = l[-2]
-                                donorlista[-1].age = donorlista[-1].donor_age()
+                                donor_object_list.append(Donor())
+                                donor_object_list[-1].name = l[0]
+                                donor_object_list[-1].weight = l[1]
+                                donor_object_list[-1].dateofbirth = l[3]
+                                donor_object_list[-1].emailaddress = l[-2]
+                                donor_object_list[-1].age = donor_object_list[-1].donor_age()
                             szoveg = ""
-                            for i in donorlista:
+                            for i in donor_object_list:
                                 szoveg += "------------------------------\n"
                                 szoveg += i.data_out()+"\n"
                             szoveg += "------------------------------\n"
