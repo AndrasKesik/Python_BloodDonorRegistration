@@ -161,10 +161,10 @@ def print_sorted_donor_list(donor_objects, input_string):
                                   "6": "wassick", "7": "uniqueid", "8": "expofid", "9": "bloodtype", "10": "hemoglobin",
                                   "11": "emailaddress", "12": "mobilnumber"}
         list_to_print = sorted(donor_objects, key=attrgetter(input_donor_data_pairs[input_string]))
-    else:
-        input_donor_data_pairs = {"2": "weight", "13": "age"}
-        # !!! IDK how to transform input_string into int !!!
-        list_to_print = sorted(donor_objects, key=attrgetter(input_donor_data_pairs[input_string]))
+    elif input_string == "2":
+        list_to_print = sorted(donor_objects, key=lambda x: int(x.weight))
+    elif input_string == "13":
+        list_to_print = sorted(donor_objects, key=lambda x: int(x.age))
     text = ""
     for don in list_to_print:
         text += "------------------------------\n"
@@ -179,10 +179,14 @@ def print_sorted_donation_list(event_objects, input_string):
     if input_string not in ("4", "7", "8", "9"):
         input_donation_data_pairs = {"1": "date_of_event", "2": "start_time", "3": "end_time", "5": "city", "6": "address"}
         list_to_print = sorted(event_objects, key=attrgetter(input_donation_data_pairs[input_string]))
-    else:
-        input_donation_data_pairs = {"4": "zip_code", "7": "available_beds", "8": "planned_donor_number", "9": "successfull"}
-        # !!! IDK how to transform input_string into int !!!
-        list_to_print = sorted(event_objects, key=attrgetter(input_donation_data_pairs[input_string]))
+    elif input_string == "4":
+        list_to_print = sorted(event_objects, key=lambda x: int(x.zip_code))
+    elif input_string == "7":
+        list_to_print = sorted(event_objects, key=lambda x: int(x.available_beds))
+    elif input_string == "8":
+        list_to_print = sorted(event_objects, key=lambda x: int(x.planned_donor_number))
+    elif input_string == "9":
+        list_to_print = sorted(event_objects, key=lambda x: int(x.successfull))
     szoveg = ""
     for eve in list_to_print:
         szoveg += "------------------------------\n"
