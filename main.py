@@ -370,6 +370,13 @@ while True:
 
                 e1.start_time = data_in_e(e1, Validate.validate_time, "Start Time: ", TIME_ERR)
                 e1.end_time = data_in_e(e1, Validate.validate_time, "End Time: ", TIME_ERR)
+                while not e1.is_starttime_before_endtime():
+                    print("\n\t ! The starting time should be before the ending time. ! ")
+                    time.sleep(2)
+                    clear()
+                    e1.end_time = ""
+                    e1.end_time = data_in_e(e1, Validate.validate_time, "End Time: ", TIME_ERR)
+
                 e1.zip_code = data_in_e(e1, Validate.validate_zipcode, "ZIP code: ", ZIP_ERR)
                 e1.city = data_in_e(e1, Validate.validate_city_name, "City: ", CITY_ERR)
                 e1.address = data_in_e(e1, Validate.validate_address, "Address of event: ", ADDRESS_ERR)
@@ -766,31 +773,27 @@ while True:
 
                     elif user_input == '2':
                         with open("Data/donations.csv", "r") as f:
-                            content = []
-                            for line in f:
-                                content.append(line.strip())
-                        del(content[0])
-                        if len(content) < 1:
+                            event_list = list(csv.reader(f))
+                        del(event_list[0])
+                        if len(event_list) < 1:
                             print("\n No entry found\n")
                             input("\n Press (ENTER) to go back")
                             clear()
                             continue
                         else:
                             eventlista = []
-                            for i in content:
-                                l = i.split(",")
-
+                            for i in event_list:
                                 eventlista.append(Event())
-                                eventlista[-1].id = l[0]
-                                eventlista[-1].date_of_event = l[1]
-                                eventlista[-1].start_time = l[2]
-                                eventlista[-1].end_time = l[3]
-                                eventlista[-1].zip_code = l[4]
-                                eventlista[-1].city = l[5]
-                                eventlista[-1].address = l[6]
-                                eventlista[-1].available_beds = l[7]
-                                eventlista[-1].planned_donor_number = l[8]
-                                eventlista[-1].successfull = l[9]
+                                eventlista[-1].id = i[0]
+                                eventlista[-1].date_of_event = i[1]
+                                eventlista[-1].start_time = i[2]
+                                eventlista[-1].end_time = i[3]
+                                eventlista[-1].zip_code = i[4]
+                                eventlista[-1].city = i[5]
+                                eventlista[-1].address = i[6]
+                                eventlista[-1].available_beds = i[7]
+                                eventlista[-1].planned_donor_number = i[8]
+                                eventlista[-1].successfull = i[9]
 
                             #
                             # EVENT SORT BY MENU

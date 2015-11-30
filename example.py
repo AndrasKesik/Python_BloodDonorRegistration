@@ -16,16 +16,27 @@ duration = endtime - starttime
 #print(type(today2.strftime("%Y.%m.%d")))
 
 #print("123456ab".upper())
-def event_id_generator(donations_csv):
-    if not os.path.isfile(donations_csv):
-        return 1
-    with open(donations_csv, 'r') as f:
-        last_line_list = deque(csv.reader(f), 1)[0]
-        if last_line_list and last_line_list[0].isdigit():
-            return int(last_line_list[0]) + 1
-        else:
-            return -100
-        print(last_line_list)
 
-event_id_generator("Data/donations.csv")
-print(event_id_generator("Data/donations.csv"))
+#
+# def event_id_generator(donations_csv):
+#     if not os.path.isfile(donations_csv):
+#         return 1
+#     with open(donations_csv, 'r') as f:
+#         last_line_list = deque(csv.reader(f), 1)[0]
+#         if last_line_list and last_line_list[0].isdigit():
+#             return int(last_line_list[0]) + 1
+#         else:
+#             return -100
+#         print(last_line_list)
+#
+# event_id_generator("Data/donations.csv")
+# print(event_id_generator("Data/donations.csv"))
+#
+# string_example = "wright rightful"
+# print(string_example.replace("right", "left"))
+
+
+with open("Data/donations.csv", "r") as f:
+    event_list = csv.reader(f)
+
+print(type(event_list))

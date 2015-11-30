@@ -113,6 +113,13 @@ class Event():
         datum = datetime.datetime.strptime(self.date_of_event, '%Y.%m.%d')
         return (datum - datetime.datetime.now()).days >= 10
 
+    def is_starttime_before_endtime(self):
+        """Checks if the event's start time is before the end time
+            Returns True or False"""
+        end = datetime.datetime.strptime(self.end_time, '%H:%M')
+        start = datetime.datetime.strptime(self.start_time, '%H:%M')
+        return end > start
+
     def is_weekday(self):
         """Checks if the Date is on a weekday or not
             Returns True or False"""
