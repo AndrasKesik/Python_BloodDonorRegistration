@@ -105,7 +105,7 @@ class Event():
     successfull = ""
     duration = ""
 
-    id="" #just for listing
+    id=""  # just for listing
 
     def registration_in_tendays(self):
         """Checks if the registration occoured at least 10 days before the event

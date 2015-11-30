@@ -239,7 +239,6 @@ while True:
             if holjar < 7:
                 holjar += 1
             continue
-
         elif key == 72: #Up arrow
             if holjar > 1:
                 holjar -= 1
@@ -295,7 +294,7 @@ while True:
                 f.write(donor_sample.bloodtype+",")
                 f.write(donor_sample.generate_hemoglobin_level()+",")
                 f.write(donor_sample.emailaddress+",")
-                f.write(donor_sample.mobilnumber)
+                f.write(donor_sample.mobilnumber+"\n")
 
             print("\n - Your donor is added to the csv -\n\n Going back to main menu...")
             time.sleep(2.5)
@@ -543,6 +542,8 @@ while True:
                             content = []
                             for line in f:
                                 content.append(line.strip())
+
+
                         del(content[0])
                         if len(content) < 1:
                             print("\n No entry found\n")
@@ -553,6 +554,14 @@ while True:
                             donorlista = []
                             for i in content:
                                 l = i.split(",")
+
+
+
+
+
+
+
+
                                 donorlista.append(Donor())
                                 donorlista[-1].name = l[0]
                                 donorlista[-1].weight = l[1]
@@ -770,6 +779,7 @@ while True:
                             eventlista = []
                             for i in content:
                                 l = i.split(",")
+
                                 eventlista.append(Event())
                                 eventlista[-1].id = l[0]
                                 eventlista[-1].date_of_event = l[1]
@@ -1037,7 +1047,7 @@ while True:
                             string_to_search = input("Search for donations: ")
                             found_items = []
                             for donation in content:
-                                if string_to_search in donation:
+                                if string_to_search.capitalize() in donation:
                                     found_items.append(donation)
                             eventlista = []
                             for i in found_items:
