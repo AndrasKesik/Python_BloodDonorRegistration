@@ -89,6 +89,71 @@ def store_donation_data():
         donations.writelines(donation_sample)
 
 
+
+
+def mainmenu(hol):
+    clear()
+    print(Style.RESET_ALL, end="")
+    print(WELCOME_MESSAGE)
+    menu = ['Add new donor',
+            'Add new donation event',
+            'Delete a donor',
+            'Delete donation event',
+            'List donors and donation events',
+            'Search',
+            'Exit']
+    i = 0
+    while i < hol:
+        print(menu[i])
+        i += 1
+    print(Back.WHITE + Fore.BLACK + menu[hol])
+    print(Style.RESET_ALL, end="")
+    i += 1
+    while i < 7:
+        print(menu[i])
+        i += 1
+    return None
+
+
+def list_submenu(hol):
+    clear()
+    print(Style.RESET_ALL, end="")
+    print(WELCOME_MESSAGE)
+    menu = ['List donors',
+            'List donation events',
+            'Cancel']
+    i = 0
+    while i < hol:
+        print(menu[i])
+        i += 1
+    print(Back.WHITE + Fore.BLACK + menu[hol])
+    print(Style.RESET_ALL, end="")
+    i += 1
+    while i < 3:
+        print(menu[i])
+        i += 1
+    return None
+
+def search_submenu(hol):
+    clear()
+    print(Style.RESET_ALL, end="")
+    print(WELCOME_MESSAGE)
+    menu = ['Search Donors',
+            'Search Donations',
+            'Cancel']
+    i = 0
+    while i < hol:
+        print(menu[i])
+        i += 1
+    print(Back.WHITE + Fore.BLACK + menu[hol])
+    print(Style.RESET_ALL, end="")
+    i += 1
+    while i < 3:
+        print(menu[i])
+        i += 1
+    return None
+
+
 #
 # DONORS.CSV CHECK
 #
@@ -124,123 +189,32 @@ if donorselso != EVENT_ELSOSOR:
 
 #MAIN MENU
 clear()
-holjar = 1
+holjar = 0
 init()
 
 #
 # KEYPRESS MENU
 #
 while True:
-    if holjar == 1:
-        clear()
-        print(holjar)
-        print(Style.RESET_ALL, end="")
-        print(WELCOME_MESSAGE)
-        print(Back.WHITE + Fore.BLACK + 'Add new donor')
-        print(Style.RESET_ALL, end="")
-        print('Add new donation event')
-        print('Delete a donor')
-        print('Delete donation event')
-        print('List donors and donation events')
-        print('Search')
-        print('Exit')
-    elif holjar == 2:
-        clear()
-        print(holjar)
-        print(Style.RESET_ALL, end="")
-        print(WELCOME_MESSAGE)
-        print('Add new donor')
-        print(Back.WHITE + Fore.BLACK + 'Add new donation event')
-        print(Style.RESET_ALL, end="")
-        print('Delete a donor')
-        print('Delete donation event')
-        print('List donors and donation events')
-        print('Search')
-        print('Exit')
-    elif holjar == 3:
-        clear()
-        print(holjar)
-        print(Style.RESET_ALL, end="")
-        print(WELCOME_MESSAGE)
-        print('Add new donor')
-        print('Add new donation event')
-        print(Back.WHITE + Fore.BLACK + 'Delete a donor')
-        print(Style.RESET_ALL, end="")
-        print('Delete donation event')
-        print('List donors and donation events')
-        print('Search')
-        print('Exit')
-    elif holjar == 4:
-        clear()
-        print(holjar)
-        print(Style.RESET_ALL, end="")
-        print(WELCOME_MESSAGE)
-        print('Add new donor')
-        print('Add new donation event')
-        print('Delete a donor')
-        print(Back.WHITE + Fore.BLACK + 'Delete donation event')
-        print(Style.RESET_ALL, end="")
-        print('List donors and donation events')
-        print('Search')
-        print('Exit')
-
-    elif holjar == 5:
-        clear()
-        print(holjar)
-        print(Style.RESET_ALL, end="")
-        print(WELCOME_MESSAGE)
-        print('Add new donor')
-        print('Add new donation event')
-        print('Delete a donor')
-        print('Delete donation event')
-        print(Back.WHITE + Fore.BLACK + 'List donors and donation events')
-        print(Style.RESET_ALL, end="")
-        print('Search')
-        print('Exit')
-    elif holjar == 6:
-        clear()
-        print(holjar)
-        print(Style.RESET_ALL, end="")
-        print(WELCOME_MESSAGE)
-        print('Add new donor')
-        print('Add new donation event')
-        print('Delete a donor')
-        print('Delete donation event')
-        print('List donors and donation events')
-        print(Back.WHITE + Fore.BLACK + 'Search')
-        print(Style.RESET_ALL, end="")
-        print('Exit')
-    elif holjar == 7:
-        clear()
-        print(holjar)
-        print(Style.RESET_ALL, end="")
-        print(WELCOME_MESSAGE)
-        print('Add new donor')
-        print('Add new donation event')
-        print('Delete a donor')
-        print('Delete donation event')
-        print('List donors and donation events')
-        print('Search')
-        print(Back.WHITE + Fore.BLACK + 'Exit')
-        print(Style.RESET_ALL, end="")
+    mainmenu(holjar)
 
     key = ord(getch())
     if key == 27: #ESC
         print("\n Exiting...")
         time.sleep(1)
-        user_input = "7"
+        user_input = 6
 
     elif key == 13: #Enter
-        user_input = str(holjar)
+        user_input = holjar
         clear()
     elif key == 224: #Special keys (arrows, f keys, ins, del, etc.)
         key = ord(getch())
         if key == 80: #Down arrow
-            if holjar < 7:
+            if holjar < 6:
                 holjar += 1
             continue
         elif key == 72: #Up arrow
-            if holjar > 1:
+            if holjar > 0:
                 holjar -= 1
             continue
     else:
@@ -248,16 +222,11 @@ while True:
         time.sleep(1)
         continue
 
-
-
-
     try:
-        #user_input = input("(1) Add new donor\n(2) Add new donation event\n(3) Delete a donor\n"
-        #                   "(4) Delete donation event\n(5) List donors and donation events\n(6) Search\n(7) Exit\n\n> ")
         #
         # ADD NEW DONOR
         #
-        if user_input=='1':
+        if user_input==0:
             print("Adding new donor...\n")
             time.sleep(1)
             clear()
@@ -352,7 +321,7 @@ while True:
         #
         # ADD NEW DONATION EVENT
         #
-        elif user_input == '2':
+        elif user_input == 1:
             print("Adding new event...\n")
             time.sleep(1)
             clear()
@@ -399,7 +368,7 @@ while True:
         #
         # DElETE A DONOR
         #
-        elif user_input == '3':
+        elif user_input == 2:
             while True:
                 try:
                     with open("Data/donors.csv", "r") as f:
@@ -441,7 +410,7 @@ while True:
         #
         # DELETE DONATION EVENT
         #
-        elif user_input == '4':
+        elif user_input == 3:
             while True:
                 try:
                     with open("Data/donations.csv", "r") as f:
@@ -483,37 +452,10 @@ while True:
         #
         # LIST DONORS AND DONATION EVENTS
         #
-        elif user_input == '5':
-            holjar = 1
+        elif user_input == 4:
+            holjar = 0
             while True:
-                if holjar == 1:
-                    clear()
-                    print(holjar)
-                    print(Style.RESET_ALL, end="")
-                    print(WELCOME_MESSAGE)
-                    print(Back.WHITE + Fore.BLACK + 'List donors')
-                    print(Style.RESET_ALL, end="")
-                    print('List donation events')
-                    print('Cancel')
-                elif holjar== 2:
-                    clear()
-                    print(holjar)
-                    print(Style.RESET_ALL, end="")
-                    print(WELCOME_MESSAGE)
-                    print('List donors')
-                    print(Back.WHITE + Fore.BLACK + 'List donation events')
-                    print(Style.RESET_ALL, end="")
-                    print('Cancel')
-
-                elif holjar== 3:
-                    clear()
-                    print(holjar)
-                    print(Style.RESET_ALL, end="")
-                    print(WELCOME_MESSAGE)
-                    print('List donors')
-                    print('List donation events')
-                    print(Back.WHITE + Fore.BLACK + 'Cancel')
-                    print(Style.RESET_ALL, end="")
+                list_submenu(holjar)
 
                 key = ord(getch())
                 if key == 27: #ESC
@@ -525,12 +467,12 @@ while True:
                 elif key == 224: #Special keys (arrows, f keys, ins, del, etc.)
                     key = ord(getch())
                     if key == 80: #Down arrow
-                        if holjar < 3:
+                        if holjar < 2:
                             holjar += 1
                         continue
 
                     elif key == 72: #Up arrow
-                        if holjar > 1:
+                        if holjar > 0:
                             holjar -= 1
                         continue
                 else:
@@ -544,7 +486,7 @@ while True:
                     #if user_input not in '120' or len(user_input) != 1:
                     #    raise ValueError
                     clear()
-                    if user_input == '1':
+                    if user_input == '0':
                         with open("Data/donors.csv", "r") as f:
                             content = []
                             for line in f:
@@ -561,14 +503,6 @@ while True:
                             donorlista = []
                             for i in content:
                                 l = i.split(",")
-
-
-
-
-
-
-
-
                                 donorlista.append(Donor())
                                 donorlista[-1].name = l[0]
                                 donorlista[-1].weight = l[1]
@@ -583,9 +517,6 @@ while True:
                                 donorlista[-1].emailaddress = l[-2]
                                 donorlista[-1].mobilnumber = l[-1]
                                 donorlista[-1].age = donorlista[-1].donor_age()
-
-
-
 
                             sort_by = input("Please choose the criteria by which you would like to sort the list: "
                                             "\n\n(ENTER) or (1) by name\n(2) by weight\n(3) by gender\n(4) by birth date"
@@ -771,7 +702,7 @@ while True:
                                 time.sleep(1.5)
                                 clear()
 
-                    elif user_input == '2':
+                    elif user_input == '1':
                         with open("Data/donations.csv", "r") as f:
                             event_list = list(csv.reader(f))
                         del(event_list[0])
@@ -916,14 +847,12 @@ while True:
                                     clear()
                                     break
 
-
-
                                 else:
                                     print("Please choose from the given numbers")
                                     time.sleep(1)
                                     clear()
 
-                    elif user_input=='3':
+                    elif user_input=='2':
                         holjar=1
                         clear()
                         break
@@ -939,38 +868,10 @@ while True:
         #
         # SEARCH
         #
-        elif user_input == '6':
-            holjar = 1
+        elif user_input == 5:
+            holjar = 0
             while True:
-                if holjar == 1:
-                    clear()
-                    print(holjar)
-                    print(Style.RESET_ALL, end="")
-                    print(WELCOME_MESSAGE)
-                    print(Back.WHITE + Fore.BLACK + 'Search Donors')
-                    print(Style.RESET_ALL, end="")
-                    print('Search Donations')
-                    print('Cancel')
-                elif holjar== 2:
-                    clear()
-                    print(holjar)
-                    print(Style.RESET_ALL, end="")
-                    print(WELCOME_MESSAGE)
-                    print('Search Donors')
-                    print(Back.WHITE + Fore.BLACK + 'Search Donations')
-                    print(Style.RESET_ALL, end="")
-                    print('Cancel')
-
-                elif holjar== 3:
-                    clear()
-                    print(holjar)
-                    print(Style.RESET_ALL, end="")
-                    print(WELCOME_MESSAGE)
-                    print('Search Donors')
-                    print('Search Donations')
-                    print(Back.WHITE + Fore.BLACK + 'Cancel')
-                    print(Style.RESET_ALL, end="")
-
+                search_submenu(holjar)
                 key = ord(getch())
                 if key == 27: #ESC
                     user_input = "3"
@@ -981,12 +882,12 @@ while True:
                 elif key == 224: #Special keys (arrows, f keys, ins, del, etc.)
                     key = ord(getch())
                     if key == 80: #Down arrow
-                        if holjar < 3:
+                        if holjar < 2:
                             holjar += 1
                         continue
 
                     elif key == 72: #Up arrow
-                        if holjar > 1:
+                        if holjar > 0:
                             holjar -= 1
                         continue
                 else:
@@ -995,11 +896,8 @@ while True:
                     continue
 
                 try:
-                    #user_input=input('(1) Donors\n(2) Donations\n(0) Cancel\n\n> ')
-                    #if user_input not in '120' or len(user_input) != 1:
-                    #    raise ValueError
-                    #clear()
-                    if user_input == '1':
+
+                    if user_input == '0':
                         with open("Data/donors.csv", "r") as f:
                             content = []
                             for line in f:
@@ -1035,7 +933,7 @@ while True:
                             input("\n Press (ENTER) to go back")
                             clear()
 
-                    elif user_input == '2':
+                    elif user_input == '1':
                         with open("Data/donations.csv", "r") as f:
                             content = []
                             for line in f:
@@ -1077,7 +975,7 @@ while True:
                             input("\n Press (ENTER) to go back")
                             clear()
 
-                    elif user_input == '3':
+                    elif user_input == '2':
                         clear()
                         holjar=1
                         break
@@ -1093,7 +991,7 @@ while True:
         #
         # EXIT
         #
-        elif user_input == '7':
+        elif user_input == 6:
             clear()
             print("\n\n\n\n\n\n\n\n\n\n\t\t\t\t    - Thank you for using our software -\t\t\t\t")
             print("\t\t\t\t       - Made By the Code Stars - ")
@@ -1101,9 +999,6 @@ while True:
             time.sleep(2)
             clear()
             break
-
-
-
 
         else:
             raise ValueError
