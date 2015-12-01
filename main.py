@@ -11,39 +11,9 @@ import datetime
 from msvcrt import getch
 from colorama import Fore, Back, Style, init
 from operator import attrgetter
+from constant_variables import *
 from csv_check import CsvChecker
 clear = lambda: os.system('cls')
-NAME_ERR = "\n ! Your name should have at least 2 parts and shouldn't contain special characters ! \n"
-POSINT_ERR = "\n\t\t ! Your weight must be a positive number !\n"
-GEND_ERR = "\n\t\t ! Choose the donors gender, (M)ale or (F)emale ! \n"
-DATE_ERR = "\n\t\t ! Use this format to enter the date: 'YYYY.MM.DD' ! \n"
-SICK_ERR = "\n\t\t ! Choose from the given answers: (Y)es or (N)o ! \n"
-ID_ERR = "\n ! Please enter an existing ID or Passport.  6 letter/number + 2 letter/number ! \n"
-BTYPE_ERR = "\n   ! It should be a real blood type. ( A+,A-, B+, B-, AB+, AB-, 0+, 0- ) ! \n"
-EMAIL_ERR = "\n\t ! Email should contain a @ and should end with .com or .hu ! \n"
-MOBILE_ERR = "\n\t\t ! Use this format: +36701234567 or 06703216547 ! \n"
-
-TIME_ERR = "\n\t\t ! Use this time format 00:00 !\n"
-ZIP_ERR = "\n\t ! Should be 4 digits, that doesn't start with 0 ! \n"
-CITY_ERR = "\n\t ! Miskolc, Szerencs, Kazincbarcika, Sárospatak ! \n"
-ADDRESS_ERR = "\n\t ! Address must be less than 25 characters ! \n"
-
-DONORS_ELSOSOR = "name,weight,gender,date_of_birth,last_donation,last_month_sickness,unique_identifier,expiration_of_id,blood_type,hemoblogin,email,mobil\n"
-EVENT_ELSOSOR = "id,date_of_event,start_time,end_time,zip_code,city,address,number_of_available_beds,planned_donor_number,final_donor_number\n"
-WELCOME_MESSAGE =  "\n\t\t\t\t--- WELCOME TO THE BLOOD DONATION SYSTEM ---\t\t\t" \
-                     "\n\t\t\t\t\t  - Made By the Code Stars -\t\t\t\t\n\n"
-ESC = 27
-ENTER = 13
-DOWNARROW = 80
-UPARROW = 72
-SPECIALKEYSELECTOR = 224
-MENU_ITEM_1 = 0
-MENU_ITEM_2 = 1
-MENU_ITEM_3 = 2
-MENU_ITEM_4 = 3
-MENU_ITEM_5 = 4
-MENU_ITEM_6 = 5
-MENU_ITEM_7 = 6
 
 
 def data_in(donor, validate, input_mess, error_mess):
@@ -210,6 +180,69 @@ def print_sorted_donation_list(event_objects, input_string):
     input("\n Press (ENTER) to go back")
     clear()
 
+#
+# MENU POINTS
+#
+
+
+def add_new_donor():
+    print("Adding new donor...\n")
+    time.sleep(1)
+    clear()
+
+    donor_sample = Donor()
+    donor_sample.name = data_in(donor_sample, Validate.validate_name, "Name: ", NAME_ERR)
+    donor_sample.weight = data_in(donor_sample, Validate.validate_positive_int, "Weight (in KG): ", POSINT_ERR)
+    donor_sample.gender = data_in(donor_sample, Validate.validate_gender, "Gender (M/F): ", GEND_ERR)
+    donor_sample.dateofbirth = data_in(donor_sample, Validate.validate_date, "Date of Birth: ", DATE_ERR)
+    donor_sample.lastdonationdate = data_in(donor_sample, Validate.validate_date, "Last Donation: ", DATE_ERR)
+
+    if not donor_sample.is_suitable():
+        print("\n\t - It seems your donor is not suitable for the donation. =( - ")
+        input("\n\n (Press ENTER to go BACK)")
+        clear()
+        return None
+
+    donor_sample.wassick = data_in(donor_sample, Validate.validate_sickness, "Was he/she sick in the last month? (Y/N) ", SICK_ERR)
+    donor_sample.uniqueid = data_in(donor_sample, Validate.validate_id, "Unique ID: ", ID_ERR)
+    donor_sample.bloodtype = data_in(donor_sample, Validate.validate_blood_type, "Blood Type: ", BTYPE_ERR)
+    donor_sample.expofid = data_in(donor_sample, Validate.validate_date, "Expiration of ID: ", DATE_ERR)
+    donor_sample.emailaddress = data_in(donor_sample, Validate.validate_email, "Email address: ", EMAIL_ERR)
+    donor_sample.mobilnumber = data_in(donor_sample, Validate.validate_mobilnumber, "Mobile Number: ", MOBILE_ERR )
+
+    with open("Data/donors.csv", "a") as f:
+        f.write(donor_sample.name+",")
+        f.write(donor_sample.weight+",")
+        f.write(donor_sample.gender+",")
+        f.write(donor_sample.dateofbirth+",")
+        f.write(donor_sample.lastdonationdate+",")
+        f.write(donor_sample.wassick+",")
+        f.write(donor_sample.uniqueid+",")
+        f.write(donor_sample.expofid+",")
+        f.write(donor_sample.bloodtype+",")
+        f.write(donor_sample.generate_hemoglobin_level()+",")
+        f.write(donor_sample.emailaddress+",")
+        f.write(donor_sample.mobilnumber+"\n")
+
+    print("\n - Your donor is added to the csv -\n\n Going back to main menu...")
+    time.sleep(2.5)
+    clear()
+
+#
+# DONORS.CSV CHECK
+#
+if not os.path.isfile("Data/donors.csv"):
+    with open("Data/donors.csv", "w") as f:
+        f.write(DONORS_ELSOSOR)
+with open("Data/donors.csv", "r") as f:
+    donorselso = f.readline()
+    content = [line for line in f]
+if donorselso != DONORS_ELSOSOR:
+    with open("Data/donors.csv", "w") as f:
+        f.truncate()
+        f.write(DONORS_ELSOSOR)
+        for i in content:
+            f.write(i)
 
 CsvChecker.donor_file_check()
 CsvChecker.donations_file_check()
@@ -255,48 +288,8 @@ while True:
         # ADD NEW DONOR
         #
         if user_input == MENU_ITEM_1:
-            print("Adding new donor...\n")
-            time.sleep(1)
-            clear()
-
-            donor_sample = Donor()
-            donor_sample.name = data_in(donor_sample, Validate.validate_name, "Name: ", NAME_ERR)
-            donor_sample.weight = data_in(donor_sample, Validate.validate_positive_int, "Weight (in KG): ", POSINT_ERR)
-            donor_sample.gender = data_in(donor_sample, Validate.validate_gender, "Gender (M/F): ", GEND_ERR)
-            donor_sample.dateofbirth = data_in(donor_sample, Validate.validate_date, "Date of Birth: ", DATE_ERR)
-            donor_sample.lastdonationdate = data_in(donor_sample, Validate.validate_date, "Last Donation: ", DATE_ERR)
-
-            if not donor_sample.is_suitable():
-                print("\n\t - It seems your donor is not suitable for the donation. =( - ")
-                input("\n\n (Press ENTER to go BACK)")
-                clear()
-                continue
-
-            donor_sample.wassick = data_in(donor_sample, Validate.validate_sickness, "Was he/she sick in the last month? (Y/N) ", SICK_ERR)
-            donor_sample.uniqueid = data_in(donor_sample, Validate.validate_id, "Unique ID: ", ID_ERR)
-            donor_sample.bloodtype = data_in(donor_sample, Validate.validate_blood_type, "Blood Type: ", BTYPE_ERR)
-            donor_sample.expofid = data_in(donor_sample, Validate.validate_date, "Expiration of ID: ", DATE_ERR)
-            donor_sample.emailaddress = data_in(donor_sample, Validate.validate_email, "Email address: ", EMAIL_ERR)
-            donor_sample.mobilnumber = data_in(donor_sample, Validate.validate_mobilnumber, "Mobile Number: ", MOBILE_ERR )
-
-            with open("Data/donors.csv", "a") as f:
-                f.write(donor_sample.name+",")
-                f.write(donor_sample.weight+",")
-                f.write(donor_sample.gender+",")
-                f.write(donor_sample.dateofbirth+",")
-                f.write(donor_sample.lastdonationdate+",")
-                f.write(donor_sample.wassick+",")
-                f.write(donor_sample.uniqueid+",")
-                f.write(donor_sample.expofid+",")
-                f.write(donor_sample.bloodtype+",")
-                f.write(donor_sample.generate_hemoglobin_level()+",")
-                f.write(donor_sample.emailaddress+",")
-                f.write(donor_sample.mobilnumber+"\n")
-
-            print("\n - Your donor is added to the csv -\n\n Going back to main menu...")
-            time.sleep(2.5)
-            clear()
-
+            add_new_donor()
+            continue
 
         #
         # ADD NEW DONATION EVENT
