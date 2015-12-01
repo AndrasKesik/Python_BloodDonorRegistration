@@ -76,19 +76,6 @@ def search_submenu(hol):
 #
 # DONORS.CSV CHECK
 #
-if not os.path.isfile("Data/donors.csv"):
-    with open("Data/donors.csv", "w") as f:
-        f.write(DONORS_ELSOSOR)
-with open("Data/donors.csv", "r") as f:
-    donorselso = f.readline()
-    content = [line for line in f]
-if donorselso != DONORS_ELSOSOR:
-    with open("Data/donors.csv", "w") as f:
-        f.truncate()
-        f.write(DONORS_ELSOSOR)
-        for i in content:
-            f.write(i)
-
 CsvChecker.donor_file_check()
 CsvChecker.donations_file_check()
 
