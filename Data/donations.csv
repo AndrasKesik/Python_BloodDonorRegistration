@@ -1,3 +1,4 @@
 id,date_of_event,start_time,end_time,zip_code,city,address,number_of_available_beds,planned_donor_number,final_donor_number
 1,2015.12.12,10:00,14:00,1234,MISKOLC,"ABCDK,GKJ",2,100,102
 2,2015.12.11,11:00,17:00,2345,SZERENCS,"BSDSK,SDFIJ",10,90,98
+3,2015.12.24,10:00,15:00,5487,SZERENCS,"SEFS ESD,SF ",2,65,45
