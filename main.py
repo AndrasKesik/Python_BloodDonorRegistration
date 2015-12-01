@@ -11,6 +11,7 @@ import datetime
 from msvcrt import getch
 from colorama import Fore, Back, Style, init
 from operator import attrgetter
+from csv_check import CsvChecker
 clear = lambda: os.system('cls')
 NAME_ERR = "\n ! Your name should have at least 2 parts and shouldn't contain special characters ! \n"
 POSINT_ERR = "\n\t\t ! Your weight must be a positive number !\n"
@@ -18,7 +19,7 @@ GEND_ERR = "\n\t\t ! Choose the donors gender, (M)ale or (F)emale ! \n"
 DATE_ERR = "\n\t\t ! Use this format to enter the date: 'YYYY.MM.DD' ! \n"
 SICK_ERR = "\n\t\t ! Choose from the given answers: (Y)es or (N)o ! \n"
 ID_ERR = "\n ! Please enter an existing ID or Passport.  6 letter/number + 2 letter/number ! \n"
-BTYPE_ERR = "\n   ! It should be a real blood type. ( A+, A-, B+, B-, AB+, AB-, 0+, 0- ) ! \n"
+BTYPE_ERR = "\n   ! It should be a real blood type. ( A+,A-, B+, B-, AB+, AB-, 0+, 0- ) ! \n"
 EMAIL_ERR = "\n\t ! Email should contain a @ and should end with .com or .hu ! \n"
 MOBILE_ERR = "\n\t\t ! Use this format: +36701234567 or 06703216547 ! \n"
 
@@ -31,14 +32,26 @@ DONORS_ELSOSOR = "name,weight,gender,date_of_birth,last_donation,last_month_sick
 EVENT_ELSOSOR = "id,date_of_event,start_time,end_time,zip_code,city,address,number_of_available_beds,planned_donor_number,final_donor_number\n"
 WELCOME_MESSAGE =  "\n\t\t\t\t--- WELCOME TO THE BLOOD DONATION SYSTEM ---\t\t\t" \
                      "\n\t\t\t\t\t  - Made By the Code Stars -\t\t\t\t\n\n"
+ESC = 27
+ENTER = 13
+DOWNARROW = 80
+UPARROW = 72
+SPECIALKEYSELECTOR = 224
+MENU_ITEM_1 = 0
+MENU_ITEM_2 = 1
+MENU_ITEM_3 = 2
+MENU_ITEM_4 = 3
+MENU_ITEM_5 = 4
+MENU_ITEM_6 = 5
+MENU_ITEM_7 = 6
 
 
-def data_in(d, validate, input_mess, error_mess):
+def data_in(donor, validate, input_mess, error_mess):
     valid_input = ""
     while not valid_input:
         clear()
-        if d.name != "":
-            print(d)
+        if donor.name != "":
+            print(donor)
         valid_input = input(input_mess)
         if validate(valid_input):
             return valid_input.upper()
@@ -47,12 +60,12 @@ def data_in(d, validate, input_mess, error_mess):
             valid_input = ""
             time.sleep(2)
 
-def data_in_e(e, validate, input_mess, error_mess):
+def data_in_e(event, validate, input_mess, error_mess):
     valid_input = ""
     while not valid_input:
         clear()
-        if e.date_of_event != "":
-            print(e)
+        if event.date_of_event != "":
+            print(event)
         valid_input = input(input_mess)
         if validate(valid_input):
             return valid_input.upper()
@@ -197,37 +210,9 @@ def print_sorted_donation_list(event_objects, input_string):
     input("\n Press (ENTER) to go back")
     clear()
 
-#
-# DONORS.CSV CHECK
-#
-if not os.path.isfile("Data/donors.csv"):
-    with open("Data/donors.csv", "w") as f:
-        f.write(DONORS_ELSOSOR)
-with open("Data/donors.csv", "r") as f:
-    donorselso = f.readline()
-    content = [line for line in f]
-if donorselso != DONORS_ELSOSOR:
-    with open("Data/donors.csv", "w") as f:
-        f.truncate()
-        f.write(DONORS_ELSOSOR)
-        for i in content:
-            f.write(i)
 
-#
-# DONATIONS.CSV CHECK
-#
-if not os.path.isfile("Data/donations.csv"):
-    with open("Data/donations.csv", "w") as f:
-        f.write(EVENT_ELSOSOR)
-with open("Data/donations.csv", "r") as f:
-    donorselso = f.readline()
-    content = [line for line in f]
-if donorselso != EVENT_ELSOSOR:
-    with open("Data/donations.csv", "w") as f:
-        f.truncate()
-        f.write(EVENT_ELSOSOR)
-        for i in content:
-            f.write(i)
+CsvChecker.donor_file_check()
+CsvChecker.donations_file_check()
 
 
 #MAIN MENU
@@ -242,21 +227,21 @@ while True:
     mainmenu(holjar)
 
     key = ord(getch())
-    if key == 27: #ESC
+    if key == ESC:
         print("\n Exiting...")
         time.sleep(1)
         user_input = 6
 
-    elif key == 13: #Enter
+    elif key == ENTER:
         user_input = holjar
         clear()
-    elif key == 224: #Special keys (arrows, f keys, ins, del, etc.)
+    elif key == SPECIALKEYSELECTOR:
         key = ord(getch())
-        if key == 80: #Down arrow
+        if key == DOWNARROW:
             if holjar < 6:
                 holjar += 1
             continue
-        elif key == 72: #Up arrow
+        elif key == UPARROW:
             if holjar > 0:
                 holjar -= 1
             continue
@@ -269,7 +254,7 @@ while True:
         #
         # ADD NEW DONOR
         #
-        if user_input==0:
+        if user_input == MENU_ITEM_1:
             print("Adding new donor...\n")
             time.sleep(1)
             clear()
@@ -312,59 +297,11 @@ while True:
             time.sleep(2.5)
             clear()
 
-            """
-            while True:
-                print(WELCOME_MESSAGE)
-                try:
-                    user_input=input('(1) Add New Donor\n(2) List Donors\n(3) Back\n\n> ')
-                    if user_input not in '123' or len(user_input) != 1:
-                        raise ValueError
-                    clear()
 
-                    if user_input=='1':
-
-
-                    elif user_input=='2':
-
-                        if len(donors)>0:
-                            for i in range(len(donors)):
-                                print(donors[i])
-                                print("\n\nThe required functions: \n")
-                                namelist = donors[i].parse_name()
-                                print("Parsed name in seperate objects:", namelist)
-
-                                donors[i].age = donors[i].donor_age()
-                                print("Age of the donor:", donors[i].age)
-                                print("Id not expired:", donors[i].id_not_expired())
-                                print("Documentum type: ", donors[i].type_of_doc())
-                                print("Hemoglobin:", donors[i].generate_hemoglobin_level())
-                                print("\n----------\n{}\n----------\n".format(donors[i].data_out()))
-                                input("\n\n\n >>> Press ENTER to see the next entry <<< ")
-                                clear()
-
-                        else:
-                            print("\n\n\n\t - NO DONORS ADDED YET -")
-                            time.sleep(2)
-
-                        clear()
-
-                    elif user_input=='3':
-                        clear()
-                        break
-
-                    else:
-                         raise ValueError
-
-                except Exception as e:
-                    print(e)
-                    print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
-                    time.sleep(1.5)
-                    clear()
-            """
         #
         # ADD NEW DONATION EVENT
         #
-        elif user_input == 1:
+        elif user_input == MENU_ITEM_2:
             print("Adding new event...\n")
             time.sleep(1)
             clear()
@@ -411,7 +348,7 @@ while True:
         #
         # DElETE A DONOR
         #
-        elif user_input == 2:
+        elif user_input == MENU_ITEM_3:
             while True:
                 try:
                     with open("Data/donors.csv", "r") as f:
@@ -453,7 +390,7 @@ while True:
         #
         # DELETE DONATION EVENT
         #
-        elif user_input == 3:
+        elif user_input == MENU_ITEM_4:
             while True:
                 try:
                     with open("Data/donations.csv", "r") as f:
@@ -495,7 +432,7 @@ while True:
         #
         # LIST DONORS AND DONATION EVENTS
         #
-        elif user_input == 4:
+        elif user_input == MENU_ITEM_5:
             holjar = 0
             while True:
                 list_submenu(holjar)
@@ -513,7 +450,6 @@ while True:
                         if holjar < 2:
                             holjar += 1
                         continue
-
                     elif key == 72: #Up arrow
                         if holjar > 0:
                             holjar -= 1
@@ -525,9 +461,6 @@ while True:
 
 
                 try:
-                    #user_input = input('(1) List donors\n(2) List donation events\n(0) Cancel\n\n> ')
-                    #if user_input not in '120' or len(user_input) != 1:
-                    #    raise ValueError
                     clear()
                     if user_input == '0':
                         with open("Data/donors.csv", "r") as f:
@@ -541,20 +474,21 @@ while True:
                         else:
                             donor_object_list = []
                             for l in donor_list:
-                                donor_object_list.append(Donor())
-                                donor_object_list[-1].name = l[0]
-                                donor_object_list[-1].weight = l[1]
-                                donor_object_list[-1].gender = l[2]
-                                donor_object_list[-1].dateofbirth = l[3]
-                                donor_object_list[-1].lastdonationdate = l[4]
-                                donor_object_list[-1].wassick = l[5]
-                                donor_object_list[-1].uniqueid = l[6]
-                                donor_object_list[-1].expofid = l[7]
-                                donor_object_list[-1].bloodtype = l[8]
-                                donor_object_list[-1].hemoglobin = l[9]
-                                donor_object_list[-1].emailaddress = l[-2]
-                                donor_object_list[-1].mobilnumber = l[-1]
-                                donor_object_list[-1].age = donor_object_list[-1].donor_age()
+                                next_donor = Donor()
+                                next_donor.name = l[0]
+                                next_donor.weight = l[1]
+                                next_donor.gender = l[2]
+                                next_donor.dateofbirth = l[3]
+                                next_donor.lastdonationdate = l[4]
+                                next_donor.wassick = l[5]
+                                next_donor.uniqueid = l[6]
+                                next_donor.expofid = l[7]
+                                next_donor.bloodtype = l[8]
+                                next_donor.hemoglobin = l[9]
+                                next_donor.emailaddress = l[-2]
+                                next_donor.mobilnumber = l[-1]
+                                next_donor.age = next_donor.donor_age()
+                                donor_object_list.append(next_donor)
 
                             sort_by_input = input("Please choose the criteria by which you would like to sort the list: "
                                             "\n\n(ENTER) or (1) by name\n(2) by weight\n(3) by gender\n(4) by birth date"
@@ -590,18 +524,18 @@ while True:
                         else:
                             donation_object_list = []
                             for i in event_list:
-                                donation_object_list.append(Event())
-                                donation_object_list[-1].id = i[0]
-                                donation_object_list[-1].date_of_event = i[1]
-                                donation_object_list[-1].start_time = i[2]
-                                donation_object_list[-1].end_time = i[3]
-                                donation_object_list[-1].zip_code = i[4]
-                                donation_object_list[-1].city = i[5]
-                                donation_object_list[-1].address = i[6]
-                                donation_object_list[-1].available_beds = i[7]
-                                donation_object_list[-1].planned_donor_number = i[8]
-                                donation_object_list[-1].successfull = i[9]
-
+                                next_event = Event()
+                                next_event.id = i[0]
+                                next_event.date_of_event = i[1]
+                                next_event.start_time = i[2]
+                                next_event.end_time = i[3]
+                                next_event.zip_code = i[4]
+                                next_event.city = i[5]
+                                next_event.address = i[6]
+                                next_event.available_beds = i[7]
+                                next_event.planned_donor_number = i[8]
+                                next_event.successfull = i[9]
+                                donation_object_list.append(next_event)
                             #
                             # EVENT SORT BY MENU
                             #
@@ -641,7 +575,7 @@ while True:
         #
         # SEARCH
         #
-        elif user_input == 5:
+        elif user_input == MENU_ITEM_6:
             holjar = 0
             while True:
                 search_submenu(holjar)
@@ -764,7 +698,7 @@ while True:
         #
         # EXIT
         #
-        elif user_input == 6:
+        elif user_input == MENU_ITEM_7:
             clear()
             print("\n\n\n\n\n\n\n\n\n\n\t\t\t\t    - Thank you for using our software -\t\t\t\t")
             print("\t\t\t\t       - Made By the Code Stars - ")
