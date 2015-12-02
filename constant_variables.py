@@ -1,5 +1,5 @@
 NAME_ERR = "\n ! Your name should have at least 2 parts and shouldn't contain special characters ! \n"
-POSINT_ERR = "\n\t\t ! Your weight must be a positive number !\n"
+POSINT_ERR = "\n\t\t ! It must be a positive number !\n"
 GEND_ERR = "\n\t\t ! Choose the donors gender, (M)ale or (F)emale ! \n"
 DATE_ERR = "\n\t\t ! Use this format to enter the date: 'YYYY.MM.DD' ! \n"
 SICK_ERR = "\n\t\t ! Choose from the given answers: (Y)es or (N)o ! \n"

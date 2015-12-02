@@ -49,11 +49,11 @@ class EventManager():
     def store_donation_data(donation_object):
         id_int = EventManager.event_id_generator("Data/donations.csv")
         donation_sample = ""
-        donation_sample += str(id_int) + "," + str(donation_object.date_of_event) + "," + str(donation_object.start_time) +\
+        donation_sample += '\n' + str(id_int) + "," + str(donation_object.date_of_event) + "," + str(donation_object.start_time) +\
                            "," + str(donation_object.end_time) + "," + str(donation_object.zip_code) + "," + \
                            str(donation_object.city) + "," + EventManager.put_string_in_quotes_if_has_comma(donation_object.address) + \
                            "," + str(donation_object.available_beds) + "," + str(donation_object.planned_donor_number) + \
-                           "," + str(donation_object.successfull) + "\n"
+                           "," + str(donation_object.successfull)
         with open("Data/donations.csv", "a") as donations:
             donations.writelines(donation_sample)
 
@@ -231,7 +231,7 @@ class EventManager():
             string_to_search = input("Search for donations: ")
             found_items = []
             for donation in content:
-                if string_to_search.capitalize() in donation:
+                if string_to_search.capitalize() in donation or string_to_search.upper() in donation:
                     found_items.append(donation)
             eventlista = []
             for i in found_items:
