@@ -218,3 +218,76 @@ class DonorManager():
 
             input("\n Press (ENTER) to go back")
             clear()
+
+    @staticmethod
+    def change_donor_data(data_input):
+        with open('Data/donors.csv', 'r') as f:
+            donor_list = list(csv.reader(f))
+        del(donor_list[0])
+
+        if data_input in [i[6] for i in donor_list]:
+            for i, l in enumerate(donor_list):
+                if data_input == l[6]:
+                    next_donor = Donor()
+                    next_donor.name = l[0]
+                    next_donor.weight = l[1]
+                    next_donor.gender = l[2]
+                    next_donor.dateofbirth = l[3]
+                    next_donor.lastdonationdate = l[4]
+                    next_donor.wassick = l[5]
+                    next_donor.uniqueid = l[6]
+                    next_donor.expofid = l[7]
+                    next_donor.bloodtype = l[8]
+                    next_donor.hemoglobin = l[9]
+                    next_donor.emailaddress = l[-2]
+                    next_donor.mobilnumber = l[-1]
+                    print(next_donor)
+                    line_number = i
+
+        else:
+            print("Data entry doesn't exist with that ID.")
+            time.sleep(1)
+
+        which = input("\nWhich data you want to modify?"
+                        "\n\n(1) Name\n(2) Weight\n(3) Gender\n(4) Birth date"
+                        "\n(5) Date of last donation\n(6) Health status in last month"
+                        "\n(7) ID or Passport number\n(8) Expiration date of ID"
+                        "\n(9) Blood type\n(10) Hemoglobin\n(11) E-mail address"
+                        "\n(12) Mobile number\n(0) Cancel\n\n> ")
+        if which == '0':
+            return None
+        input_donor_data_pairs = {"1": "name", "2": "weight", "3": "gender", "4": "dateofbirth", "5": "lastdonationdate",
+                                  "6": "wassick", "7": "uniqueid", "8": "expofid", "9": "bloodtype",
+                                  "10": "hemoglobin", "11": "emailaddress", "12": "mobilnumber"}
+        which_donor_data_validation = {"1": Validate.validate_name, "2": Validate.validate_positive_int, "3": Validate.validate_gender, "4": Validate.validate_date, "5": Validate.validate_date,
+                                  "6": Validate.validate_sickness, "7": Validate.validate_id, "8": Validate.validate_date, "9": Validate.validate_blood_type,
+                                  "10": "nincsittsemmilátnivalo", "11": Validate.validate_email, "12": Validate.validate_mobilnumber}
+
+        new = ""
+        while new == "":
+            clear()
+            print(next_donor)
+            new = input("\n{}: ".format(input_donor_data_pairs[which]))
+            if which_donor_data_validation[which](new):
+                with open("Data/donors.csv", "w") as f:
+                    donor_list[line_number][int(which)-1] = new.upper()
+                    f.write(DONORS_ELSOSOR)
+                    for line in donor_list:
+                        for i in range(len(line)):
+                            f.write(line[i])
+                            if i < len(line)-1:
+                                f.write(',')
+                        f.write('\n')
+                print('\n...Done!')
+                time.sleep(1)
+                break
+            else:
+                print("Wrong input")
+                new = ""
+                time.sleep(1)
+
+
+
+
+
+

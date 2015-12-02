@@ -238,7 +238,8 @@ while True:
                 break
 
     elif user_input == MENU_ITEM_7:
-        input("Changing data....")
+        DonorManager.change_donor_data('852476HG')  # A string helyére jön majd a bekért ID
+        holjar = 0
     #
     # EXIT
     #
