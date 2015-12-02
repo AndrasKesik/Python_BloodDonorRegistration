@@ -261,7 +261,7 @@ class DonorManager():
                                   "10": "hemoglobin", "11": "emailaddress", "12": "mobilnumber"}
         which_donor_data_validation = {"1": Validate.validate_name, "2": Validate.validate_positive_int, "3": Validate.validate_gender, "4": Validate.validate_date, "5": Validate.validate_date,
                                   "6": Validate.validate_sickness, "7": Validate.validate_id, "8": Validate.validate_date, "9": Validate.validate_blood_type,
-                                  "10": "nincsittsemmilátnivalo", "11": Validate.validate_email, "12": Validate.validate_mobilnumber}
+                                  "10": Validate.validate_positive_int, "11": Validate.validate_email, "12": Validate.validate_mobilnumber}
 
         new = ""
         while new == "":
