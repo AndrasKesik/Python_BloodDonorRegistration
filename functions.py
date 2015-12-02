@@ -2,6 +2,7 @@
 import random
 import datetime
 
+
 class Donor():
 
     name = ""
@@ -23,7 +24,6 @@ class Donor():
             Returns a list"""
         name = self.name.split()
         return name
-
 
     def donor_age(self):
         """Calculates the donor's age based on birth date
@@ -61,7 +61,6 @@ class Donor():
             Returns string"""
         return " {} \n {}kg \n {} - {} years old \n {}".format(self.name, self.weight, self.dateofbirth, self.age , self.emailaddress)
 
-
     def generate_hemoglobin_level(self):
         """Generate hemoglobin level and decides if the donor is suitable or not
             Returns thr number"""
@@ -91,6 +90,7 @@ class Donor():
         if self.mobilnumber != "":
             result +="\nMobile Number: " + self.mobilnumber
         return result
+
 
 class Event():
 
@@ -126,7 +126,6 @@ class Event():
         datum = datetime.datetime.strptime(self.date_of_event, '%Y.%m.%d')
         return datum.isoweekday() < 6
 
-
     def calculate_duration(self):
         """Calculates the duration of the donation based on start- and endtime
             Returns the duration"""
@@ -143,7 +142,6 @@ class Event():
         max_donor_number = ((self.duration - preparation_time) // donation_time) * int(self.available_beds)
         return max_donor_number
 
-
     def success_rate(self):
         rate = int(self.successfull) * 100 / int(self.planned_donor_number)
         is_successfull = ""
@@ -156,7 +154,6 @@ class Event():
         else:
             is_successfull = "Outstanding"
         return is_successfull
-
 
     def __str__(self):
         result = "Date of Event: " + self.date_of_event
@@ -174,4 +171,6 @@ class Event():
             result +="\nAvailable beds: " + self.available_beds
         if self.planned_donor_number != "":
             result +="\nPlanned donor number: " + self.planned_donor_number
+        if self.successfull != "":
+            result +="\nNumber of succesfull donations: " + self.successfull
         return result

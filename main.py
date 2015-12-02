@@ -238,8 +238,13 @@ while True:
                 break
 
     elif user_input == MENU_ITEM_7:
-        DonorManager.change_donor_data('852476HG')  # A string helyére jön majd a bekért ID
-        holjar = 0
+        user_input = input("Type ID number: ")
+        if user_input.isdigit():
+            EventManager.change_event(user_input)
+            continue
+        else:
+	        DonorManager.change_donor_data('852476HG')  # A string helyére jön majd a bekért ID
+	        holjar = 0
     #
     # EXIT
     #

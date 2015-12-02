@@ -257,3 +257,56 @@ class EventManager():
             pydoc.pager(szoveg)
             input("\n Press (ENTER) to go back")
             clear()
+
+    @staticmethod
+    def change_event(input_id_string):
+        event_to_change = []
+        with open("Data/donations.csv", "r") as f:
+            event_list = list(csv.reader(f))
+        for event in event_list:
+            if input_id_string == event[0]:
+                event_to_change = list(event)
+        if not event_to_change:
+            print("\n No entry found with this ID.\n")
+            time.sleep(1)
+            clear()
+            return None
+
+        input_object_data_pairs = {
+            "1": ("date_of_event", "Date of Event"), "2": ("start_time", "Start Time"), "3": ("end_time", "End Time"),
+            "4": ("zip_code", "Zip Code"), "5": ("city", "City"), "6": ("address", "Address"),
+            "7": ("available_beds", "Available Beds"), "8": ("planned_donor_number", "Planned Donor Number"),
+            "9": ("successfull", "Number of Successful Donations")
+        }
+        validators_for_data_to_change = {
+            "1": Validate.validate_date, "2": Validate.validate_time, "3": Validate.validate_time,
+            "4": Validate.validate_zipcode, "5": Validate.validate_city_name, "6": Validate.validate_address,
+            "7": Validate.validate_positive_int, "8": Validate.validate_positive_int,
+            "9": Validate.validate_positive_int
+        }
+        print(event_to_change)
+        print("\n\nWhat would you like to change?")
+        print("\n(1) Date of Event\n(2) Start Time\n(3) End Time\n(4) Zip code\n"
+              "(5) City\n(6) Address\n(7) Available beds\n(8) Planned donor number\n"
+              "(9) Number of successful donations")
+        input_key = input("\n> ")
+        clear()
+
+        data_to_change = ""
+        while data_to_change == "":
+            print(event_to_change)
+            print("\n\nChanging {} to: ".format(input_object_data_pairs[input_key][1]))
+            data_to_change = input("\n> ")
+            data_to_change = data_to_change.upper()
+            if validators_for_data_to_change[input_key](data_to_change):
+                event_to_change[int(input_key)] = data_to_change
+                for number in range(len(event_list)):
+                    if event_list[number][0] == event_to_change[0]:
+                        event_list[number] = event_to_change
+                with open("Data/donations.csv", "w") as f:
+                    donation_database = csv.writer(f, delimiter=',')
+                    donation_database.writerows(event_list)
+            else:
+                print("Wrong {}.".format(input_object_data_pairs[input_key][1]))
+                data_to_change = ""
+                time.sleep(1)
