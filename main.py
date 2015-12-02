@@ -20,6 +20,7 @@ def mainmenu(hol):
             'Delete donation event',
             'List donors and donation events',
             'Search',
+            'Change data',
             'Exit']
     i = 0
     while i < hol:
@@ -28,7 +29,7 @@ def mainmenu(hol):
     print(Back.WHITE + Fore.BLACK + menu[hol])
     print(Style.RESET_ALL, end="")
     i += 1
-    while i < 7:
+    while i < 8:
         print(menu[i])
         i += 1
     return None
@@ -96,7 +97,7 @@ while True:
     if key == ESC:
         print("\n Exiting...")
         time.sleep(1)
-        user_input = 6
+        user_input = 7
 
     elif key == ENTER:
         user_input = holjar
@@ -104,7 +105,7 @@ while True:
     elif key == SPECIALKEYSELECTOR:
         key = ord(getch())
         if key == DOWNARROW:
-            if holjar < 6:
+            if holjar < 7:
                 holjar += 1
             continue
         elif key == UPARROW:
@@ -235,10 +236,13 @@ while True:
                 clear()
                 holjar = 0
                 break
+
+    elif user_input == MENU_ITEM_7:
+        input("Changing data....")
     #
     # EXIT
     #
-    elif user_input == MENU_ITEM_7:
+    elif user_input == MENU_ITEM_8:
         clear()
         print("\n\n\n\n\n\n\n\n\n\n\t\t\t\t    - Thank you for using our software -\t\t\t\t")
         print("\t\t\t\t       - Made By the Code Stars - ")
