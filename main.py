@@ -74,21 +74,22 @@ def search_submenu(hol):
     return None
 
 #
-# DONORS.CSV CHECK
+# CSV CHECKERS
 #
 CsvChecker.donor_file_check()
 CsvChecker.donations_file_check()
 
 
-#MAIN MENU
+
 clear()
 holjar = 0
 init()
 
 #
-# KEYPRESS MENU
+# MAIN MENU
 #
 while True:
+
     mainmenu(holjar)
 
     key = ord(getch())
@@ -110,158 +111,139 @@ while True:
             if holjar > 0:
                 holjar -= 1
             continue
+        else:
+            print("\n! Wrong key !")
+            time.sleep(1)
+            continue
     else:
         print("\n! Wrong key !")
         time.sleep(1)
         continue
 
-    try:
-        #
-        # ADD NEW DONOR
-        #
-        if user_input == MENU_ITEM_1:
-            DonorManager.add_new_donor()
-            continue
 
-        #
-        # ADD NEW DONATION EVENT
-        #
-        elif user_input == MENU_ITEM_2:
-            EventManager.add_new_donation_event()
-            continue
-        #
-        # DElETE A DONOR
-        #
-        elif user_input == MENU_ITEM_3:
-            DonorManager.delete_donor()
-            continue
-        #
-        # DELETE DONATION EVENT
-        #
-        elif user_input == MENU_ITEM_4:
-            EventManager.delete_donation_event()
-        #
-        # LIST DONORS AND DONATION EVENTS
-        #
-        elif user_input == MENU_ITEM_5:
-            holjar = 0
-            while True:
-                list_submenu(holjar)
 
+    #
+    # ADD NEW DONOR
+    #
+    if user_input == MENU_ITEM_1:
+        DonorManager.add_new_donor()
+        continue
+
+    #
+    # ADD NEW DONATION EVENT
+    #
+    elif user_input == MENU_ITEM_2:
+        EventManager.add_new_donation_event()
+        continue
+    #
+    # DElETE A DONOR
+    #
+    elif user_input == MENU_ITEM_3:
+        DonorManager.delete_donor()
+        continue
+    #
+    # DELETE DONATION EVENT
+    #
+    elif user_input == MENU_ITEM_4:
+        EventManager.delete_donation_event()
+    #
+    # LIST DONORS AND DONATION EVENTS
+    #
+    elif user_input == MENU_ITEM_5:
+        holjar = 0
+        while True:
+            list_submenu(holjar)
+
+            key = ord(getch())
+            if key == ESC:
+                user_input = 2
+                clear()
+            elif key == ENTER:
+                user_input = holjar
+                clear()
+            elif key == SPECIALKEYSELECTOR:
                 key = ord(getch())
-                if key == 27: #ESC
-                    user_input = "3"
-                    clear()
-                elif key == 13: #Enter
-                    user_input = str(holjar)
-                    clear()
-                elif key == 224: #Special keys (arrows, f keys, ins, del, etc.)
-                    key = ord(getch())
-                    if key == 80: #Down arrow
-                        if holjar < 2:
-                            holjar += 1
-                        continue
-                    elif key == 72: #Up arrow
-                        if holjar > 0:
-                            holjar -= 1
-                        continue
+                if key == DOWNARROW:
+                    if holjar < 2:
+                        holjar += 1
+                    continue
+                elif key == UPARROW:
+                    if holjar > 0:
+                        holjar -= 1
+                    continue
                 else:
                     print("\n! Wrong key !")
                     time.sleep(1)
                     continue
+            else:
+                print("\n! Wrong key !")
+                time.sleep(1)
+                continue
 
-                try:
-                    clear()
-                    if user_input == '0':
-                        DonorManager.list_donors()
-                        continue
+            clear()
+            if user_input == 0:
+                DonorManager.list_donors()
+                continue
+            elif user_input == 1:
+                EventManager.list_donation_events()
+                continue
+            elif user_input == 2:
+                holjar=0
+                clear()
+                break
+    #
+    # SEARCH
+    #
+    elif user_input == MENU_ITEM_6:
+        holjar = 0
+        while True:
+            search_submenu(holjar)
 
-                    elif user_input == '1':
-                        EventManager.list_donation_events()
-                        continue
-
-                    elif user_input=='2':
-                        holjar=1
-                        clear()
-                        break
-                    else:
-                         raise ValueError
-
-                except Exception as e:
-                    print(e)
-                    print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
-                    input()
-                    time.sleep(1.5)
-                    clear()
-        #
-        # SEARCH
-        #
-        elif user_input == MENU_ITEM_6:
-            holjar = 0
-            while True:
-                search_submenu(holjar)
+            key = ord(getch())
+            if key == ESC:
+                user_input = 2
+                clear()
+            elif key == ENTER:
+                user_input = holjar
+                clear()
+            elif key == SPECIALKEYSELECTOR:
                 key = ord(getch())
-                if key == 27: #ESC
-                    user_input = "3"
-                    clear()
-                elif key == 13: #Enter
-                    user_input = str(holjar)
-                    clear()
-                elif key == 224: #Special keys (arrows, f keys, ins, del, etc.)
-                    key = ord(getch())
-                    if key == 80: #Down arrow
-                        if holjar < 2:
-                            holjar += 1
-                        continue
-
-                    elif key == 72: #Up arrow
-                        if holjar > 0:
-                            holjar -= 1
-                        continue
+                if key == DOWNARROW:
+                    if holjar < 2:
+                        holjar += 1
+                    continue
+                elif key == UPARROW:
+                    if holjar > 0:
+                        holjar -= 1
+                    continue
                 else:
                     print("\n! Wrong key !")
                     time.sleep(1)
                     continue
+            else:
+                print("\n! Wrong key !")
+                time.sleep(1)
+                continue
 
-                try:
-
-                    if user_input == '0':
-                        DonorManager.search_in_donors()
-                        continue
-
-                    elif user_input == '1':
-                        EventManager.search_in_donation_events()
-                        continue
-
-                    elif user_input == '2':
-                        clear()
-                        holjar=1
-                        break
-                    else:
-                         raise ValueError
-
-                except Exception as e:
-                    print(e)
-                    print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
-                    input()
-                    time.sleep(1.5)
-                    clear()
-        #
-        # EXIT
-        #
-        elif user_input == MENU_ITEM_7:
-            clear()
-            print("\n\n\n\n\n\n\n\n\n\n\t\t\t\t    - Thank you for using our software -\t\t\t\t")
-            print("\t\t\t\t       - Made By the Code Stars - ")
-            print("\n\n\t\t\t\t\t     --- GOODBYE ---")
-            time.sleep(2)
-            clear()
-            break
-
-        else:
-            raise ValueError
-    except Exception as e:
-        print(e)
-        print("\n\t\t! ! !  main Please choose from the given numbers.  ! ! !\t\t\n ")
-        time.sleep(1.5)
+            if user_input == 0:
+                DonorManager.search_in_donors()
+                continue
+            elif user_input == 1:
+                EventManager.search_in_donation_events()
+                continue
+            elif user_input == 2:
+                clear()
+                holjar = 0
+                break
+    #
+    # EXIT
+    #
+    elif user_input == MENU_ITEM_7:
         clear()
+        print("\n\n\n\n\n\n\n\n\n\n\t\t\t\t    - Thank you for using our software -\t\t\t\t")
+        print("\t\t\t\t       - Made By the Code Stars - ")
+        print("\n\n\t\t\t\t\t     --- GOODBYE ---")
+        time.sleep(2)
+        clear()
+        break
+
