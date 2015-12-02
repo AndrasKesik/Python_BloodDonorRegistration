@@ -1,11 +1,7 @@
 # -*- coding: UTF-8 -*-
 import os
-DONORS_ELSOSOR = "name,weight,gender,date_of_birth,last_donation,last_month_sickness,unique_identifier,expiration_of_id,blood_type,hemoblogin,email,mobil\n"
-EVENT_ELSOSOR = "id,date_of_event,start_time,end_time,zip_code,city,address,number_of_available_beds,planned_donor_number,final_donor_number\n"
+from constant_variables import *
 
-#
-# DONORS.CSV CHECK
-#
 class CsvChecker():
     @staticmethod
     def donor_file_check():

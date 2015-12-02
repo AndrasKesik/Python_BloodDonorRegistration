@@ -179,6 +179,10 @@ def print_sorted_donation_list(event_objects, input_string):
     pydoc.pager(szoveg)
     input("\n Press (ENTER) to go back")
     clear()
+#
+# KEYPRESS INPUT
+#
+
 
 #
 # MENU POINTS
