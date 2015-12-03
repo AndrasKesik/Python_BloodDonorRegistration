@@ -273,10 +273,8 @@ class EventManager():
             return None
 
         input_object_data_pairs = {
-            "1": ("date_of_event", "Date of Event"), "2": ("start_time", "Start Time"), "3": ("end_time", "End Time"),
-            "4": ("zip_code", "Zip Code"), "5": ("city", "City"), "6": ("address", "Address"),
-            "7": ("available_beds", "Available Beds"), "8": ("planned_donor_number", "Planned Donor Number"),
-            "9": ("successfull", "Number of Successful Donations")
+            "1": "Date of Event", "2": "Start Time", "3": "End Time", "4": "Zip Code", "5": "City", "6": "Address",
+            "7": "Available Beds", "8": "Planned Donor Number", "9": "Number of Successful Donations"
         }
         validators_for_data_to_change = {
             "1": Validate.validate_date, "2": Validate.validate_time, "3": Validate.validate_time,
@@ -284,7 +282,18 @@ class EventManager():
             "7": Validate.validate_positive_int, "8": Validate.validate_positive_int,
             "9": Validate.validate_positive_int
         }
-        print(event_to_change)
+        event_object_for_printing = Event()
+        event_object_for_printing.id = event_to_change[0]
+        event_object_for_printing.date_of_event = event_to_change[1]
+        event_object_for_printing.start_time = event_to_change[2]
+        event_object_for_printing.end_time = event_to_change[3]
+        event_object_for_printing.zip_code = event_to_change[4]
+        event_object_for_printing.city = event_to_change[5]
+        event_object_for_printing.address = event_to_change[6]
+        event_object_for_printing.available_beds = event_to_change[7]
+        event_object_for_printing.planned_donor_number = event_to_change[8]
+        event_object_for_printing.successfull = event_to_change[9]
+        print(event_object_for_printing)
         print("\n\nWhat would you like to change?")
         print("\n(1) Date of Event\n(2) Start Time\n(3) End Time\n(4) Zip code\n"
               "(5) City\n(6) Address\n(7) Available beds\n(8) Planned donor number\n"
@@ -294,8 +303,8 @@ class EventManager():
 
         data_to_change = ""
         while data_to_change == "":
-            print(event_to_change)
-            print("\n\nChanging {} to: ".format(input_object_data_pairs[input_key][1]))
+            print(event_object_for_printing)
+            print("\n\nChanging {} to: ".format(input_object_data_pairs[input_key]))
             data_to_change = input("\n> ")
             data_to_change = data_to_change.upper()
             if validators_for_data_to_change[input_key](data_to_change):
@@ -304,9 +313,10 @@ class EventManager():
                     if event_list[number][0] == event_to_change[0]:
                         event_list[number] = event_to_change
                 with open("Data/donations.csv", "w") as f:
-                    donation_database = csv.writer(f, delimiter=',')
+                    donation_database = csv.writer(f, delimiter=',', lineterminator="\n")
                     donation_database.writerows(event_list)
             else:
-                print("Wrong {}.".format(input_object_data_pairs[input_key][1]))
+                print("Wrong {}.".format(input_object_data_pairs[input_key]))
                 data_to_change = ""
                 time.sleep(1)
+                clear()

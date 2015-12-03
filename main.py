@@ -243,8 +243,8 @@ while True:
             EventManager.change_event(user_input)
             continue
         else:
-	        DonorManager.change_donor_data('852476HG')  # A string helyére jön majd a bekért ID
-	        holjar = 0
+            DonorManager.change_donor_data('852476HG')  # A string helyére jön majd a bekért ID
+            holjar = 0
     #
     # EXIT
     #
