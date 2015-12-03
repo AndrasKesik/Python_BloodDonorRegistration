@@ -7,6 +7,8 @@ import csv
 import pydoc
 from operator import attrgetter
 from constant_variables import *
+from msvcrt import getch
+from Managers.interactive_menu_manager import MenuManager
 clear = lambda: os.system('cls')
 
 
@@ -241,7 +243,6 @@ class DonorManager():
                     next_donor.hemoglobin = l[9]
                     next_donor.emailaddress = l[-2]
                     next_donor.mobilnumber = l[-1]
-                    print(next_donor)
                     line_number = i
 
         else:
@@ -249,40 +250,67 @@ class DonorManager():
             time.sleep(1)
             return None
 
-        which = input("\nWhich data you want to modify?"
-                      "\n\n(1) Name\n(2) Weight\n(3) Gender\n(4) Birth date"
-                      "\n(5) Date of last donation\n(6) Health status in last month"
-                      "\n(7) ID or Passport number\n(8) Expiration date of ID"
-                      "\n(9) Blood type\n(10) Hemoglobin\n(11) E-mail address"
-                      "\n(12) Mobile number\n(0) Cancel\n\n> ")
-        if which == '0':
-            return None
-        input_donor_data_pairs = {"1": "name", "2": "weight", "3": "gender", "4": "dateofbirth", "5": "lastdonationdate",
-                                  "6": "wassick", "7": "uniqueid", "8": "expofid", "9": "bloodtype",
-                                  "10": "hemoglobin", "11": "emailaddress", "12": "mobilnumber"}
-        which_donor_data_validation = {"1": Validate.validate_name, "2": Validate.validate_positive_int, "3": Validate.validate_gender, "4": Validate.validate_date, "5": Validate.validate_date,
-                                  "6": Validate.validate_sickness, "7": Validate.validate_id, "8": Validate.validate_date, "9": Validate.validate_blood_type,
-                                  "10": Validate.validate_positive_int, "11": Validate.validate_email, "12": Validate.validate_mobilnumber}
+        input_donor_data_pairs = {0: "Name", 1: "Weight", 2: "Gender", 3: "Date of birth", 4: "Last donation date",
+                                  5: "Health status in last month", 6: "ID number", 7: "Expiration of ID", 8: "Blood Type",
+                                  9: "Hemoglobin", 10: "e-mail address", 11: "Mobil number"}
+        which_donor_data_validation = {0: Validate.validate_name, 1: Validate.validate_positive_int, 2: Validate.validate_gender, 3: Validate.validate_date, 4: Validate.validate_date,
+                                  5: Validate.validate_sickness, 6: Validate.validate_id, 7: Validate.validate_date, 8: Validate.validate_blood_type,
+                                  9: Validate.validate_positive_int, 10: Validate.validate_email, 11: Validate.validate_mobilnumber}
 
-        new = ""
-        while new == "":
-            clear()
-            print(next_donor)
-            new = input("\n{}: ".format(input_donor_data_pairs[which]))
-            if which_donor_data_validation[which](new):
-                with open("Data/donors.csv", "w") as f:
-                    donor_list[line_number][int(which)-1] = new.upper()
-                    f.write(DONORS_ELSOSOR)
-                    for line in donor_list:
-                        for i in range(len(line)):
-                            f.write(line[i])
-                            if i < len(line)-1:
-                                f.write(',')
-                        f.write('\n')
-                print('\n...Done!')
-                time.sleep(1)
-                break
+        actv_selection = 0
+        while True:
+            MenuManager.change_donor_submenu(actv_selection, next_donor)
+
+            key = ord(getch())
+            if key == ESC:
+                user_input = 12
+                clear()
+            elif key == ENTER:
+                user_input = actv_selection
+                clear()
+            elif key == SPECIALKEYSELECTOR:
+                key = ord(getch())
+                if key == DOWNARROW:
+                    if actv_selection < 12:
+                        actv_selection += 1
+                    continue
+                elif key == UPARROW:
+                    if actv_selection > 0:
+                        actv_selection -= 1
+                    continue
+                else:
+                    print("\n! Wrong key !")
+                    time.sleep(1)
+                    continue
             else:
-                print("Wrong input")
-                new = ""
+                print("\n! Wrong key !")
                 time.sleep(1)
+                continue
+
+            if user_input in range(12):
+                new = ""
+                while new == "":
+                    clear()
+                    print(next_donor)
+                    new = input("\n{}: ".format(input_donor_data_pairs[user_input]))
+                    if which_donor_data_validation[user_input](new):
+                        with open("Data/donors.csv", "w") as f:
+                            donor_list[line_number][user_input] = new.upper()
+                            f.write(DONORS_ELSOSOR)
+                            for line in donor_list:
+                                for i in range(len(line)):
+                                    f.write(line[i])
+                                    if i < len(line)-1:
+                                        f.write(',')
+                                f.write('\n')
+                        print('\n...Done!')
+                        time.sleep(1)
+                        break
+                    else:
+                        print("Wrong input")
+                        new = ""
+                        time.sleep(1)
+            elif user_input == 12:
+                clear()
+                actv_selection = 0
+                return None

@@ -8,6 +8,8 @@ from collections import deque
 import pydoc
 from operator import attrgetter
 from constant_variables import *
+from msvcrt import getch
+from Managers.interactive_menu_manager import MenuManager
 clear = lambda: os.system('cls')
 
 
@@ -272,14 +274,14 @@ class EventManager:
             return None
 
         input_object_data_pairs = {
-            "1": "Date of Event", "2": "Start Time", "3": "End Time", "4": "Zip Code", "5": "City", "6": "Address",
-            "7": "Available Beds", "8": "Planned Donor Number", "9": "Number of Successful Donations"
+            0: "Date of Event", 1: "Start Time", 2: "End Time", 3: "Zip Code", 4: "City", 5: "Address",
+            6: "Available Beds", 7: "Planned Donor Number", 8: "Number of Successful Donations"
         }
         validators_for_data_to_change = {
-            "1": Validate.validate_date, "2": Validate.validate_time, "3": Validate.validate_time,
-            "4": Validate.validate_zipcode, "5": Validate.validate_city_name, "6": Validate.validate_address,
-            "7": Validate.validate_positive_int, "8": Validate.validate_positive_int,
-            "9": Validate.validate_positive_int
+            0: Validate.validate_date, 1: Validate.validate_time, 2: Validate.validate_time,
+            3: Validate.validate_zipcode, 4: Validate.validate_city_name, 5: Validate.validate_address,
+            6: Validate.validate_positive_int, 7: Validate.validate_positive_int,
+            8: Validate.validate_positive_int
         }
         event_object_for_printing = Event()
         event_object_for_printing.id = event_to_change[0]
@@ -292,32 +294,66 @@ class EventManager:
         event_object_for_printing.available_beds = event_to_change[7]
         event_object_for_printing.planned_donor_number = event_to_change[8]
         event_object_for_printing.successfull = event_to_change[9]
-        print(event_object_for_printing)
-        print("\n\nWhat would you like to change?")
-        print("\n(1) Date of Event\n(2) Start Time\n(3) End Time\n(4) Zip code\n"
-              "(5) City\n(6) Address\n(7) Available beds\n(8) Planned donor number\n"
-              "(9) Number of successful donations\n(0) Cancel")
-        input_key = input("\n> ")
-        clear()
-        if input_key == "0":
-            return None
 
-        data_to_change = ""
-        while data_to_change == "":
-            print(event_object_for_printing)
-            print("\n\nChanging {} to: ".format(input_object_data_pairs[input_key]))
-            data_to_change = input("\n> ")
-            data_to_change = data_to_change.upper()
-            if validators_for_data_to_change[input_key](data_to_change):
-                event_to_change[int(input_key)] = data_to_change
-                for number in range(len(event_list)):
-                    if event_list[number][0] == event_to_change[0]:
-                        event_list[number] = event_to_change
-                with open("Data/donations.csv", "w") as f:
-                    donation_database = csv.writer(f, delimiter=',', lineterminator="\n")
-                    donation_database.writerows(event_list)
-            else:
-                print("Wrong {}.".format(input_object_data_pairs[input_key]))
-                data_to_change = ""
-                time.sleep(1)
+        actv_selection = 0
+        while True:
+            MenuManager.change_event_submenu(actv_selection, event_object_for_printing)
+
+            key = ord(getch())
+            if key == ESC:
+                user_input = 9
                 clear()
+            elif key == ENTER:
+                user_input = actv_selection
+                clear()
+            elif key == SPECIALKEYSELECTOR:
+                key = ord(getch())
+                if key == DOWNARROW:
+                    if actv_selection < 9:
+                        actv_selection += 1
+                    continue
+                elif key == UPARROW:
+                    if actv_selection > 0:
+                        actv_selection -= 1
+                    continue
+                else:
+                    print("\n! Wrong key !")
+                    time.sleep(1)
+                    continue
+            else:
+                print("\n! Wrong key !")
+                time.sleep(1)
+                continue
+
+            if user_input in range(9):
+                data_to_change = ""
+                while data_to_change == "":
+                    print(event_object_for_printing)
+                    print("\n\nChanging {} to: ".format(input_object_data_pairs[user_input]))
+                    interrupt = ord(getch())
+                    data_to_change = input("\n> ")
+                    if interrupt == ESC:
+                        clear()
+                        return None
+                    data_to_change = data_to_change.upper()
+                    if validators_for_data_to_change[user_input](data_to_change):
+                        event_to_change[user_input + 1] = data_to_change
+                        for number in range(len(event_list)):
+                            if event_list[number][0] == event_to_change[0]:
+                                event_list[number] = event_to_change
+                        with open("Data/donations.csv", "w") as f:
+                            donation_database = csv.writer(f, delimiter=',', lineterminator="\n")
+                            donation_database.writerows(event_list)
+                        clear()
+                        print("Changing Data...")
+                        time.sleep(1)
+                        return None
+                    else:
+                        print("Wrong {}.".format(input_object_data_pairs[user_input]))
+                        data_to_change = ""
+                        time.sleep(1)
+                        clear()
+            elif user_input == 9:
+                clear()
+                actv_selection = 0
+                return None

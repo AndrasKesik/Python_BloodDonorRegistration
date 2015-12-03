@@ -8,7 +8,7 @@ from csv_check import CsvChecker
 from validation import Validate
 from Managers.donor_manager import DonorManager
 from Managers.event_manager import EventManager
-from Managers.interactive_menu_manager import InteractiveMenuManager
+from Managers.interactive_menu_manager import MenuManager
 clear = lambda: os.system('cls')
 
 #
@@ -25,7 +25,7 @@ init()
 #
 while True:
 
-    InteractiveMenuManager.main_menu(actv_selection)
+    MenuManager.main_menu(actv_selection)
 
     key = ord(getch())
     if key == ESC:
@@ -83,7 +83,7 @@ while True:
     elif user_input == MENU_ITEM_5:
         actv_selection = 0
         while True:
-            InteractiveMenuManager.list_submenu(actv_selection)
+            MenuManager.list_submenu(actv_selection)
 
             key = ord(getch())
             if key == ESC:
@@ -128,7 +128,7 @@ while True:
     elif user_input == MENU_ITEM_6:
         actv_selection = 0
         while True:
-            InteractiveMenuManager.search_submenu(actv_selection)
+            MenuManager.search_submenu(actv_selection)
 
             key = ord(getch())
             if key == ESC:
@@ -172,10 +172,12 @@ while True:
     elif user_input == MENU_ITEM_7:
         user_input = ""
         while user_input == "":
-            user_input = input("Type ID number: ")
+            user_input = input("(0) Cancel\nType ID number: ")
             user_input = user_input.upper()
             clear()
-            if user_input.isdigit():
+            if user_input == '0':
+                continue
+            elif user_input.isdigit():
                 EventManager.change_event(user_input)
                 continue
             elif Validate.validate_id(user_input):
