@@ -218,9 +218,7 @@ class EventManager():
     @staticmethod
     def search_in_donation_events():
         with open("Data/donations.csv", "r") as f:
-            content = []
-            for line in f:
-                content.append(line.strip())
+            content = list(csv.reader(f))
         del(content[0])
         if len(content) < 1:
             print("\n No entry found\n")
@@ -231,22 +229,23 @@ class EventManager():
             string_to_search = input("Search for donations: ")
             found_items = []
             for donation in content:
-                if string_to_search.capitalize() in donation or string_to_search.upper() in donation:
-                    found_items.append(donation)
+                for data in donation:
+                    if string_to_search.capitalize() in data or string_to_search.upper() in data:
+                        found_items.append(donation)
+                        break
             eventlista = []
-            for i in found_items:
-                l = i.split(",")
+            for found_donation in found_items:
                 eventlista.append(Event())
-                eventlista[-1].id = l[0]
-                eventlista[-1].date_of_event = l[1]
-                eventlista[-1].start_time = l[2]
-                eventlista[-1].end_time = l[3]
-                eventlista[-1].zip_code = l[4]
-                eventlista[-1].city = l[5]
-                eventlista[-1].address = l[6]
-                eventlista[-1].available_beds = l[7]
-                eventlista[-1].planned_donor_number = l[8]
-                eventlista[-1].successfull = l[9]
+                eventlista[-1].id = found_donation[0]
+                eventlista[-1].date_of_event = found_donation[1]
+                eventlista[-1].start_time = found_donation[2]
+                eventlista[-1].end_time = found_donation[3]
+                eventlista[-1].zip_code = found_donation[4]
+                eventlista[-1].city = found_donation[5]
+                eventlista[-1].address = found_donation[6]
+                eventlista[-1].available_beds = found_donation[7]
+                eventlista[-1].planned_donor_number = found_donation[8]
+                eventlista[-1].successfull = found_donation[9]
 
             szoveg = ""
             for i in eventlista:
