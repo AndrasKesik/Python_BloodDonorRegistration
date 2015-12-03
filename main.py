@@ -5,6 +5,7 @@ from msvcrt import getch
 from colorama import Fore, Back, Style, init
 from constant_variables import *
 from csv_check import CsvChecker
+from validation import Validate
 from Managers.donor_manager import DonorManager
 from Managers.event_manager import EventManager
 clear = lambda: os.system('cls')
@@ -238,13 +239,22 @@ while True:
                 break
 
     elif user_input == MENU_ITEM_7:
-        user_input = input("Type ID number: ")
-        if user_input.isdigit():
-            EventManager.change_event(user_input)
-            continue
-        else:
-            DonorManager.change_donor_data('852476HG')  # A string helyére jön majd a bekért ID
-            holjar = 0
+        user_input = ""
+        while user_input == "":
+            user_input = input("Type ID number: ")
+            user_input = user_input.upper()
+            clear()
+            if user_input.isdigit():
+                EventManager.change_event(user_input)
+                continue
+            elif Validate.validate_id(user_input):
+                DonorManager.change_donor_data(user_input)
+                holjar = 0
+            else:
+                print(ID_ERR + "\nor\n" + POSINT_ERR)
+                time.sleep(2)
+                clear()
+                continue
     #
     # EXIT
     #

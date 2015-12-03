@@ -247,6 +247,7 @@ class DonorManager():
         else:
             print("Data entry doesn't exist with that ID.")
             time.sleep(1)
+            return None
 
         which = input("\nWhich data you want to modify?"
                         "\n\n(1) Name\n(2) Weight\n(3) Gender\n(4) Birth date"

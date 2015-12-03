@@ -296,9 +296,11 @@ class EventManager():
         print("\n\nWhat would you like to change?")
         print("\n(1) Date of Event\n(2) Start Time\n(3) End Time\n(4) Zip code\n"
               "(5) City\n(6) Address\n(7) Available beds\n(8) Planned donor number\n"
-              "(9) Number of successful donations")
+              "(9) Number of successful donations\n(0) Cancel")
         input_key = input("\n> ")
         clear()
+        if input_key == "0":
+            return None
 
         data_to_change = ""
         while data_to_change == "":
