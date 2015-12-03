@@ -95,13 +95,13 @@ class DonorManager():
         while True:
             try:
                 with open("Data/donors.csv", "r") as f:
-                    content=[]
+                    content = []
                     for line in f:
                         content.append(line.strip())
                 ids = [content[i].split(',')[6] for i in range(len(content)) if i != 0]
                 print(ids, "(0) Cancel")
                 user_input = input("Enter donor's ID or passport number: ").upper()
-                if user_input=='0':
+                if user_input == '0':
                     clear()
                     break
                 elif not Validate.validate_id(user_input):
@@ -161,11 +161,11 @@ class DonorManager():
                 donor_object_list.append(next_donor)
 
             sort_by_input = input("Please choose the criteria by which you would like to sort the list: "
-                            "\n\n(ENTER) or (1) by name\n(2) by weight\n(3) by gender\n(4) by birth date"
-                            "\n(5) by date of last donation\n(6) by health status in last month"
-                            "\n(7) by ID or Passport number\n(8) by expiration date of ID"
-                            "\n(9) by blood type\n(10) by hemoglobin\n(11) by e-mail address"
-                            "\n(12) by mobile number\n(13) by age\n(0) Cancel\n\n> ")
+                                  "\n\n(ENTER) or (1) by name\n(2) by weight\n(3) by gender\n(4) by birth date"
+                                  "\n(5) by date of last donation\n(6) by health status in last month"
+                                  "\n(7) by ID or Passport number\n(8) by expiration date of ID"
+                                  "\n(9) by blood type\n(10) by hemoglobin\n(11) by e-mail address"
+                                  "\n(12) by mobile number\n(13) by age\n(0) Cancel\n\n> ")
             clear()
 
             if sort_by_input == "":
@@ -174,8 +174,8 @@ class DonorManager():
                 DonorManager.print_sorted_donor_list(donor_object_list, sort_by_input)
                 return None
             elif sort_by_input == "0":
-               clear()
-               return None
+                clear()
+                return None
 
             else:
                 print("\n\t\t! ! !  Please choose from the given numbers.  ! ! !\t\t\n ")
@@ -250,11 +250,11 @@ class DonorManager():
             return None
 
         which = input("\nWhich data you want to modify?"
-                        "\n\n(1) Name\n(2) Weight\n(3) Gender\n(4) Birth date"
-                        "\n(5) Date of last donation\n(6) Health status in last month"
-                        "\n(7) ID or Passport number\n(8) Expiration date of ID"
-                        "\n(9) Blood type\n(10) Hemoglobin\n(11) E-mail address"
-                        "\n(12) Mobile number\n(0) Cancel\n\n> ")
+                      "\n\n(1) Name\n(2) Weight\n(3) Gender\n(4) Birth date"
+                      "\n(5) Date of last donation\n(6) Health status in last month"
+                      "\n(7) ID or Passport number\n(8) Expiration date of ID"
+                      "\n(9) Blood type\n(10) Hemoglobin\n(11) E-mail address"
+                      "\n(12) Mobile number\n(0) Cancel\n\n> ")
         if which == '0':
             return None
         input_donor_data_pairs = {"1": "name", "2": "weight", "3": "gender", "4": "dateofbirth", "5": "lastdonationdate",
@@ -286,9 +286,3 @@ class DonorManager():
                 print("Wrong input")
                 new = ""
                 time.sleep(1)
-
-
-
-
-
-

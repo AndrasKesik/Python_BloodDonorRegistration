@@ -11,7 +11,7 @@ from constant_variables import *
 clear = lambda: os.system('cls')
 
 
-class EventManager():
+class EventManager:
     @staticmethod
     def data_in_e(event, validate, input_mess, error_mess):
         valid_input = ""
@@ -112,7 +112,7 @@ class EventManager():
             e1.available_beds = EventManager.data_in_e(e1, Validate.validate_positive_int, "Available beds: ", POSINT_ERR)
             e1.planned_donor_number = EventManager.data_in_e(e1, Validate.validate_positive_int, "Planned donor number: ", POSINT_ERR)
 
-            e1.successfull = EventManager.data_in_e(e1, Validate.validate_positive_int, "\n How many successfull donation was on the event?\n > ",POSINT_ERR)
+            e1.successfull = EventManager.data_in_e(e1, Validate.validate_positive_int, "\n How many successfull donation was on the event?\n > ", POSINT_ERR)
 
             print("\nThe required functions: \n")
 

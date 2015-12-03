@@ -2,78 +2,14 @@
 import os
 import time
 from msvcrt import getch
-from colorama import Fore, Back, Style, init
+from colorama import init
 from constant_variables import *
 from csv_check import CsvChecker
 from validation import Validate
 from Managers.donor_manager import DonorManager
 from Managers.event_manager import EventManager
+from Managers.interactive_menu_manager import InteractiveMenuManager
 clear = lambda: os.system('cls')
-
-
-def mainmenu(hol):
-    clear()
-    print(Style.RESET_ALL, end="")
-    print(WELCOME_MESSAGE)
-    menu = ['Add new donor',
-            'Add new donation event',
-            'Delete a donor',
-            'Delete donation event',
-            'List donors and donation events',
-            'Search',
-            'Change data',
-            'Exit']
-    i = 0
-    while i < hol:
-        print(menu[i])
-        i += 1
-    print(Back.WHITE + Fore.BLACK + menu[hol])
-    print(Style.RESET_ALL, end="")
-    i += 1
-    while i < 8:
-        print(menu[i])
-        i += 1
-    return None
-
-
-def list_submenu(hol):
-    clear()
-    print(Style.RESET_ALL, end="")
-    print(WELCOME_MESSAGE)
-    menu = ['List donors',
-            'List donation events',
-            'Cancel']
-    i = 0
-    while i < hol:
-        print(menu[i])
-        i += 1
-    print(Back.WHITE + Fore.BLACK + menu[hol])
-    print(Style.RESET_ALL, end="")
-    i += 1
-    while i < 3:
-        print(menu[i])
-        i += 1
-    return None
-
-
-def search_submenu(hol):
-    clear()
-    print(Style.RESET_ALL, end="")
-    print(WELCOME_MESSAGE)
-    menu = ['Search Donors',
-            'Search Donations',
-            'Cancel']
-    i = 0
-    while i < hol:
-        print(menu[i])
-        i += 1
-    print(Back.WHITE + Fore.BLACK + menu[hol])
-    print(Style.RESET_ALL, end="")
-    i += 1
-    while i < 3:
-        print(menu[i])
-        i += 1
-    return None
 
 #
 # CSV CHECKERS
@@ -81,18 +17,15 @@ def search_submenu(hol):
 CsvChecker.donor_file_check()
 CsvChecker.donations_file_check()
 
-
-
 clear()
-holjar = 0
+actv_selection = 0
 init()
-
 #
 # MAIN MENU
 #
 while True:
 
-    mainmenu(holjar)
+    InteractiveMenuManager.main_menu(actv_selection)
 
     key = ord(getch())
     if key == ESC:
@@ -101,17 +34,17 @@ while True:
         user_input = 7
 
     elif key == ENTER:
-        user_input = holjar
+        user_input = actv_selection
         clear()
     elif key == SPECIALKEYSELECTOR:
         key = ord(getch())
         if key == DOWNARROW:
-            if holjar < 7:
-                holjar += 1
+            if actv_selection < 7:
+                actv_selection += 1
             continue
         elif key == UPARROW:
-            if holjar > 0:
-                holjar -= 1
+            if actv_selection > 0:
+                actv_selection -= 1
             continue
         else:
             print("\n! Wrong key !")
@@ -121,16 +54,12 @@ while True:
         print("\n! Wrong key !")
         time.sleep(1)
         continue
-
-
-
     #
     # ADD NEW DONOR
     #
     if user_input == MENU_ITEM_1:
         DonorManager.add_new_donor()
         continue
-
     #
     # ADD NEW DONATION EVENT
     #
@@ -152,26 +81,26 @@ while True:
     # LIST DONORS AND DONATION EVENTS
     #
     elif user_input == MENU_ITEM_5:
-        holjar = 0
+        actv_selection = 0
         while True:
-            list_submenu(holjar)
+            InteractiveMenuManager.list_submenu(actv_selection)
 
             key = ord(getch())
             if key == ESC:
                 user_input = 2
                 clear()
             elif key == ENTER:
-                user_input = holjar
+                user_input = actv_selection
                 clear()
             elif key == SPECIALKEYSELECTOR:
                 key = ord(getch())
                 if key == DOWNARROW:
-                    if holjar < 2:
-                        holjar += 1
+                    if actv_selection < 2:
+                        actv_selection += 1
                     continue
                 elif key == UPARROW:
-                    if holjar > 0:
-                        holjar -= 1
+                    if actv_selection > 0:
+                        actv_selection -= 1
                     continue
                 else:
                     print("\n! Wrong key !")
@@ -190,33 +119,33 @@ while True:
                 EventManager.list_donation_events()
                 continue
             elif user_input == 2:
-                holjar=0
+                actv_selection = 0
                 clear()
                 break
     #
     # SEARCH
     #
     elif user_input == MENU_ITEM_6:
-        holjar = 0
+        actv_selection = 0
         while True:
-            search_submenu(holjar)
+            InteractiveMenuManager.search_submenu(actv_selection)
 
             key = ord(getch())
             if key == ESC:
                 user_input = 2
                 clear()
             elif key == ENTER:
-                user_input = holjar
+                user_input = actv_selection
                 clear()
             elif key == SPECIALKEYSELECTOR:
                 key = ord(getch())
                 if key == DOWNARROW:
-                    if holjar < 2:
-                        holjar += 1
+                    if actv_selection < 2:
+                        actv_selection += 1
                     continue
                 elif key == UPARROW:
-                    if holjar > 0:
-                        holjar -= 1
+                    if actv_selection > 0:
+                        actv_selection -= 1
                     continue
                 else:
                     print("\n! Wrong key !")
@@ -235,9 +164,11 @@ while True:
                 continue
             elif user_input == 2:
                 clear()
-                holjar = 0
+                actv_selection = 0
                 break
-
+    #
+    # CHANGE DATA
+    #
     elif user_input == MENU_ITEM_7:
         user_input = ""
         while user_input == "":
@@ -249,10 +180,10 @@ while True:
                 continue
             elif Validate.validate_id(user_input):
                 DonorManager.change_donor_data(user_input)
-                holjar = 0
+                actv_selection = 0
             else:
-                print(ID_ERR + "\nor\n" + POSINT_ERR)
-                time.sleep(2)
+                print(ID_ERR + "\n\t\t\t\tor\n" + POSINT_ERR)
+                time.sleep(3)
                 clear()
                 continue
     #
@@ -266,4 +197,3 @@ while True:
         time.sleep(2)
         clear()
         break
-
