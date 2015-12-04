@@ -345,7 +345,7 @@ class EventManager:
                             donation_database = csv.writer(f, delimiter=',', lineterminator="\n")
                             donation_database.writerows(event_list)
                         clear()
-                        print("Changing Data...")
+                        print("...Done!")
                         time.sleep(1)
                         return None
                     else:

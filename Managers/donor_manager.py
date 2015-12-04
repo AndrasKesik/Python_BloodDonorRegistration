@@ -293,6 +293,10 @@ class DonorManager():
                     clear()
                     print(next_donor)
                     new = input("\n{}: ".format(input_donor_data_pairs[user_input]))
+                    if new.upper() in [donor[6] for donor in donor_list]:
+                        print("This ID number already exists! Try again.")
+                        time.sleep(2)
+                        break
                     if which_donor_data_validation[user_input](new):
                         with open("Data/donors.csv", "w") as f:
                             donor_list[line_number][user_input] = new.upper()
