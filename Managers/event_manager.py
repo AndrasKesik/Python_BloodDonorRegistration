@@ -329,14 +329,13 @@ class EventManager:
                 data_to_change = ""
                 while data_to_change == "":
                     print(event_object_for_printing)
-                    print("\n\nChanging {} to: ".format(input_object_data_pairs[user_input]))
-                    interrupt = ord(getch())
+                    print("------------------------------\n")
+                    print("\n(0) Cancel\nChanging {} to: ".format(input_object_data_pairs[user_input]))
                     data_to_change = input("\n> ")
-                    if interrupt == ESC:
-                        clear()
-                        return None
                     data_to_change = data_to_change.upper()
-                    if validators_for_data_to_change[user_input](data_to_change):
+                    if data_to_change == "0":
+                        return None
+                    elif validators_for_data_to_change[user_input](data_to_change):
                         event_to_change[user_input + 1] = data_to_change
                         for number in range(len(event_list)):
                             if event_list[number][0] == event_to_change[0]:

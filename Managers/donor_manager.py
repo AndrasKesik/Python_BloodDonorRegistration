@@ -292,7 +292,10 @@ class DonorManager():
                 while new == "":
                     clear()
                     print(next_donor)
-                    new = input("\n{}: ".format(input_donor_data_pairs[user_input]))
+                    print("------------------------------\n")
+                    new = input("\n(0) Cancel\nChanging {} to: ".format(input_donor_data_pairs[user_input]))
+                    if new == "0":
+                        return None
                     if new.upper() in [donor[6] for donor in donor_list]:
                         print("This ID number already exists! Try again.")
                         time.sleep(2)
