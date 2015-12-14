@@ -18,7 +18,7 @@ USE `BloodDonationStorage` ;
 -- Table `BloodDonationStorage`.`Event`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `BloodDonationStorage`.`Event` (
-  `Id` INT NOT NULL,
+  `Id` INT AUTO_INCREMENT PRIMARY KEY,
   `DateOfEvent` DATE NOT NULL,
   `StartTime` TIME NOT NULL,
   `EndTime` TIME NOT NULL,
@@ -27,8 +27,7 @@ CREATE TABLE IF NOT EXISTS `BloodDonationStorage`.`Event` (
   `Address` VARCHAR(45) NOT NULL,
   `AvailableBeds` INT NOT NULL,
   `PlannedDonorNumber` INT NOT NULL,
-  `Successfull` INT NOT NULL,
-  PRIMARY KEY (`Id`))
+  `Successfull` INT NOT NULL)
 ENGINE = InnoDB;
 
 

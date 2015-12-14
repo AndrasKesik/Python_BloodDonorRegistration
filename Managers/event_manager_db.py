@@ -2,6 +2,7 @@
 import os
 import time
 from datetime import datetime
+from datetime import date
 from validation import Validate
 from functions import Event
 import csv
@@ -13,12 +14,12 @@ from msvcrt import getch
 from Managers.interactive_menu_manager import MenuManager
 clear = lambda: os.system('cls')
 
-STORE_EVENT_IN_SQLDB = """INSERT INTO `blooddonationstorage`.`event` (`Id`, `DateOfEvent`, `StartTime`, `EndTime`,
-`ZipCode`, `City`, `Address`, `AvailableBeds`, `PlannedDonorNumber`, `Successfull`, `Duration`)
-VALUES ({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {});"""
+STORE_EVENT_IN_SQLDB = """INSERT INTO `blooddonationstorage`.`event` (`DateOfEvent`, `StartTime`, `EndTime`,
+`ZipCode`, `City`, `Address`, `AvailableBeds`, `PlannedDonorNumber`, `Successfull`)
+VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}');"""
 QUERY_EVENT_IDS_FROM_SQLDB = """SELECT `Id` FROM `blooddonationstorage`.`event`;"""
 QUERY_EVENTS_FROM_SQLDB = """SELECT * FROM `blooddonationstorage`.`event`;"""
-DELETE_ROW_IN_SQLDB = """DELETE FROM `blooddonationstorage`.`event` WHERE Id={};"""
+DELETE_ROW_IN_SQLDB = """DELETE FROM `blooddonationstorage`.`event` WHERE Id='{}';"""
 
 
 class EventManagerDB:
@@ -39,7 +40,7 @@ class EventManagerDB:
 
     @staticmethod
     def store_donation_data(donation_object, cursor_obj):
-        cursor_obj.execute(STORE_EVENT_IN_SQLDB.format("DEFAULT", datetime.strptime(donation_object.date_of_event, '%Y.%m.%d'),
+        cursor_obj.execute(STORE_EVENT_IN_SQLDB.format(datetime.strptime(donation_object.date_of_event, '%Y.%m.%d'),
                                                        datetime.strptime(donation_object.start_time, '%H:%M'),
                                                        datetime.strptime(donation_object.end_time, '%H:%M'),
                                                        donation_object.zip_code, donation_object.city,
@@ -131,7 +132,7 @@ class EventManagerDB:
                 elif user_input == '0':
                     clear()
                     break
-                elif user_input not in ids:
+                elif int(user_input) not in ids:
                     print("\n\tID is valid, but there is no entry with this ID yet.")
                     time.sleep(2)
                     clear()
@@ -164,9 +165,11 @@ class EventManagerDB:
             for entry in event_list:
                 next_event = Event()
                 next_event.id = str(entry[0])
-                next_event.date_of_event = entry[1].datetime.strftime('%Y.%m.%d')
-                next_event.start_time = entry[2].datetime.strftime('%H:%M')
-                next_event.end_time = entry[3].datetime.strftime('%H:%M')
+                next_event.date_of_event = entry[1].strftime('%Y.%m.%d')
+                delta_to_time_obj = (datetime.min + entry[2]).time()
+                next_event.start_time = delta_to_time_obj.strftime('%H:%M')
+                delta_to_time_obj2 = (datetime.min + entry[3]).time()
+                next_event.end_time = delta_to_time_obj2.strftime('%H:%M')
                 next_event.zip_code = str(entry[4])
                 next_event.city = entry[5]
                 next_event.address = entry[6]
@@ -211,16 +214,18 @@ class EventManagerDB:
             found_items = []
             for donation in content:
                 for data in donation:
-                    if string_to_search.capitalize() in data or string_to_search.upper() in data:
+                    if string_to_search.capitalize() in str(data) or string_to_search.upper() in str(data):
                         found_items.append(donation)
                         break
             eventlista = []
             for found_donation in found_items:
                 eventlista.append(Event())
                 eventlista[-1].id = str(found_donation[0])
-                eventlista[-1].date_of_event = found_donation[1].datetime.strftime('%Y.%m.%d')
-                eventlista[-1].start_time = found_donation[2].datetime.strftime('%H:%M')
-                eventlista[-1].end_time = found_donation[3].datetime.strftime('%H:%M')
+                eventlista[-1].date_of_event = found_donation[1].strftime('%Y.%m.%d')
+                delta_to_time_obj = (datetime.min + found_donation[2]).time()
+                eventlista[-1].start_time = delta_to_time_obj.strftime('%H:%M')
+                delta_to_time_obj2 = (datetime.min + found_donation[3]).time()
+                eventlista[-1].end_time = delta_to_time_obj2.strftime('%H:%M')
                 eventlista[-1].zip_code = str(found_donation[4])
                 eventlista[-1].city = found_donation[5]
                 eventlista[-1].address = found_donation[6]

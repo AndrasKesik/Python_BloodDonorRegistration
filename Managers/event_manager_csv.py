@@ -13,7 +13,7 @@ from Managers.interactive_menu_manager import MenuManager
 clear = lambda: os.system('cls')
 
 
-class EventManager:
+class EventManagerCSV:
     @staticmethod
     def data_in_e(event, validate, input_mess, error_mess):
         valid_input = ""
@@ -49,11 +49,11 @@ class EventManager:
 
     @staticmethod
     def store_donation_data(donation_object):
-        id_int = EventManager.event_id_generator("Data/donations.csv")
+        id_int = EventManagerCSV.event_id_generator("Data/donations.csv")
         donation_sample = ""
         donation_sample += '\n' + str(id_int) + "," + str(donation_object.date_of_event) + "," + str(donation_object.start_time) +\
                            "," + str(donation_object.end_time) + "," + str(donation_object.zip_code) + "," + \
-                           str(donation_object.city) + "," + EventManager.put_string_in_quotes_if_has_comma(donation_object.address) + \
+                           str(donation_object.city) + "," + EventManagerCSV.put_string_in_quotes_if_has_comma(donation_object.address) + \
                            "," + str(donation_object.available_beds) + "," + str(donation_object.planned_donor_number) + \
                            "," + str(donation_object.successfull)
         with open("Data/donations.csv", "a") as donations:
@@ -99,22 +99,22 @@ class EventManager:
                 clear()
                 continue
 
-            e1.start_time = EventManager.data_in_e(e1, Validate.validate_time, "Start Time: ", TIME_ERR)
-            e1.end_time = EventManager.data_in_e(e1, Validate.validate_time, "End Time: ", TIME_ERR)
+            e1.start_time = EventManagerCSV.data_in_e(e1, Validate.validate_time, "Start Time: ", TIME_ERR)
+            e1.end_time = EventManagerCSV.data_in_e(e1, Validate.validate_time, "End Time: ", TIME_ERR)
             while not e1.is_starttime_before_endtime():
                 print("\n\t ! The starting time should be before the ending time. ! ")
                 time.sleep(2)
                 clear()
                 e1.end_time = ""
-                e1.end_time = EventManager.data_in_e(e1, Validate.validate_time, "End Time: ", TIME_ERR)
+                e1.end_time = EventManagerCSV.data_in_e(e1, Validate.validate_time, "End Time: ", TIME_ERR)
 
-            e1.zip_code = EventManager.data_in_e(e1, Validate.validate_zipcode, "ZIP code: ", ZIP_ERR)
-            e1.city = EventManager.data_in_e(e1, Validate.validate_city_name, "City: ", CITY_ERR)
-            e1.address = EventManager.data_in_e(e1, Validate.validate_address, "Address of event: ", ADDRESS_ERR)
-            e1.available_beds = EventManager.data_in_e(e1, Validate.validate_positive_int, "Available beds: ", POSINT_ERR)
-            e1.planned_donor_number = EventManager.data_in_e(e1, Validate.validate_positive_int, "Planned donor number: ", POSINT_ERR)
+            e1.zip_code = EventManagerCSV.data_in_e(e1, Validate.validate_zipcode, "ZIP code: ", ZIP_ERR)
+            e1.city = EventManagerCSV.data_in_e(e1, Validate.validate_city_name, "City: ", CITY_ERR)
+            e1.address = EventManagerCSV.data_in_e(e1, Validate.validate_address, "Address of event: ", ADDRESS_ERR)
+            e1.available_beds = EventManagerCSV.data_in_e(e1, Validate.validate_positive_int, "Available beds: ", POSINT_ERR)
+            e1.planned_donor_number = EventManagerCSV.data_in_e(e1, Validate.validate_positive_int, "Planned donor number: ", POSINT_ERR)
 
-            e1.successfull = EventManager.data_in_e(e1, Validate.validate_positive_int, "\n How many successfull donation was on the event?\n > ", POSINT_ERR)
+            e1.successfull = EventManagerCSV.data_in_e(e1, Validate.validate_positive_int, "\n How many successfull donation was on the event?\n > ", POSINT_ERR)
 
             print("\nThe required functions: \n")
 
@@ -124,7 +124,7 @@ class EventManager:
             print("Maximum donor number:", e1.max_donor_number())
             print("Success rate: {}".format(e1.success_rate()))
             input("\n\n (Press ENTER to go BACK)")
-            EventManager.store_donation_data(e1)
+            EventManagerCSV.store_donation_data(e1)
             clear()
             break
 
@@ -207,7 +207,7 @@ class EventManager:
             if user_input == "":
                 user_input = "1"
             if user_input.isdigit() and int(user_input) in range(1, 10):
-                EventManager.print_sorted_donation_list(donation_object_list, user_input)
+                EventManagerCSV.print_sorted_donation_list(donation_object_list, user_input)
                 return None
             elif user_input == "0":
                 clear()

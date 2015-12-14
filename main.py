@@ -9,7 +9,8 @@ from csv_check import CsvChecker
 from validation import Validate
 from Managers.donor_manager_csv import DonorManager
 from Managers.donor_manager_db import DonorManagerDB
-from Managers.event_manager_csv import EventManager
+from Managers.event_manager_csv import EventManagerCSV
+from Managers.event_manager_db import EventManagerDB
 from Managers.interactive_menu_manager import MenuManager
 clear = lambda: os.system('cls')
 
@@ -109,7 +110,11 @@ while True:
     # ADD NEW DONATION EVENT
     #
     elif user_input == MENU_ITEM_2:
-        EventManager.add_new_donation_event()
+        if connect_decider:
+            EventManagerDB.add_new_donation_event(cursor)
+            connection.commit()
+        else:
+            EventManagerCSV.add_new_donation_event()
         continue
     #
     # DElETE A DONOR
@@ -125,7 +130,11 @@ while True:
     # DELETE DONATION EVENT
     #
     elif user_input == MENU_ITEM_4:
-        EventManager.delete_donation_event()
+        if connect_decider:
+            EventManagerDB.delete_donation_event(cursor)
+            connection.commit()
+        else:
+            EventManagerCSV.delete_donation_event()
     #
     # LIST DONORS AND DONATION EVENTS
     #
@@ -168,7 +177,10 @@ while True:
                     DonorManager.list_donors()
                 continue
             elif user_input == 1:
-                EventManager.list_donation_events()
+                if connect_decider:
+                    EventManagerDB.list_donation_events(cursor)
+                else:
+                    EventManagerCSV.list_donation_events()
                 continue
             elif user_input == 2:
                 actv_selection = 0
@@ -215,7 +227,10 @@ while True:
                     DonorManager.search_in_donors()
                 continue
             elif user_input == 1:
-                EventManager.search_in_donation_events()
+                if connect_decider:
+                    EventManagerDB.search_in_donation_events(cursor)
+                else:
+                    EventManagerCSV.search_in_donation_events()
                 continue
             elif user_input == 2:
                 clear()
@@ -233,7 +248,7 @@ while True:
             if user_input == '0':
                 break
             elif user_input.isdigit():
-                EventManager.change_event(user_input)
+                EventManagerCSV.change_event(user_input)
                 break
             elif Validate.validate_id(user_input):
                 if connect_decider:
