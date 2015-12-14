@@ -36,7 +36,7 @@ ENGINE = InnoDB;
 -- Table `BloodDonationStorage`.`Donor`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `BloodDonationStorage`.`Donor` (
-  `Unique` VARCHAR(8) NOT NULL,
+  `UniqueId` VARCHAR(8) NOT NULL,
   `Name` VARCHAR(45) NOT NULL,
   `Weight` INT NOT NULL,
   `Gender` ENUM('M', 'F') NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `BloodDonationStorage`.`Donor` (
   `Emailaddress` VARCHAR(45) NOT NULL,
   `Mobilnumber` VARCHAR(45) NOT NULL,
   `HemoglobinLevel` INT NOT NULL,
-  PRIMARY KEY (`Unique`))
+  PRIMARY KEY (`UniqueId`))
 ENGINE = InnoDB;
 
 

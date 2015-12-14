@@ -11,7 +11,7 @@ from msvcrt import getch
 from Managers.interactive_menu_manager import MenuManager
 clear = lambda: os.system('cls')
 ADD_DONOR="""INSERT INTO `blooddonationstorage`.`donor`
-                        (`Unique`,
+                        (`UniqueId`,
                         `Name`,
                         `Weight`,
                         `Gender`,
@@ -120,14 +120,12 @@ class DonorManagerDB():
         clear()
 
     @staticmethod
-    def delete_donor():
+    def delete_donor(cursor):
         while True:
             try:
-                with open("Data/donors.csv", "r") as f:
-                    content = []
-                    for line in f:
-                        content.append(line.strip())
-                ids = [content[i].split(',')[6] for i in range(len(content)) if i != 0]
+                cursor.execute("SELECT UniqueId FROM Donor;")
+                data = cursor.fetchall()
+                ids = [i[0] for i in data]
                 print(ids, "(0) Cancel")
                 user_input = input("Enter donor's ID or passport number: ").upper()
                 if user_input == '0':
@@ -145,10 +143,7 @@ class DonorManagerDB():
                     continue
                 else:
                     print("Deleting entry...")
-                    with open("Data/donors.csv", "w") as f:
-                        for line in content:
-                            if user_input != line.split(",")[6]:
-                                f.write(line+"\n")
+                    cursor.execute("DELETE FROM Donor WHERE UniqueId = '{}';".format(user_input))
                     time.sleep(1)
                 print("Done!")
                 input()

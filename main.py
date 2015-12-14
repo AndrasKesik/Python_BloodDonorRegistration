@@ -115,7 +115,11 @@ while True:
     # DElETE A DONOR
     #
     elif user_input == MENU_ITEM_3:
-        DonorManager.delete_donor()
+        if connect_decider:
+            DonorManagerDB.delete_donor(cursor)
+            connection.commit()
+        else:
+            DonorManager.delete_donor()
         continue
     #
     # DELETE DONATION EVENT
