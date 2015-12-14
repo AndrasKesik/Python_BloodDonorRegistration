@@ -12,14 +12,10 @@ from Managers.event_manager_csv import EventManager
 from Managers.interactive_menu_manager import MenuManager
 clear = lambda: os.system('cls')
 
-storing_mode = csv_or_db()
-if not storing_mode:
-    #
-    # CSV CHECKERS
-    #
-    CsvChecker.donor_file_check()
-    CsvChecker.donations_file_check()
-appconfig= r"C:\Workspace\Python\blood\app.config"
+
+appconfig = r"C:\Workspace\Python\blood\app.config"
+create_db = r"C:\Workspace\Python\blood\create.sql"
+
 def config_manager(config_file):
     with open(config_file, 'r') as f:
         dict = eval(f.read())
@@ -31,6 +27,17 @@ def config_manager(config_file):
         elif dict["mode"] == "csv":
             return None
 
+def run_sql_script(sql_file):
+    with open(sql_file, 'r') as f:
+        sql_data = f.read()
+    actual = ""
+    for i in sql_data.split('\n'):
+        if not i.startswith("--"):
+            actual += i
+            if i.endswith(";"):
+                cursor.execute(actual)
+                actual = ""
+    connection.commit()
 
 connect_decider = config_manager(appconfig)
 if connect_decider:
@@ -41,11 +48,14 @@ if connect_decider:
     print(data)
     input()
 else:
-    #
-    # CSV CHECKERS
-    #
     CsvChecker.donor_file_check()
     CsvChecker.donations_file_check()
+
+run_sql_script(create_db)
+
+
+
+
 
 clear()
 actv_selection = 0

@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 import datetime
-blood_type = ("A+", "A-", "B+", "B-", "AB+", "AB-", "0+", "0-")
+blood_type = ('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', '0+', '0-')
 cities = ("Miskolc", "Kazincbarcika", "Szerencs", "Sárospatak")
 
 
