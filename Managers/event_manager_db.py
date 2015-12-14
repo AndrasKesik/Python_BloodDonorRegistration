@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 import os
 import time
+from datetime import datetime
 from validation import Validate
 from functions import Event
 import csv
@@ -12,8 +13,15 @@ from msvcrt import getch
 from Managers.interactive_menu_manager import MenuManager
 clear = lambda: os.system('cls')
 
+STORE_EVENT_IN_SQLDB = """INSERT INTO `blooddonationstorage`.`event` (`Id`, `DateOfEvent`, `StartTime`, `EndTime`,
+`ZipCode`, `City`, `Address`, `AvailableBeds`, `PlannedDonorNumber`, `Successfull`, `Duration`)
+VALUES ({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {});"""
+QUERY_EVENT_IDS_FROM_SQLDB = """SELECT `Id` FROM `blooddonationstorage`.`event`;"""
+QUERY_EVENTS_FROM_SQLDB = """SELECT * FROM `blooddonationstorage`.`event`;"""
+DELETE_ROW_IN_SQLDB = """DELETE FROM `blooddonationstorage`.`event` WHERE Id={};"""
 
-class EventManager:
+
+class EventManagerDB:
     @staticmethod
     def data_into_event_object(event_obj, validate, input_msg, error_msg):
         valid_input = ""
@@ -30,35 +38,13 @@ class EventManager:
                 time.sleep(2)
 
     @staticmethod
-    def put_string_in_quotes_if_has_comma(text):
-        if ',' in text:
-            return '"' + text + '"'
-        else:
-            return text
-
-    @staticmethod
-    def event_id_generator(donations_csv):
-        with open(donations_csv, 'r') as f:
-            last_line_list = deque(csv.reader(f), 1)[0]
-            if last_line_list[0] == "id":
-                return 1
-            if last_line_list and last_line_list[0].isdigit():
-                return int(last_line_list[0]) + 1
-            else:
-                return -100
-
-    @staticmethod
-    def store_donation_data(donation_object):
-        id_int = EventManager.event_id_generator("Data/donations.csv")
-        donation_sample = ""
-        donation_sample += '\n' + str(id_int) + "," + str(donation_object.date_of_event) + "," + str(donation_object.start_time) +\
-                           "," + str(donation_object.end_time) + "," + str(donation_object.zip_code) + "," + \
-                           str(donation_object.city) + "," + EventManager.put_string_in_quotes_if_has_comma(donation_object.address) + \
-                           "," + str(donation_object.available_beds) + "," + str(donation_object.planned_donor_number) + \
-                           "," + str(donation_object.successfull)
-        cursor.execute("INSERT INTO donations (ID, EventDate, StartTime, EndTime, ZipCode, City, )VALUES ();")
-        with open("Data/donations.csv", "a") as donations:
-            donations.writelines(donation_sample)
+    def store_donation_data(donation_object, cursor_obj):
+        cursor_obj.execute(STORE_EVENT_IN_SQLDB.format("DEFAULT", datetime.strptime(donation_object.date_of_event, '%Y.%m.%d'),
+                                                       datetime.strptime(donation_object.start_time, '%H:%M'),
+                                                       datetime.strptime(donation_object.end_time, '%H:%M'),
+                                                       donation_object.zip_code, donation_object.city,
+                                                       donation_object.address, donation_object.available_beds,
+                                                       donation_object.planned_donor_number, donation_object.successfull))
 
     @staticmethod
     def print_sorted_donation_list(event_objects, input_string):
@@ -84,7 +70,7 @@ class EventManager:
         clear()
 
     @staticmethod
-    def add_new_donation_event():
+    def add_new_donation_event(cursor_object):
         print("Adding new event...\n")
         time.sleep(1)
         clear()
@@ -100,22 +86,22 @@ class EventManager:
                 clear()
                 continue
 
-            e1.start_time = EventManager.data_into_event_object(e1, Validate.validate_time, "Start Time: ", TIME_ERR)
-            e1.end_time = EventManager.data_into_event_object(e1, Validate.validate_time, "End Time: ", TIME_ERR)
+            e1.start_time = EventManagerDB.data_into_event_object(e1, Validate.validate_time, "Start Time: ", TIME_ERR)
+            e1.end_time = EventManagerDB.data_into_event_object(e1, Validate.validate_time, "End Time: ", TIME_ERR)
             while not e1.is_starttime_before_endtime():
                 print("\n\t ! The starting time should be before the ending time. ! ")
                 time.sleep(2)
                 clear()
                 e1.end_time = ""
-                e1.end_time = EventManager.data_into_event_object(e1, Validate.validate_time, "End Time: ", TIME_ERR)
+                e1.end_time = EventManagerDB.data_into_event_object(e1, Validate.validate_time, "End Time: ", TIME_ERR)
 
-            e1.zip_code = EventManager.data_into_event_object(e1, Validate.validate_zipcode, "ZIP code: ", ZIP_ERR)
-            e1.city = EventManager.data_into_event_object(e1, Validate.validate_city_name, "City: ", CITY_ERR)
-            e1.address = EventManager.data_into_event_object(e1, Validate.validate_address, "Address of event: ", ADDRESS_ERR)
-            e1.available_beds = EventManager.data_into_event_object(e1, Validate.validate_positive_int, "Available beds: ", POSINT_ERR)
-            e1.planned_donor_number = EventManager.data_into_event_object(e1, Validate.validate_positive_int, "Planned donor number: ", POSINT_ERR)
+            e1.zip_code = EventManagerDB.data_into_event_object(e1, Validate.validate_zipcode, "ZIP code: ", ZIP_ERR)
+            e1.city = EventManagerDB.data_into_event_object(e1, Validate.validate_city_name, "City: ", CITY_ERR)
+            e1.address = EventManagerDB.data_into_event_object(e1, Validate.validate_address, "Address of event: ", ADDRESS_ERR)
+            e1.available_beds = EventManagerDB.data_into_event_object(e1, Validate.validate_positive_int, "Available beds: ", POSINT_ERR)
+            e1.planned_donor_number = EventManagerDB.data_into_event_object(e1, Validate.validate_positive_int, "Planned donor number: ", POSINT_ERR)
 
-            e1.successfull = EventManager.data_into_event_object(e1, Validate.validate_positive_int, "\n How many successfull donation was on the event?\n > ", POSINT_ERR)
+            e1.successfull = EventManagerDB.data_into_event_object(e1, Validate.validate_positive_int, "\n How many successfull donation was on the event?\n > ", POSINT_ERR)
 
             print("\nThe required functions: \n")
 
@@ -125,19 +111,16 @@ class EventManager:
             print("Maximum donor number:", e1.max_donor_number())
             print("Success rate: {}".format(e1.success_rate()))
             input("\n\n (Press ENTER to go BACK)")
-            EventManager.store_donation_data(e1)
+            EventManagerDB.store_donation_data(e1, cursor_object)
             clear()
             break
 
     @staticmethod
-    def delete_donation_event():
+    def delete_donation_event(cursor_object):
         while True:
             try:
-                with open("Data/donations.csv", "r") as f:
-                    content = []
-                    for line in f:
-                        content.append(line.strip())
-                ids = [content[i].split(',')[0] for i in range(len(content)) if i != 0]
+                cursor_object.execute(QUERY_EVENT_IDS_FROM_SQLDB)
+                ids = [tupl[0] for tupl in cursor_object.fetchall()]
                 print(ids, "(0) Cancel")
                 user_input = input("Enter donation event's ID number: ")
                 if not user_input.isdigit():
@@ -155,10 +138,7 @@ class EventManager:
                     continue
                 else:
                     print("Deleting entry...")
-                    with open("Data/donations.csv", "w") as f:
-                        for line in content:
-                            if user_input != line.split(",")[0]:
-                                f.write(line + "\n")
+                    cursor_object.execute(DELETE_ROW_IN_SQLDB.format(int(user_input)))
                     time.sleep(1)
                 print("Done!")
                 input()
@@ -171,10 +151,9 @@ class EventManager:
                 clear()
 
     @staticmethod
-    def list_donation_events():
-        with open("Data/donations.csv", "r") as f:
-            event_list = list(csv.reader(f))
-        del(event_list[0])
+    def list_donation_events(cursor_object):
+        cursor_object.execute(QUERY_EVENTS_FROM_SQLDB)
+        event_list = cursor_object.fetchall()
         if len(event_list) < 1:
             print("\n No entry found\n")
             input("\n Press (ENTER) to go back")
@@ -182,18 +161,18 @@ class EventManager:
             return None
         else:
             donation_object_list = []
-            for i in event_list:
+            for entry in event_list:
                 next_event = Event()
-                next_event.id = i[0]
-                next_event.date_of_event = i[1]
-                next_event.start_time = i[2]
-                next_event.end_time = i[3]
-                next_event.zip_code = i[4]
-                next_event.city = i[5]
-                next_event.address = i[6]
-                next_event.available_beds = i[7]
-                next_event.planned_donor_number = i[8]
-                next_event.successfull = i[9]
+                next_event.id = str(entry[0])
+                next_event.date_of_event = entry[1].datetime.strftime('%Y.%m.%d')
+                next_event.start_time = entry[2].datetime.strftime('%H:%M')
+                next_event.end_time = entry[3].datetime.strftime('%H:%M')
+                next_event.zip_code = str(entry[4])
+                next_event.city = entry[5]
+                next_event.address = entry[6]
+                next_event.available_beds = str(entry[7])
+                next_event.planned_donor_number = str(entry[8])
+                next_event.successfull = str(entry[9])
                 donation_object_list.append(next_event)
             #
             # EVENT SORT BY MENU
@@ -208,7 +187,7 @@ class EventManager:
             if user_input == "":
                 user_input = "1"
             if user_input.isdigit() and int(user_input) in range(1, 10):
-                EventManager.print_sorted_donation_list(donation_object_list, user_input)
+                EventManagerDB.print_sorted_donation_list(donation_object_list, user_input)
                 return None
             elif user_input == "0":
                 clear()
@@ -219,10 +198,9 @@ class EventManager:
                 clear()
 
     @staticmethod
-    def search_in_donation_events():
-        with open("Data/donations.csv", "r") as f:
-            content = list(csv.reader(f))
-        del(content[0])
+    def search_in_donation_events(cursor_object):
+        cursor_object.execute(QUERY_EVENTS_FROM_SQLDB)
+        content = cursor_object.fetchall()
         if len(content) < 1:
             print("\n No entry found\n")
             input("\n Press (ENTER) to go back")
@@ -239,16 +217,16 @@ class EventManager:
             eventlista = []
             for found_donation in found_items:
                 eventlista.append(Event())
-                eventlista[-1].id = found_donation[0]
-                eventlista[-1].date_of_event = found_donation[1]
-                eventlista[-1].start_time = found_donation[2]
-                eventlista[-1].end_time = found_donation[3]
-                eventlista[-1].zip_code = found_donation[4]
+                eventlista[-1].id = str(found_donation[0])
+                eventlista[-1].date_of_event = found_donation[1].datetime.strftime('%Y.%m.%d')
+                eventlista[-1].start_time = found_donation[2].datetime.strftime('%H:%M')
+                eventlista[-1].end_time = found_donation[3].datetime.strftime('%H:%M')
+                eventlista[-1].zip_code = str(found_donation[4])
                 eventlista[-1].city = found_donation[5]
                 eventlista[-1].address = found_donation[6]
-                eventlista[-1].available_beds = found_donation[7]
-                eventlista[-1].planned_donor_number = found_donation[8]
-                eventlista[-1].successfull = found_donation[9]
+                eventlista[-1].available_beds = str(found_donation[7])
+                eventlista[-1].planned_donor_number = str(found_donation[8])
+                eventlista[-1].successfull = str(found_donation[9])
 
             szoveg = ""
             for i in eventlista:
@@ -261,7 +239,7 @@ class EventManager:
             clear()
 
     @staticmethod
-    def change_event(input_id_string):
+    def change_event(input_id_string, cursor_object):
         event_to_change = []
         with open("Data/donations.csv", "r") as f:
             event_list = list(csv.reader(f))

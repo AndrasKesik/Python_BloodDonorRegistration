@@ -14,8 +14,8 @@ from Managers.interactive_menu_manager import MenuManager
 clear = lambda: os.system('cls')
 
 
-appconfig = r"C:\Workspace\Python\blood\app.config"
-create_db = r"C:\Workspace\Python\blood\create.sql"
+appconfig = r"app.config"
+create_db = r"create.sql"
 
 def config_manager(config_file):
     with open(config_file, 'r') as f:
