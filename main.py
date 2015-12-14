@@ -162,7 +162,10 @@ while True:
 
             clear()
             if user_input == 0:
-                DonorManager.list_donors()
+                if connect_decider:
+                    DonorManagerDB.list_donors(cursor)
+                else:
+                    DonorManager.list_donors()
                 continue
             elif user_input == 1:
                 EventManager.list_donation_events()
@@ -206,7 +209,10 @@ while True:
                 continue
 
             if user_input == 0:
-                DonorManager.search_in_donors()
+                #if connect_decider:
+                DonorManagerDB.search_in_donors(cursor)
+                #else:
+                    #DonorManager.search_in_donors()
                 continue
             elif user_input == 1:
                 EventManager.search_in_donation_events()

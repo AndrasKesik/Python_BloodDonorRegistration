@@ -7,6 +7,7 @@ import csv
 import pydoc
 from operator import attrgetter
 from constant_variables import *
+import datetime
 from msvcrt import getch
 from Managers.interactive_menu_manager import MenuManager
 clear = lambda: os.system('cls')
@@ -156,10 +157,9 @@ class DonorManagerDB():
                 clear()
 
     @staticmethod
-    def list_donors():
-        with open("Data/donors.csv", "r") as f:
-            donor_list = list(csv.reader(f))
-        del(donor_list[0])
+    def list_donors(cursor):
+        cursor.execute("SELECT * FROM Donor;")
+        donor_list = cursor.fetchall()
         if len(donor_list) < 1:
             print("\n No entry found\n")
             input("\n Press (ENTER) to go back")
@@ -168,19 +168,20 @@ class DonorManagerDB():
         else:
             donor_object_list = []
             for l in donor_list:
+
                 next_donor = Donor()
-                next_donor.name = l[0]
-                next_donor.weight = l[1]
-                next_donor.gender = l[2]
-                next_donor.dateofbirth = l[3]
-                next_donor.lastdonationdate = l[4]
-                next_donor.wassick = l[5]
-                next_donor.uniqueid = l[6]
-                next_donor.expofid = l[7]
-                next_donor.bloodtype = l[8]
+                next_donor.uniqueid = l[0]
+                next_donor.name = l[1]
+                next_donor.weight = str(l[2])
+                next_donor.gender = l[3]
+                next_donor.dateofbirth = datetime.date.strftime(l[4], "%Y.%m.%d")
+                next_donor.lastdonationdate = datetime.date.strftime(l[5], "%Y.%m.%d")
+                next_donor.wassick = l[6]
+                next_donor.bloodtype = l[7]
+                next_donor.expofid = datetime.date.strftime(l[8], "%Y.%m.%d")
                 next_donor.hemoglobin = l[9]
                 next_donor.emailaddress = l[-2]
-                next_donor.mobilnumber = l[-1]
+                next_donor.mobilnumber = str(l[-1])
                 next_donor.age = next_donor.donor_age()
                 donor_object_list.append(next_donor)
 
@@ -207,12 +208,26 @@ class DonorManagerDB():
                 clear()
 
     @staticmethod
-    def search_in_donors():
-        with open("Data/donors.csv", "r") as f:
-            content = []
-            for line in f:
-                content.append(line.strip())
-        del(content[0])
+    def search_in_donors(cursor):
+        cursor.execute("SELECT * FROM Donor;")
+        data = cursor.fetchall()
+        sor=""
+        content=[]
+        for i in data:
+            sor += i[1]+","
+            sor += str(i[2])+","
+            sor += i[3]+","
+            sor += datetime.date.strftime(i[4], "%Y.%m.%d")+","
+            sor += datetime.date.strftime(i[5], "%Y.%m.%d")+","
+            sor += i[6] +","
+            sor += i[0] + ","
+            sor += datetime.date.strftime(i[8], "%Y.%m.%d")+","
+            sor += i[7]+","
+            sor += str(i[11])+","
+            sor += i[9] +","
+            sor += i[10]
+            content.append(sor)
+
         if len(content) < 1:
             print("\n No entry found\n")
             input("\n Press (ENTER) to go back")
@@ -242,7 +257,7 @@ class DonorManagerDB():
 
             input("\n Press (ENTER) to go back")
             clear()
-
+            
     @staticmethod
     def change_donor_data(data_input):
         with open('Data/donors.csv', 'r') as f:
