@@ -7,11 +7,18 @@ from colorama import init
 from constant_variables import *
 from csv_check import CsvChecker
 from validation import Validate
-from Managers.donor_manager import DonorManager
-from Managers.event_manager import EventManager
+from Managers.donor_manager_csv import DonorManager
+from Managers.event_manager_csv import EventManager
 from Managers.interactive_menu_manager import MenuManager
 clear = lambda: os.system('cls')
 
+storing_mode = csv_or_db()
+if not storing_mode:
+    #
+    # CSV CHECKERS
+    #
+    CsvChecker.donor_file_check()
+    CsvChecker.donations_file_check()
 appconfig= r"C:\Workspace\Python\blood\app.config"
 def config_manager(config_file):
     with open(config_file, 'r') as f:
