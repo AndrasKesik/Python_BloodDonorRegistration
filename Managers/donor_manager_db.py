@@ -116,7 +116,7 @@ class DonorManagerDB():
 
 
 
-        print("\n - Your donor is added to the csv -\n\n Going back to main menu...")
+        print("\n - Your donor is added to the database -\n\n Going back to main menu...")
         time.sleep(2.5)
         clear()
 
@@ -257,16 +257,46 @@ class DonorManagerDB():
 
             input("\n Press (ENTER) to go back")
             clear()
-            
-    @staticmethod
-    def change_donor_data(data_input):
-        with open('Data/donors.csv', 'r') as f:
-            donor_list = list(csv.reader(f))
-        del(donor_list[0])
 
-        if data_input in [i[6] for i in donor_list]:
-            for i, l in enumerate(donor_list):
-                if data_input == l[6]:
+    @staticmethod
+    def change_donor_data(data_input, cursor):
+
+
+        input_donor_data_pairs = {0: "Name", 1: "Weight", 2: "Gender", 3: "DateOfBirth", 4: "LastDonationDate",
+                                  5: "Wassick", 6: "UniqueId", 7: "ExpofId", 8: "BloodType",
+                                  9: "HemoglobinLevel", 10: "Emailaddress", 11: "Mobilnumber"}
+        which_donor_data_validation = {0: Validate.validate_name, 1: Validate.validate_positive_int, 2: Validate.validate_gender, 3: Validate.validate_date, 4: Validate.validate_date,
+                                  5: Validate.validate_sickness, 6: Validate.validate_id, 7: Validate.validate_date, 8: Validate.validate_blood_type,
+                                  9: Validate.validate_positive_int, 10: Validate.validate_email, 11: Validate.validate_mobilnumber}
+
+
+        actv_selection = 0
+        while True:
+            cursor.execute("SELECT * FROM Donor;")
+            data = cursor.fetchall()
+            sor = []
+            donor_list = []
+            for i in data:
+                sor.append(i[1])
+                sor.append(str(i[2]))
+                sor.append(i[3])
+                sor.append(datetime.date.strftime(i[4], "%Y.%m.%d"))
+                sor.append(datetime.date.strftime(i[5], "%Y.%m.%d"))
+                sor.append(i[6])
+                sor.append(i[0])
+                sor.append(datetime.date.strftime(i[8], "%Y.%m.%d"))
+                sor.append(i[7])
+                sor.append(str(i[11]))
+                sor.append(i[9])
+                sor.append(i[10])
+                donor_list.append(sor)
+
+            cursor.execute("SELECT UniqueId FROM Donor;")
+            data = cursor.fetchall()
+            ids = [i[0] for i in data]
+
+            if data_input in ids:
+                for l in donor_list:
                     next_donor = Donor()
                     next_donor.name = l[0]
                     next_donor.weight = l[1]
@@ -280,22 +310,15 @@ class DonorManagerDB():
                     next_donor.hemoglobin = l[9]
                     next_donor.emailaddress = l[-2]
                     next_donor.mobilnumber = l[-1]
-                    line_number = i
 
-        else:
-            print("Data entry doesn't exist with that ID.")
-            time.sleep(1)
-            return None
+            else:
+                print("Data entry doesn't exist with that ID.")
+                time.sleep(1)
+                return None
 
-        input_donor_data_pairs = {0: "Name", 1: "Weight", 2: "Gender", 3: "Date of birth", 4: "Last donation date",
-                                  5: "Health status in last month", 6: "ID number", 7: "Expiration of ID", 8: "Blood Type",
-                                  9: "Hemoglobin", 10: "e-mail address", 11: "Mobil number"}
-        which_donor_data_validation = {0: Validate.validate_name, 1: Validate.validate_positive_int, 2: Validate.validate_gender, 3: Validate.validate_date, 4: Validate.validate_date,
-                                  5: Validate.validate_sickness, 6: Validate.validate_id, 7: Validate.validate_date, 8: Validate.validate_blood_type,
-                                  9: Validate.validate_positive_int, 10: Validate.validate_email, 11: Validate.validate_mobilnumber}
 
-        actv_selection = 0
-        while True:
+
+
             MenuManager.change_donor_submenu(actv_selection, next_donor)
 
             key = ord(getch())
@@ -328,25 +351,17 @@ class DonorManagerDB():
                 new = ""
                 while new == "":
                     clear()
+
                     print(next_donor)
                     print("------------------------------\n")
                     new = input("\n(0) Cancel\nChanging {} to: ".format(input_donor_data_pairs[user_input]))
                     if new == "0":
                         return None
-                    if new.upper() in [donor[6] for donor in donor_list]:
-                        print("This ID number already exists! Try again.")
-                        time.sleep(2)
-                        break
                     if which_donor_data_validation[user_input](new):
-                        with open("Data/donors.csv", "w") as f:
-                            donor_list[line_number][user_input] = new.upper()
-                            f.write(DONORS_ELSOSOR)
-                            for line in donor_list:
-                                for i in range(len(line)):
-                                    f.write(line[i])
-                                    if i < len(line)-1:
-                                        f.write(',')
-                                f.write('\n')
+                        cursor.execute("UPDATE donor \
+                                        SET \
+                                        `{}` = '{}' \
+                                        WHERE `UniqueId` = '{}';".format(input_donor_data_pairs[user_input], new, data_input))
                         print('\n...Done!')
                         time.sleep(1)
                         break

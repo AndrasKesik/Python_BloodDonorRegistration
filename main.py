@@ -209,10 +209,10 @@ while True:
                 continue
 
             if user_input == 0:
-                #if connect_decider:
-                DonorManagerDB.search_in_donors(cursor)
-                #else:
-                    #DonorManager.search_in_donors()
+                if connect_decider:
+                    DonorManagerDB.search_in_donors(cursor)
+                else:
+                    DonorManager.search_in_donors()
                 continue
             elif user_input == 1:
                 EventManager.search_in_donation_events()
@@ -231,18 +231,22 @@ while True:
             user_input = user_input.upper()
             clear()
             if user_input == '0':
-                continue
+                break
             elif user_input.isdigit():
                 EventManager.change_event(user_input)
-                continue
+                break
             elif Validate.validate_id(user_input):
-                DonorManager.change_donor_data(user_input)
+                if connect_decider:
+                    DonorManagerDB.change_donor_data(user_input,cursor)
+                    connection.commit()
+                else:
+                    DonorManager.change_donor_data(user_input)
                 actv_selection = 0
             else:
                 print(ID_ERR + "\n\t\t\t\tor\n" + POSINT_ERR)
                 time.sleep(3)
                 clear()
-                continue
+                user_input = ""
     #
     # EXIT
     #
