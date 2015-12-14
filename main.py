@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 import os
 import time
+import mysql.connector
 from msvcrt import getch
 from colorama import init
 from constant_variables import *
@@ -11,11 +12,33 @@ from Managers.event_manager import EventManager
 from Managers.interactive_menu_manager import MenuManager
 clear = lambda: os.system('cls')
 
-#
-# CSV CHECKERS
-#
-CsvChecker.donor_file_check()
-CsvChecker.donations_file_check()
+appconfig= r"C:\Workspace\Python\blood\app.config"
+def config_manager(config_file):
+    with open(config_file, 'r') as f:
+        dict = eval(f.read())
+        if dict["mode"] == "db":
+            connect_dict = {}
+            for i in dict["connection_string"].split(";"):
+                connect_dict[i.split("=")[0]] = i.split("=")[1]
+            return connect_dict
+        elif dict["mode"] == "csv":
+            return None
+
+
+connect_decider = config_manager(appconfig)
+if connect_decider:
+    connection = mysql.connector.connect(user=connect_decider["Uid"], host=connect_decider["Server"], password= connect_decider["Pwd"])
+    cursor = connection.cursor()
+    cursor.execute("SHOW DATABASES;")
+    data = cursor.fetchall()
+    print(data)
+    input()
+else:
+    #
+    # CSV CHECKERS
+    #
+    CsvChecker.donor_file_check()
+    CsvChecker.donations_file_check()
 
 clear()
 actv_selection = 0
