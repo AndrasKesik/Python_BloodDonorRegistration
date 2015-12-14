@@ -8,6 +8,7 @@ from constant_variables import *
 from csv_check import CsvChecker
 from validation import Validate
 from Managers.donor_manager_csv import DonorManager
+from Managers.donor_manager_db import DonorManagerDB
 from Managers.event_manager_csv import EventManager
 from Managers.interactive_menu_manager import MenuManager
 clear = lambda: os.system('cls')
@@ -98,7 +99,11 @@ while True:
     # ADD NEW DONOR
     #
     if user_input == MENU_ITEM_1:
-        DonorManager.add_new_donor()
+        if connect_decider:
+            DonorManagerDB.add_new_donor(cursor)
+            connection.commit()
+        else:
+            DonorManager.add_new_donor()
         continue
     #
     # ADD NEW DONATION EVENT

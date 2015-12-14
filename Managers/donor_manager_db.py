@@ -10,9 +10,35 @@ from constant_variables import *
 from msvcrt import getch
 from Managers.interactive_menu_manager import MenuManager
 clear = lambda: os.system('cls')
+ADD_DONOR="""INSERT INTO `blooddonationstorage`.`donor`
+                        (`Unique`,
+                        `Name`,
+                        `Weight`,
+                        `Gender`,
+                        `DateOfBirth`,
+                        `LastDonationDate`,
+                        `Wassick`,
+                        `BloodType`,
+                        `ExpofId`,
+                        `Emailaddress`,
+                        `Mobilnumber`,
+                        `HemoglobinLevel`)
+                        VALUES
+                        ('{}',
+                        '{}',
+                        '{}',
+                        '{}',
+                        '{}',
+                        '{}',
+                        '{}',
+                        '{}',
+                        '{}',
+                        '{}',
+                        '{}',
+                        '{}');
+                       """
 
-
-class DonorManager():
+class DonorManagerDB():
     @staticmethod
     def data_in(donor, validate, input_mess, error_mess):
         valid_input = ""
@@ -49,17 +75,17 @@ class DonorManager():
         clear()
 
     @staticmethod
-    def add_new_donor():
+    def add_new_donor(cursor):
         print("Adding new donor...\n")
         time.sleep(1)
         clear()
 
         donor_sample = Donor()
-        donor_sample.name = DonorManager.data_in(donor_sample, Validate.validate_name, "Name: ", NAME_ERR)
-        donor_sample.weight = DonorManager.data_in(donor_sample, Validate.validate_positive_int, "Weight (in KG): ", POSINT_ERR)
-        donor_sample.gender = DonorManager.data_in(donor_sample, Validate.validate_gender, "Gender (M/F): ", GEND_ERR)
-        donor_sample.dateofbirth = DonorManager.data_in(donor_sample, Validate.validate_date, "Date of Birth: ", DATE_ERR)
-        donor_sample.lastdonationdate = DonorManager.data_in(donor_sample, Validate.validate_date, "Last Donation: ", DATE_ERR)
+        donor_sample.name = DonorManagerDB.data_in(donor_sample, Validate.validate_name, "Name: ", NAME_ERR)
+        donor_sample.weight = DonorManagerDB.data_in(donor_sample, Validate.validate_positive_int, "Weight (in KG): ", POSINT_ERR)
+        donor_sample.gender = DonorManagerDB.data_in(donor_sample, Validate.validate_gender, "Gender (M/F): ", GEND_ERR)
+        donor_sample.dateofbirth = DonorManagerDB.data_in(donor_sample, Validate.validate_date, "Date of Birth: ", DATE_ERR)
+        donor_sample.lastdonationdate = DonorManagerDB.data_in(donor_sample, Validate.validate_date, "Last Donation: ", DATE_ERR)
 
         if not donor_sample.is_suitable():
             print("\n\t - It seems your donor is not suitable for the donation. =( - ")
@@ -67,26 +93,27 @@ class DonorManager():
             clear()
             return None
 
-        donor_sample.wassick = DonorManager.data_in(donor_sample, Validate.validate_sickness, "Was he/she sick in the last month? (Y/N) ", SICK_ERR)
-        donor_sample.uniqueid = DonorManager.data_in(donor_sample, Validate.validate_id, "Unique ID: ", ID_ERR)
-        donor_sample.bloodtype = DonorManager.data_in(donor_sample, Validate.validate_blood_type, "Blood Type: ", BTYPE_ERR)
-        donor_sample.expofid = DonorManager.data_in(donor_sample, Validate.validate_date, "Expiration of ID: ", DATE_ERR)
-        donor_sample.emailaddress = DonorManager.data_in(donor_sample, Validate.validate_email, "Email address: ", EMAIL_ERR)
-        donor_sample.mobilnumber = DonorManager.data_in(donor_sample, Validate.validate_mobilnumber, "Mobile Number: ", MOBILE_ERR)
+        donor_sample.wassick = DonorManagerDB.data_in(donor_sample, Validate.validate_sickness, "Was he/she sick in the last month? (Y/N) ", SICK_ERR)
+        donor_sample.uniqueid = DonorManagerDB.data_in(donor_sample, Validate.validate_id, "Unique ID: ", ID_ERR)
+        donor_sample.bloodtype = DonorManagerDB.data_in(donor_sample, Validate.validate_blood_type, "Blood Type: ", BTYPE_ERR)
+        donor_sample.expofid = DonorManagerDB.data_in(donor_sample, Validate.validate_date, "Expiration of ID: ", DATE_ERR)
+        donor_sample.emailaddress = DonorManagerDB.data_in(donor_sample, Validate.validate_email, "Email address: ", EMAIL_ERR)
+        donor_sample.mobilnumber = DonorManagerDB.data_in(donor_sample, Validate.validate_mobilnumber, "Mobile Number: ", MOBILE_ERR)
 
-        with open("Data/donors.csv", "a") as f:
-            f.write(donor_sample.name+",")
-            f.write(donor_sample.weight+",")
-            f.write(donor_sample.gender+",")
-            f.write(donor_sample.dateofbirth+",")
-            f.write(donor_sample.lastdonationdate+",")
-            f.write(donor_sample.wassick+",")
-            f.write(donor_sample.uniqueid+",")
-            f.write(donor_sample.expofid+",")
-            f.write(donor_sample.bloodtype+",")
-            f.write(donor_sample.generate_hemoglobin_level()+",")
-            f.write(donor_sample.emailaddress+",")
-            f.write(donor_sample.mobilnumber+"\n")
+        cursor.execute(ADD_DONOR.format(donor_sample.uniqueid,
+                                        donor_sample.name,
+                                        donor_sample.weight,
+                                        donor_sample.gender,
+                                        donor_sample.dateofbirth,
+                                        donor_sample.lastdonationdate,
+                                        donor_sample.wassick,
+                                        donor_sample.bloodtype,
+                                        donor_sample.expofid,
+                                        donor_sample.emailaddress,
+                                        donor_sample.mobilnumber,
+                                        donor_sample.generate_hemoglobin_level()))
+
+
 
         print("\n - Your donor is added to the csv -\n\n Going back to main menu...")
         time.sleep(2.5)
@@ -173,7 +200,7 @@ class DonorManager():
             if sort_by_input == "":
                 sort_by_input = "1"
             if sort_by_input.isdigit() and int(sort_by_input) in range(1, 14):
-                DonorManager.print_sorted_donor_list(donor_object_list, sort_by_input)
+                DonorManagerDB.print_sorted_donor_list(donor_object_list, sort_by_input)
                 return None
             elif sort_by_input == "0":
                 clear()

@@ -19,16 +19,15 @@ USE `BloodDonationStorage` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `BloodDonationStorage`.`Event` (
   `Id` INT NOT NULL,
-  `DateOfEvent` DATE NULL,
-  `StartTime` TIME NULL,
-  `EndTime` TIME NULL,
-  `ZipCode` INT NULL,
-  `City` VARCHAR(45) NULL,
-  `Address` VARCHAR(45) NULL,
-  `AvailableBeds` INT NULL,
-  `PlannedDonorNumber` INT NULL,
-  `Successfull` INT NULL,
-  `Duration` INT NULL,
+  `DateOfEvent` DATE NOT NULL,
+  `StartTime` TIME NOT NULL,
+  `EndTime` TIME NOT NULL,
+  `ZipCode` INT NOT NULL,
+  `City` VARCHAR(45) NOT NULL,
+  `Address` VARCHAR(45) NOT NULL,
+  `AvailableBeds` INT NOT NULL,
+  `PlannedDonorNumber` INT NOT NULL,
+  `Successfull` INT NOT NULL,
   PRIMARY KEY (`Id`))
 ENGINE = InnoDB;
 
@@ -48,6 +47,7 @@ CREATE TABLE IF NOT EXISTS `BloodDonationStorage`.`Donor` (
   `ExpofId` DATE NOT NULL,
   `Emailaddress` VARCHAR(45) NOT NULL,
   `Mobilnumber` VARCHAR(45) NOT NULL,
+  `HemoglobinLevel` INT NOT NULL,
   PRIMARY KEY (`Unique`))
 ENGINE = InnoDB;
 
