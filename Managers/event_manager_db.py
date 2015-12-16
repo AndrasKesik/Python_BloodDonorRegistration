@@ -246,10 +246,10 @@ class EventManagerDB:
     @staticmethod
     def change_event(input_id_string, cursor_object):
         event_to_change = []
-        with open("Data/donations.csv", "r") as f:
-            event_list = list(csv.reader(f))
+        cursor_object.execute(QUERY_EVENTS_FROM_SQLDB)
+        event_list = cursor_object.fetchall()
         for event in event_list:
-            if input_id_string == event[0]:
+            if int(input_id_string) == event[0]:
                 event_to_change = list(event)
         if not event_to_change:
             print("\n No entry found with this ID.\n")
@@ -258,8 +258,8 @@ class EventManagerDB:
             return None
 
         input_object_data_pairs = {
-            0: "Date of Event", 1: "Start Time", 2: "End Time", 3: "Zip Code", 4: "City", 5: "Address",
-            6: "Available Beds", 7: "Planned Donor Number", 8: "Number of Successful Donations"
+            0: "DateOfEvent", 1: "StartTime", 2: "EndTime", 3: "ZipCode", 4: "City", 5: "Address",
+            6: "AvailableBeds", 7: "PlannedDonorNumber", 8: "Successfull"
         }
         validators_for_data_to_change = {
             0: Validate.validate_date, 1: Validate.validate_time, 2: Validate.validate_time,
@@ -268,16 +268,18 @@ class EventManagerDB:
             8: Validate.validate_positive_int
         }
         event_object_for_printing = Event()
-        event_object_for_printing.id = event_to_change[0]
-        event_object_for_printing.date_of_event = event_to_change[1]
-        event_object_for_printing.start_time = event_to_change[2]
-        event_object_for_printing.end_time = event_to_change[3]
-        event_object_for_printing.zip_code = event_to_change[4]
+        event_object_for_printing.id = str(event_to_change[0])
+        event_object_for_printing.date_of_event = event_to_change[1].strftime('%Y.%m.%d')
+        delta_to_time_obj = (datetime.min + event_to_change[2]).time()
+        event_object_for_printing.start_time = delta_to_time_obj.strftime('%H:%M')
+        delta_to_time_obj2 = (datetime.min + event_to_change[3]).time()
+        event_object_for_printing.end_time = delta_to_time_obj2.strftime('%H:%M')
+        event_object_for_printing.zip_code = str(event_to_change[4])
         event_object_for_printing.city = event_to_change[5]
         event_object_for_printing.address = event_to_change[6]
-        event_object_for_printing.available_beds = event_to_change[7]
-        event_object_for_printing.planned_donor_number = event_to_change[8]
-        event_object_for_printing.successfull = event_to_change[9]
+        event_object_for_printing.available_beds = str(event_to_change[7])
+        event_object_for_printing.planned_donor_number = str(event_to_change[8])
+        event_object_for_printing.successfull = str(event_to_change[9])
 
         actv_selection = 0
         while True:
@@ -320,13 +322,8 @@ class EventManagerDB:
                     if data_to_change == "0":
                         return None
                     elif validators_for_data_to_change[user_input](data_to_change):
-                        event_to_change[user_input + 1] = data_to_change
-                        for number in range(len(event_list)):
-                            if event_list[number][0] == event_to_change[0]:
-                                event_list[number] = event_to_change
-                        with open("Data/donations.csv", "w") as f:
-                            donation_database = csv.writer(f, delimiter=',', lineterminator="\n")
-                            donation_database.writerows(event_list)
+                        CHANGE_DATA = "UPDATE event SET {} = '{}' WHERE Id = {}".format(input_object_data_pairs[user_input], data_to_change, event_object_for_printing.id)
+                        cursor_object.execute(CHANGE_DATA)
                         clear()
                         print("...Done!")
                         time.sleep(1)

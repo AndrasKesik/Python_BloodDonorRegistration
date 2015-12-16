@@ -248,8 +248,12 @@ while True:
             if user_input == '0':
                 break
             elif user_input.isdigit():
-                EventManagerCSV.change_event(user_input)
-                break
+                if connect_decider:
+                    EventManagerDB.change_event(user_input, cursor)
+                    connection.commit()
+                else:
+                    EventManagerCSV.change_event(user_input)
+                actv_selection = 0
             elif Validate.validate_id(user_input):
                 if connect_decider:
                     DonorManagerDB.change_donor_data(user_input,cursor)
